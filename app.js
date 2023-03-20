@@ -7,10 +7,10 @@ const hpp = require('hpp');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController.js');
+const userRouter = require('./routes/userRoutes');
 // const movieRouter = require('./routes/movieRoutes');
 // const placeRouter = require('./routes/placeRoutes');
 // const scheduleRouter = require('./routes/scheduleRoutes');
-// const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
@@ -35,10 +35,10 @@ app.use(xss());
 //     ]
 // }));
 
+app.use('/api/v1/users', userRouter);
 // app.use('/api/v1/movies', movieRouter);
 // app.use('/api/v1/places', placeRouter);
 // app.use('/api/v1/schedules', scheduleRouter);
-// app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
