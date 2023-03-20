@@ -1,14 +1,28 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const movieSchema = new mongoose.Schema({
   name: {
+    type: String,
+    required: [true, "Movie must have a name"],
+    unique: true,
+  },
+  duration: {
+    type: Date,
+    required: [true, "Movie must have a duration"],
+  },
+  imageCover: {
+    type: String,
+    required: [true, "Movie must have a cover image"],
+  },
+  trailer: {
     type: String,
   },
   age: {
     type: Number,
     default: 0,
   },
-  year: {
+  releaseYear: {
     type: Number,
     default: Date.now(),
   },
@@ -18,28 +32,26 @@ const movieSchema = new mongoose.Schema({
   director: {
     type: String,
   },
-  rentalPeriodStart: {
-    type: Date,
-    default: Date.now(),
-  },
-  rentalPeriodEnd: {
-    type: Date,
-    default: Date.now() + 7 * 24 * 60 * 60 * 1000,
+  rentalPeriod: {
+    start: {
+      type: Date,
+      default: Date.now(),
+    },
+    end: {
+      type: Date,
+      default: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    },
   },
   language: {
     type: String,
     default: "Українська",
   },
   genre: {
-    type: [String],
+    type: mongoose.Schema.ObjectId,
+    ref: "Genre",
+    required: [true, "Movie must have a genre"],
   },
-  duration: {
-    type: Date,
-  },
-  productionCountry: {
-    type: String,
-  },
-  productionCity: {
+  production: {
     type: String,
   },
   studio: {
@@ -54,6 +66,7 @@ const movieSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  slug: String,
 });
 
 const Movie = mongoose.model("Movie", movieSchema);
