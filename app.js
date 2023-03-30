@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const expressWs = require('express-ws');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -19,6 +20,7 @@ const genreRouter = require('./routes/genreRoutes');
 // const scheduleRouter = require('./routes/scheduleRoutes');
 
 const app = express();
+expressWs(app);
 
 app.enable('trust proxy');
 

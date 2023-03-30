@@ -55,7 +55,7 @@ module.exports = class Email {
   async sendWelcome() {
     await this.send(
       'welcome',
-      `Welcome to the ${process.env.PROJECT_NAME} Family!`
+      `Welcome to the Cinema Family!`
     );
   }
 
