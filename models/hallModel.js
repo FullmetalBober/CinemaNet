@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const hallSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Hall must have a name"],
+    required: [true, 'Hall must have a name'],
   },
   theater: {
     type: mongoose.Schema.ObjectId,
-    ref: "Theater",
-    required: [true, "Hall must belong to a theater"],
+    ref: 'Theater',
+    required: [true, 'Hall must belong to a theater'],
   },
   seats: {
     standard: [
@@ -21,6 +21,6 @@ const hallSchema = new mongoose.Schema({
   },
 });
 
-const Hall = mongoose.model("Hall", hallSchema);
+const Hall = mongoose.model('Hall', hallSchema);
 
 module.exports = Hall;

@@ -1,19 +1,19 @@
-const mongoose = require("mongoose");
-const slugify = require("slugify");
+const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const movieSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Movie must have a name"],
+    required: [true, 'Movie must have a name'],
     unique: true,
   },
   duration: {
     type: Date,
-    required: [true, "Movie must have a duration"],
+    required: [true, 'Movie must have a duration'],
   },
   imageCover: {
     type: String,
-    required: [true, "Movie must have a cover image"],
+    required: [true, 'Movie must have a cover image'],
   },
   trailer: {
     type: String,
@@ -44,12 +44,12 @@ const movieSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    default: "Українська",
+    default: 'Українська',
   },
   genre: {
     type: mongoose.Schema.ObjectId,
-    ref: "Genre",
-    required: [true, "Movie must have a genre"],
+    ref: 'Genre',
+    required: [true, 'Movie must have a genre'],
   },
   production: {
     type: String,
@@ -69,6 +69,6 @@ const movieSchema = new mongoose.Schema({
   slug: String,
 });
 
-const Movie = mongoose.model("Movie", movieSchema);
+const Movie = mongoose.model('Movie', movieSchema);
 
 module.exports = Movie;

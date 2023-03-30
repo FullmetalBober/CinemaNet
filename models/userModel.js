@@ -15,10 +15,13 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: 'default.jpg',
+  },
   role: {
     type: String,
-    enum: ['blocked', 'user', 'employee', 'admin'],
+    enum: ['user', 'employee', 'admin'],
     default: 'user',
   },
   password: {
@@ -36,11 +39,11 @@ const userSchema = new mongoose.Schema({
       },
       message: 'Passwords are not the same!',
     },
-    // emailConfirmed:{
-    //   type: Boolean,
-    //   default: true,
-    // }
   },
+  // emailConfirmation: {
+  //   type: Boolean,
+  //   default: true,
+  // },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
