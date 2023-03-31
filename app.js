@@ -15,7 +15,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController.js');
 const userRouter = require('./routes/userRoutes');
 const genreRouter = require('./routes/genreRoutes');
-// const movieRouter = require('./routes/movieRoutes');
+const movieRouter = require('./routes/movieRoutes');
 // const placeRouter = require('./routes/placeRoutes');
 // const scheduleRouter = require('./routes/scheduleRoutes');
 
@@ -63,7 +63,7 @@ app.use(compression());
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/genres', genreRouter);
-// app.use('/api/v1/movies', movieRouter);
+app.use('/api/v1/movies', movieRouter);
 // app.use('/api/v1/places', placeRouter);
 // app.use('/api/v1/schedules', scheduleRouter);
 

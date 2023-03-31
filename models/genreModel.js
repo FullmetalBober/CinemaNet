@@ -10,7 +10,7 @@ const genreSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      required: [true, 'Genre must have a cover image'],
+      // required: [true, 'Genre must have a cover image'],
     },
     description: {
       type: String,
@@ -27,7 +27,7 @@ genreSchema.index({ slug: 1 });
 
 genreSchema.virtual('movies', {
   ref: 'Movie',
-  foreignField: 'genre',
+  foreignField: 'genres',
   localField: '_id',
 });
 

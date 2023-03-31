@@ -1,7 +1,5 @@
 const Genre = require('../models/genreModel');
-const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
-const AppError = require('../utils/appError');
 
 exports.getAllGenres = factory.getAll(Genre);
 exports.getGenre = factory.getOne(Genre, { path: 'movies' });

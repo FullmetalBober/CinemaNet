@@ -19,13 +19,14 @@ router.use(authController.protect);
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router.patch('/updateMe', userController.updateMe);
-router.delete('/deleteMe', userController.deleteMe);
+router.delete(
+  '/deleteMe',
+  authController.restrictTo('user'),
+  userController.deleteMe
+);
 
-router.use(authController.restrictTo('admin'));
-router
-  .route('/')
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+router.use(authController.restrictTo('admin', 'owner'));
+router.route('/').get(userController.getAllUsers);
 
 router
   .route('/:id')

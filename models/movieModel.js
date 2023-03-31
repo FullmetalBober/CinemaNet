@@ -8,23 +8,23 @@ const movieSchema = new mongoose.Schema({
     unique: true,
   },
   duration: {
-    type: Date,
+    type: String,
     required: [true, 'Movie must have a duration'],
   },
   imageCover: {
     type: String,
-    required: [true, 'Movie must have a cover image'],
+    // required: [true, 'Movie must have a cover image'],
   },
   trailer: {
     type: String,
   },
-  age: {
+  ageRating: {
     type: Number,
     default: 0,
   },
   releaseYear: {
     type: Number,
-    default: Date.now(),
+    // default: Date.now(),
   },
   originalName: {
     type: String,
@@ -44,29 +44,28 @@ const movieSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    default: 'Українська',
+    default: 'English',
   },
-  genre: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Genre',
-    required: [true, 'Movie must have a genre'],
-  },
-  production: {
-    type: String,
-  },
-  studio: {
-    type: String,
-  },
-  scenario: {
-    type: String,
-  },
-  starring: {
-    type: [String],
-  },
+  genres: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Genre',
+      required: [true, 'Movie must have a genre'],
+    },
+  ],
+  production: [String],
+  studio: [String],
+  scenario: [String],
+  starring: [String],
   description: {
     type: String,
   },
   slug: String,
+});
+
+movieSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
