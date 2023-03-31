@@ -6,18 +6,22 @@ const ticketSchema = new mongoose.Schema({
     ref: 'Showtime',
     required: [true, 'Ticket must belong to a showtime'],
   },
-  seat: {
-    type: Number,
-    required: [true, 'Ticket must have a seat'],
-  },
-  row: {
-    type: Number,
-    required: [true, 'Ticket must have a row'],
-  },
-  luxSeat: {
-    type: Boolean,
-    default: false,
-  },
+  seat: [
+    {
+      col: {
+        type: Number,
+        required: [true, 'Ticket must have a column'],
+      },
+      row: {
+        type: Number,
+        required: [true, 'Ticket must have a row'],
+      },
+      luxSeat: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  ],
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
