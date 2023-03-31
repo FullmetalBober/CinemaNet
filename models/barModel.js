@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const barSchema = new mongoose.Schema({
-  theater: {
+  cinema: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Theater',
-    required: [true, 'Bar must belong to a theater'],
+    ref: 'Cinema',
+    required: [true, 'Bar must belong to a cinema'],
   },
   name: {
     type: String,

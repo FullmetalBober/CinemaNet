@@ -24,9 +24,9 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'employee', 'admin', 'owner'],
     default: 'user',
   },
-  theater: {
+  cinema: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Theater',
+    ref: 'Cinema',
   },
   password: {
     type: String,

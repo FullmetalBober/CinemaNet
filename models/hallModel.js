@@ -5,10 +5,10 @@ const hallSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Hall must have a name'],
   },
-  theater: {
+  cinema: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Theater',
-    required: [true, 'Hall must belong to a theater'],
+    ref: 'Cinema',
+    required: [true, 'Hall must belong to a cinema'],
   },
   seats: {
     standard: [

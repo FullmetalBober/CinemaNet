@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 
-const theaterSchema = new mongoose.Schema({
+const cinemaSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Theater must have a name'],
+    required: [true, 'Cinema must have a name'],
     unique: true,
   },
   location: {
@@ -14,13 +13,15 @@ const theaterSchema = new mongoose.Schema({
       enum: ['Point'],
     },
     coordinates: [Number],
-    city: String,
+    city: {
+      type: String,
+      required: [true, 'Cinema must have a city'],
+    },
     address: String,
     description: String,
   },
-  slug: String,
 });
 
-const Theater = mongoose.model('Theater', theaterSchema);
+const Cinema = mongoose.model('Cinema', cinemaSchema);
 
-module.exports = Theater;
+module.exports = Cinema;

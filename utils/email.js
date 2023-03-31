@@ -65,7 +65,7 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', `Welcome to the Cinema Family!`);
+    await this.send('welcome', `Welcome to the CinemaNet!`);
   }
 
   async sendPasswordReset() {

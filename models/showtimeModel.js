@@ -6,10 +6,10 @@ const showtimeSchema = new mongoose.Schema({
     ref: 'Movie',
     required: [true, 'Showtime must belong to a movie'],
   },
-  theater: {
+  cinema: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Theater',
-    required: [true, 'Showtime must belong to a theater'],
+    ref: 'Cinema',
+    required: [true, 'Showtime must belong to a cinema'],
   },
   hall: {
     type: mongoose.Schema.ObjectId,
