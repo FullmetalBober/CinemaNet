@@ -59,13 +59,11 @@ const movieSchema = new mongoose.Schema({
   starring: [String],
   description: {
     type: String,
-  },
-  slug: String,
+  }
 });
 
-movieSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
+movieSchema.virtual('slug').get(function () {
+  return slugify(this.name, { lower: true });
 });
 
 const Movie = mongoose.model('Movie', movieSchema);

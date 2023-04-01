@@ -14,8 +14,7 @@ const genreSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-    },
-    slug: String,
+    }
   },
   {
     toJSON: { virtuals: true },
@@ -31,9 +30,8 @@ genreSchema.virtual('movies', {
   localField: '_id',
 });
 
-genreSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
+genreSchema.virtual('slug').get(function () {
+  return slugify(this.name, { lower: true });
 });
 
 const Genre = mongoose.model('Genre', genreSchema);

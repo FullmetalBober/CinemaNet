@@ -15,6 +15,7 @@ const reviewModel = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: [true, 'Review must belong to a user'],
+    immutable: true,
   },
   movie: {
     type: mongoose.Schema.ObjectId,
@@ -25,6 +26,16 @@ const reviewModel = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+});
+
+reviewModel.index({ movie: 1, user: 1 }, { unique: true });
+
+reviewModel.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name photo _id',
+  });
+  next();
 });
 
 const Review = mongoose.model('Review', reviewModel);

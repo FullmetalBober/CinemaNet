@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema({
     required: [true, 'User must have an email'],
     unique: true,
     lowercase: true,
+    trim: true,
+    immutable: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
@@ -21,12 +23,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'employee', 'admin', 'owner'],
+    enum: ['user', 'employee', 'admin'],
     default: 'user',
-  },
-  cinema: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Cinema',
   },
   password: {
     type: String,

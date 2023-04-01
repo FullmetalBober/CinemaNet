@@ -16,6 +16,7 @@ const globalErrorHandler = require('./controllers/errorController.js');
 const userRouter = require('./routes/userRoutes');
 const genreRouter = require('./routes/genreRoutes');
 const movieRouter = require('./routes/movieRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 const cinemaRouter = require('./routes/cinemaRoutes');
 // const scheduleRouter = require('./routes/scheduleRoutes');
 
@@ -64,8 +65,8 @@ app.use(compression());
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/genres', genreRouter);
 app.use('/api/v1/movies', movieRouter);
+app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/cinemas', cinemaRouter);
-// app.use('/api/v1/schedules', scheduleRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

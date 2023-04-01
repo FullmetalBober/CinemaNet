@@ -8,7 +8,7 @@ router.route('/').get(genreController.getAllGenres);
 router.route('/:id').get(genreController.getGenre);
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin', 'owner'));
+router.use(authController.restrictTo('admin'));
 
 router.route('/').post(genreController.createGenre);
 
