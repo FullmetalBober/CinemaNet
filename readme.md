@@ -1,6 +1,6 @@
 # CinemaNet Application
 
-Hi there! This is a simple application that I made to learn more about Next.js and React. It's a simple application that shows a list of movies and you can see the details of each movie.
+Hi there! This is a my cinema network application that I made using NodeJS, Express, MongoDB.
 
 ## How to test it
 
