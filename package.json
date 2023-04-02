@@ -41,8 +41,5 @@
     "stripe": "^11.16.0",
     "validator": "^13.9.0",
     "xss-clean": "^0.1.1"
-  },
-  "engines": {
-    "node": "^19"
   }
 }
