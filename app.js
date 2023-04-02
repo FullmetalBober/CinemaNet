@@ -57,7 +57,8 @@ app.use(xss());
 // app.use(hpp({
 //     whitelist: [
 //         'duration'
-//     ]
+//     
+//  ]
 // }));
 
 app.use(compression());
