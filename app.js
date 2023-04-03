@@ -63,11 +63,11 @@ app.use(xss());
 
 app.use(compression());
 
-app.use('/api/users', userRouter);
-app.use('/api/genres', genreRouter);
-app.use('/api/movies', movieRouter);
-app.use('/api/reviews', reviewRouter);
-app.use('/api/cinemas', cinemaRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/genres', genreRouter);
+app.use('/api/v1/movies', movieRouter);
+app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/cinemas', cinemaRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
