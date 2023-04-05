@@ -18,7 +18,7 @@ const genreRouter = require('./routes/genreRoutes');
 const movieRouter = require('./routes/movieRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const cinemaRouter = require('./routes/cinemaRoutes');
-// const scheduleRouter = require('./routes/scheduleRoutes');
+const hallRouter = require('./routes/hallRoutes');
 
 const app = express();
 expressWs(app);
@@ -57,7 +57,7 @@ app.use(xss());
 // app.use(hpp({
 //     whitelist: [
 //         'duration'
-//     
+//
 //  ]
 // }));
 
@@ -68,6 +68,7 @@ app.use('/api/v1/genres', genreRouter);
 app.use('/api/v1/movies', movieRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/cinemas', cinemaRouter);
+app.use('/api/v1/halls', hallRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
