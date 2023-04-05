@@ -10,7 +10,9 @@ router.route('/:id').get(showtimeController.getShowtime);
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
 
-router.route('/').post(showtimeController.createShowtime);
+router
+  .route('/')
+  .post(showtimeController.checkShowtime, showtimeController.createShowtime);
 
 router
   .route('/:id')

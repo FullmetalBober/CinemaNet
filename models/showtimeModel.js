@@ -38,6 +38,13 @@ showtimeSchema.index(
   { unique: true }
 );
 
+showtimeSchema.pre(save, function (next) {
+  this.time.end = new Date(this.time.start);
+  this.time.end.setMinutes(this.time.end.getMinutes() + this.movie.duration);
+  next();
+})
+
+
 const Showtime = mongoose.model('Showtime', showtimeSchema);
 
 module.exports = Showtime;

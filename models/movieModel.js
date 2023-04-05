@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const moment = require('moment');
 
 const movieSchema = new mongoose.Schema({
   name: {
@@ -8,7 +9,7 @@ const movieSchema = new mongoose.Schema({
     unique: true,
   },
   duration: {
-    type: String,
+    type: Number,
     required: [true, 'Movie must have a duration'],
   },
   imageCover: {
