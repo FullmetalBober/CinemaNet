@@ -6,23 +6,20 @@ const showtimeSchema = new mongoose.Schema({
     ref: 'Movie',
     required: [true, 'Showtime must belong to a movie'],
   },
-  cinema: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Cinema',
-    required: [true, 'Showtime must belong to a cinema'],
-  },
   hall: {
     type: mongoose.Schema.ObjectId,
     ref: 'Hall',
     required: [true, 'Showtime must belong to a hall'],
   },
-  date: {
-    type: Date,
-    required: [true, 'Showtime must have a date'],
-  },
-  startTime: {
-    type: Date,
-    required: [true, 'Showtime must have a time'],
+  time: {
+    start: {
+      type: Date,
+      required: [true, 'Showtime must have a start time'],
+    },
+    end: {
+      type: Date,
+      required: [true, 'Showtime must have an end time'],
+    },
   },
   price: {
     standard: {
@@ -35,6 +32,11 @@ const showtimeSchema = new mongoose.Schema({
     },
   },
 });
+
+showtimeSchema.index(
+  { hall: 1, 'time.start': 1, 'time.end': 1 },
+  { unique: true }
+);
 
 const Showtime = mongoose.model('Showtime', showtimeSchema);
 
