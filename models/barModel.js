@@ -13,7 +13,7 @@ const barSchema = new mongoose.Schema({
   },
   imageCover: {
     type: String,
-    required: [true, 'Bar must have a cover image'],
+    default: 'default.jpg'
   },
   price: {
     type: Number,

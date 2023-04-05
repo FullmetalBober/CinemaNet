@@ -19,6 +19,7 @@ const movieRouter = require('./routes/movieRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const cinemaRouter = require('./routes/cinemaRoutes');
 const hallRouter = require('./routes/hallRoutes');
+const barRouter = require('./routes/barRoutes');
 
 const app = express();
 expressWs(app);
@@ -69,6 +70,7 @@ app.use('/api/v1/movies', movieRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/cinemas', cinemaRouter);
 app.use('/api/v1/halls', hallRouter);
+app.use('/api/v1/bars', barRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

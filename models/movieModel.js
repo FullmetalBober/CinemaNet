@@ -13,7 +13,7 @@ const movieSchema = new mongoose.Schema({
   },
   imageCover: {
     type: String,
-    // required: [true, 'Movie must have a cover image'],
+    default: 'default.jpg'
   },
   trailer: {
     type: String,
