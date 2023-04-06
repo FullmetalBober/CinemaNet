@@ -12,7 +12,8 @@ router.use(authController.restrictTo('admin'));
 
 router
   .route('/')
-  .post(showtimeController.checkShowtime, showtimeController.createShowtime);
+  .post(showtimeController.createShowtime);
+  // .post(showtimeController.checkShowtime, showtimeController.createShowtime);
 
 router
   .route('/:id')
