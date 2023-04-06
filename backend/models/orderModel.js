@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
   {
+    ticket: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Ticket',
+      required: [true, 'Order must have a ticket'],
+    },
     orders: [
       {
         bar: {
@@ -15,11 +20,6 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
-    ticket: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Ticket',
-      required: [true, 'Order must have a ticket'],
-    },
     processed: {
       type: Boolean,
       default: false,

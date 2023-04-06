@@ -28,10 +28,6 @@ const ticketSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Ticket must belong to a user'],
     },
-    order: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Order',
-    },
   },
   { timestamps: true }
 );
