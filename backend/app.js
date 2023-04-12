@@ -21,8 +21,8 @@ const cinemaRouter = require('./routes/cinemaRoutes');
 const hallRouter = require('./routes/hallRoutes');
 const barRouter = require('./routes/barRoutes');
 const showtimeRouter = require('./routes/showtimeRoutes');
-const ticketRoutes = require('./routes/ticketRoutes');
-const orderRoutes = require('./routes/orderRoutes');
+const ticketRouter = require('./routes/ticketRoutes');
+const orderRouter = require('./routes/orderRoutes');
 
 const app = express();
 expressWs(app);
@@ -75,8 +75,8 @@ app.use('/api/v1/cinemas', cinemaRouter);
 app.use('/api/v1/halls', hallRouter);
 app.use('/api/v1/bars', barRouter);
 app.use('/api/v1/showtimes', showtimeRouter);
-app.use('/api/v1/tickets', ticketRoutes);
-app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/tickets', ticketRouter);
+app.use('/api/v1/orders', orderRouter);
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 

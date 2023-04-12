@@ -74,13 +74,6 @@ userSchema.pre('save', function (next) {
   next();
 });
 
-// userSchema.pre('save', async function (next) {
-//   if (!this.isModified('email')) return next();
-
-//   this.emailConfirmed = false;
-//   next();
-// });
-
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
