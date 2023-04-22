@@ -6,13 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "next build": {
-    "src": "/frontend",
-    "use": "@vercel/static-build",
-    "config": {
-      "buildCommand": "tsc && vite build"
-    }
-  },
   "routes": [
     {
       "src": "/(.*)",
