@@ -76,7 +76,7 @@ app.use('/api/v1/bars', barRouter);
 app.use('/api/v1/showtimes', showtimeRouter);
 app.use('/api/v1/tickets', ticketRouter);
 
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
