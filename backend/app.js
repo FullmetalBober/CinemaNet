@@ -22,7 +22,6 @@ const hallRouter = require('./routes/hallRoutes');
 const barRouter = require('./routes/barRoutes');
 const showtimeRouter = require('./routes/showtimeRoutes');
 const ticketRouter = require('./routes/ticketRoutes');
-const orderRouter = require('./routes/orderRoutes');
 
 const app = express();
 expressWs(app);
@@ -44,7 +43,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const limiter = rateLimit({
-  max: 100,
+  max: 500,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
 });
@@ -76,7 +75,6 @@ app.use('/api/v1/halls', hallRouter);
 app.use('/api/v1/bars', barRouter);
 app.use('/api/v1/showtimes', showtimeRouter);
 app.use('/api/v1/tickets', ticketRouter);
-app.use('/api/v1/orders', orderRouter);
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 

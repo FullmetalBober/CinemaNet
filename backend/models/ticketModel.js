@@ -28,6 +28,19 @@ const ticketSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Ticket must belong to a user'],
     },
+    barOrders: [
+      {
+        bar: {
+          type: mongoose.Schema.ObjectId,
+          ref: 'Bar',
+          required: [true, 'Order must have a bar'],
+        },
+        count: {
+          type: Number,
+          required: [true, 'Order must have a count'],
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
