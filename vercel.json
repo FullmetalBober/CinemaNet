@@ -9,7 +9,7 @@
       "src": "./frontend",
       "use": "@vercel/static-build",
       "config": {
-        "buildCommand": "cd frontend && npm run build",
+        "buildCommand": "npm run build",
         "outputDirectory": "dist"
       }
     }
@@ -18,10 +18,6 @@
     {
       "src": "/(.*)",
       "dest": "/backend/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/$1"
     }
   ]
 }
