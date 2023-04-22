@@ -4,12 +4,24 @@
     {
       "src": "./backend/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "./frontend",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist"
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/dist/$1"
     }
   ]
 }
