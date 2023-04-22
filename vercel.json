@@ -2,17 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "/frontend",
-      "use": "@vercel/static-build",
-      "config": {
-        "buildCommand": "tsc && vite build"
-      }
-    },
-    {
       "src": "/backend/server.js",
       "use": "@vercel/node"
     }
   ],
+  "next build": {
+    "src": "/frontend",
+    "use": "@vercel/static-build",
+    "config": {
+      "buildCommand": "tsc && vite build"
+    }
+  },
   "routes": [
     {
       "src": "/(.*)",
