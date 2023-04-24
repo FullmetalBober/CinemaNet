@@ -22,6 +22,8 @@ const cinemaSchema = new mongoose.Schema({
   },
 });
 
+cinemaSchema.index({ name: 1, 'location.city': 1 }, { unique: true });
+
 const Cinema = mongoose.model('Cinema', cinemaSchema);
 
 module.exports = Cinema;
