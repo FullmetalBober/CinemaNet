@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-      <div className="max-w-screen flex flex-wrap justify-between p-4 px-7">
-        <NavLink to="/" className="text-gray-700 dark:text-gray-400">
+      <div className="flex justify-between p-4 px-7">
+        <NavLink to="/" className="text-red-500 font-bold text-xl">
           CinemaNet
         </NavLink>
         {/* <button
