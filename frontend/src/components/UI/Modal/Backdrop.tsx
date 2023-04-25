@@ -1,11 +1,10 @@
 import { createPortal } from 'react-dom';
 
-interface BackdropProps {
+interface IProps {
   onClick: () => void;
 }
 
-const Backdrop = (props: BackdropProps) => {
-
+const Backdrop = (props: IProps) => {
   return createPortal(
     <div
       className="fixed inset-0 w-full h-screen bg-black opacity-25"

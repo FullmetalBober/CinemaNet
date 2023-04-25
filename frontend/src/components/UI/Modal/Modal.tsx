@@ -5,13 +5,13 @@ import ModalContent from './ModalContent';
 import { useRef } from 'react';
 import './Modal.css';
 
-interface ModalProps {
+interface IProps {
   show: boolean;
   onCancel: () => void;
   children: React.ReactNode;
 }
 
-const Modal = (props: ModalProps) => {
+const Modal = (props: IProps) => {
   const nodeRef = useRef(null);
 
   return (
@@ -25,7 +25,7 @@ const Modal = (props: ModalProps) => {
         timeout={400}
         classNames="modal"
       >
-          <ModalContent nodeRef={nodeRef} {...props} />
+        <ModalContent nodeRef={nodeRef} {...props} />
       </CSSTransition>
     </>
   );
