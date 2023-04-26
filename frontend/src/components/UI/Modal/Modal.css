@@ -4,7 +4,7 @@
 
 .modal-enter-active {
   transform: translateY(0);
-  transition: all 400ms;
+  transition: all 500ms;
 }
 
 .modal-exit {
@@ -13,5 +13,5 @@
 
 .modal-exit-active {
   transform: translateY(-100%);
-  transition: all 400ms;
+  transition: all 500ms;
 }

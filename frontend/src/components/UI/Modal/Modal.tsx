@@ -22,7 +22,7 @@ const Modal = (props: IProps) => {
         in={props.show}
         mountOnEnter
         unmountOnExit
-        timeout={400}
+        timeout={500}
         classNames="modal"
       >
         <ModalContent nodeRef={nodeRef} {...props} />

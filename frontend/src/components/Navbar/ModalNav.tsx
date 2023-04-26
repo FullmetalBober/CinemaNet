@@ -4,7 +4,7 @@ interface IProps {
 }
 
 const ModalNav = (props: IProps) => {
-  return <nav className={`border-b ${props.className}`}>{props.children}</nav>;
+  return <nav className={`border-b-2 ${props.className}`}>{props.children}</nav>;
 };
 
 export default ModalNav;

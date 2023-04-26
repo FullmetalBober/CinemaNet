@@ -78,8 +78,12 @@ app.use('/api/v1/tickets', ticketRouter);
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+app.all('*', (req, res) => {
+  if (req.originalUrl.includes('api'))
+    return next(
+      new AppError(`Can't find ${req.originalUrl} on this server!`, 404)
+    );
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 app.use(globalErrorHandler);
