@@ -8,6 +8,7 @@ export default {
     function ({ addVariant }) {
       addVariant('child', '& > *');
     },
+    require('tailwind-scrollbar'),
   ],
   darkMode: 'media',
 };

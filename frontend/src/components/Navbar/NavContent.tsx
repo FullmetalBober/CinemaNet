@@ -1,4 +1,4 @@
-import ChooseCinema from "./ChooseCinema";
+import ChooseCinema from "../Cinema/ChooseCinema";
 
 const NavContent = () => {
   return (
