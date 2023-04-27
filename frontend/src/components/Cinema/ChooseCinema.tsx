@@ -7,6 +7,7 @@ import Cookies from 'universal-cookie';
 import CitiesModal from './CitiesModal';
 import CinemasModal from './CinemasModal';
 import CloseButton from '../UI/CloseButton';
+import Loading from '../UI/Loading';
 
 const ChooseCinema = () => {
   const [showCinemas, setShowCinemas] = useState<boolean>(false);
@@ -72,7 +73,13 @@ const ChooseCinema = () => {
       </Modal>
 
       <button onClick={() => setShowCinemas(true)}>
-        {cinema.location.city}, {cinema.name}
+        {cinema._id === '' ? (
+          <Loading />
+        ) : (
+          <>
+            {cinema.location.city}, {cinema.name}
+          </>
+        )}
       </button>
     </>
   );
