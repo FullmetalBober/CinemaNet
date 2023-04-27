@@ -6,6 +6,10 @@ const cinemaSchema = new mongoose.Schema({
     required: [true, 'Cinema must have a name'],
     unique: true,
   },
+  imageCover: {
+    type: String,
+    default: 'images/default/cinema.jpg',
+  },
   location: {
     type: {
       type: String,
