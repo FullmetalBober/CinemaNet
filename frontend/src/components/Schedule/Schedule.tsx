@@ -15,7 +15,7 @@ const Schedule = () => {
         style={{ backgroundImage: `url(${cinema.imageCover})` }}
         className={`bg-center bg-cover`}
       >
-        <div className={`bg-[url('images/cinema/tv.png')]`}>
+        <div style={{ backgroundImage: "url('images/cinema/tv.png')" }}>
           <div className="pt-[10rem]">
             <h1 className="font-extrabold text-6xl text-center">
               {cinema.name}
