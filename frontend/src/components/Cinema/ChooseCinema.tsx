@@ -6,6 +6,7 @@ import { CinemaState } from '../../contexts/CinemaProvider';
 import Cookies from 'universal-cookie';
 import CitiesModal from './CitiesModal';
 import CinemasModal from './CinemasModal';
+import CloseButton from '../UI/CloseButton';
 
 const ChooseCinema = () => {
   const [showCinemas, setShowCinemas] = useState<boolean>(false);
@@ -67,6 +68,7 @@ const ChooseCinema = () => {
             handleCinemaClick={handleCinemaClick}
           />
         </div>
+        <CloseButton onClick={() => setShowCinemas(false)} />
       </Modal>
 
       <button onClick={() => setShowCinemas(true)}>

@@ -2,7 +2,7 @@ import { ICinema } from '../../Interfaces';
 import { CinemaState } from '../../contexts/CinemaProvider';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
 import TextClick from '../UI/TextClick';
-import ModalNav from './ModalNav';
+import HeaderText from './HeaderText';
 
 interface IProps {
   cityCinemas: ICinema[];
@@ -13,7 +13,9 @@ const CinemasModal = (props: IProps) => {
   const { cinema } = CinemaState();
   return (
     <ScrollbarDiv className="w-2/3 bg-[rgba(238,242,245,.46)] text-black">
-      <ModalNav className="mb-3 font-extrabold border-black">Cinema</ModalNav>
+      <HeaderText className="mb-3 font-extrabold border-black">
+        Cinema
+      </HeaderText>
 
       {props.cityCinemas.map(cityCinema => (
         <div

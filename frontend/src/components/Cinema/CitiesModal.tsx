@@ -1,6 +1,6 @@
 import ScrollbarDiv from '../UI/ScrollbarDiv';
 import TextClick from '../UI/TextClick';
-import ModalNav from './ModalNav';
+import HeaderText from './HeaderText';
 
 interface IProps {
   cities: string[];
@@ -11,7 +11,7 @@ interface IProps {
 const CitiesModal = (props: IProps) => {
   return (
     <ScrollbarDiv className="w-1/3 bg-[#221f1f] overflow-y-auto">
-      <ModalNav className="mb-3 font-extrabold">City</ModalNav>
+      <HeaderText className="mb-3 font-extrabold">City</HeaderText>
 
       {props.cities.map((value, index) => (
         <TextClick
