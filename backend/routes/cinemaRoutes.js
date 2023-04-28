@@ -14,7 +14,10 @@ router.route('/').post(cinemaController.createCinema);
 
 router
   .route('/:id')
-  .patch(cinemaController.updateCinema)
+  .patch(
+    cinemaController.uploadCinemaPhoto,
+    cinemaController.updateCinema
+  )
   .delete(cinemaController.deleteCinema);
 
 module.exports = router;
