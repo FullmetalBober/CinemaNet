@@ -9,7 +9,12 @@ exports.updateCinema = factory.updateOne(Cinema);
 exports.deleteCinema = factory.deleteOne(Cinema);
 
 exports.uploadCinemaPhoto = (req, res, next) => {
-  const upload = CloudinaryStorage('Cinema', req.params.id, 1880, 780);
+  const upload = CloudinaryStorage.createSingle(
+    'Cinema',
+    req.params.id,
+    1880,
+    780
+  );
 
   upload(req, res, err => {
     if (err) return next(err);
@@ -17,4 +22,9 @@ exports.uploadCinemaPhoto = (req, res, next) => {
     if (req.file) req.body.imageCover = req.file.path;
     next();
   });
+};
+
+exports.deleteCinemaPhoto = async (req, res, next) => {
+  CloudinaryStorage.deleteSingle('Cinema', req.params.id);
+  next();
 };

@@ -17,7 +17,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-module.exports = (folder, public_id, width, height) => {
+exports.createSingle = (folder, public_id, width, height) => {
   const storage = new CloudinaryStorage({
     cloudinary,
     params: {
@@ -32,4 +32,8 @@ module.exports = (folder, public_id, width, height) => {
   return multer({ storage: storage, fileFilter: fileFilter }).single(
     'imageCover'
   );
+};
+
+exports.deleteSingle = (folder, public_id) => {
+  cloudinary.uploader.destroy(`CinemaNet/${folder}/${public_id}`);
 };
