@@ -33,10 +33,22 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(cors());
 app.options('*', cors());
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: {
+      allowOrigins: ['https://res.cloudinary.com'],
+    },
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'img-src': ["'self'", 'data:', 'https://res.cloudinary.com'],
+      },
+    },
+  })
+);
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(helmet());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
