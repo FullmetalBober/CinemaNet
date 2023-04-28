@@ -18,10 +18,15 @@ router.use(authController.protect);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadMyPhoto,
+  userController.updateMe
+);
 router.delete(
   '/deleteMe',
   authController.restrictTo('user'),
+  userController.deleteMyPhoto,
   userController.deleteMe
 );
 
@@ -31,7 +36,7 @@ router.route('/').get(userController.getAllUsers);
 router
   .route('/:id')
   .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .patch(userController.uploadUserPhoto, userController.updateUser)
+  .delete(userController.deleteUserPhoto, userController.deleteUser);
 
 module.exports = router;

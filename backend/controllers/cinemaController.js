@@ -10,6 +10,7 @@ exports.deleteCinema = factory.deleteOne(Cinema);
 
 exports.uploadCinemaPhoto = (req, res, next) => {
   const upload = CloudinaryStorage.createSingle(
+    'imageCover',
     'Cinema',
     req.params.id,
     1880,
@@ -24,7 +25,7 @@ exports.uploadCinemaPhoto = (req, res, next) => {
   });
 };
 
-exports.deleteCinemaPhoto = async (req, res, next) => {
+exports.deleteCinemaPhoto = (req, res, next) => {
   CloudinaryStorage.deleteSingle('Cinema', req.params.id);
   next();
 };

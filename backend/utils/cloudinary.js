@@ -17,7 +17,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-exports.createSingle = (folder, public_id, width, height) => {
+exports.createSingle = (key, folder, public_id, width, height) => {
   const storage = new CloudinaryStorage({
     cloudinary,
     params: {
@@ -25,12 +25,13 @@ exports.createSingle = (folder, public_id, width, height) => {
       public_id: () => public_id,
       overwrite: true,
       resource_type: 'image',
+      crop: "scale",
       width: width,
       height: height,
     },
   });
   return multer({ storage: storage, fileFilter: fileFilter }).single(
-    'imageCover'
+    key
   );
 };
 

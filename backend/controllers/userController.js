@@ -2,6 +2,12 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
+const CloudinaryStorage = require('../utils/cloudinary');
+
+exports.getUser = factory.getOne(User);
+exports.getAllUsers = factory.getAll(User);
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -26,7 +32,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = filterObj(req.body, 'name', 'email', 'photo');
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
@@ -50,7 +56,39 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = factory.getOne(User);
-exports.getAllUsers = factory.getAll(User);
-exports.updateUser = factory.updateOne(User);
-exports.deleteUser = factory.deleteOne(User);
+// Photo upload
+
+const uploadUserPhoto = publicId => (req, res, next) => {
+  console.log('uploadUserPhoto', publicId);
+  const upload = CloudinaryStorage.createSingle(
+    'photo',
+    'User',
+    publicId,
+    500,
+    500
+  );
+
+  upload(req, res, err => {
+    if (err) return next(err);
+
+    if (req.file) req.body.photo = req.file.path;
+    next();
+  });
+};
+
+const deleteUserPhoto = publicId => (req, res, next) => {
+  CloudinaryStorage.deleteSingle('User', publicId);
+  next();
+};
+
+exports.uploadUserPhoto = (req, res, next) =>
+  uploadUserPhoto(req.params.id)(req, res, next);
+
+exports.deleteUserPhoto = (req, res, next) =>
+  deleteUserPhoto(req.params.id)(req, res, next);
+
+exports.uploadMyPhoto = (req, res, next) =>
+  uploadUserPhoto(req.user.id)(req, res, next);
+
+exports.deleteMyPhoto = (req, res, next) =>
+  deleteUserPhoto(req.user.id)(req, res, next);
