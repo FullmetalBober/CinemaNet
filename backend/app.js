@@ -65,7 +65,11 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
-app.use(mongoSanitize());
+app.use(
+  mongoSanitize({
+    allowDots: true,
+  })
+);
 
 app.use(xss());
 
@@ -89,7 +93,7 @@ app.use('/api/v1/tickets', ticketRouter);
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-app.all('*', (req, res) => {
+app.all('*', (req, res, next) => {
   if (req.originalUrl.includes('api'))
     return next(
       new AppError(`Can't find ${req.originalUrl} on this server!`, 404)

@@ -35,6 +35,7 @@ showtimeSchema.pre(/^find/, function (next) {
 });
 
 showtimeSchema.virtual('price').get(function () {
+  if (!this.hall.price || !this.movie.price) return;
   return {
     standard: this.hall.price.standard + this.movie.price,
     lux: this.hall.price.lux + this.movie.price,
@@ -42,6 +43,7 @@ showtimeSchema.virtual('price').get(function () {
 });
 
 showtimeSchema.virtual('time.end').get(function () {
+  if (!this.time.start || !this.movie.duration) return;
   return new Date(this.time.start.getTime() + this.movie.duration * 60 * 1000);
 });
 

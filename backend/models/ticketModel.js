@@ -7,7 +7,7 @@ const ticketSchema = new mongoose.Schema(
       ref: 'Showtime',
       required: [true, 'Ticket must belong to a showtime'],
     },
-    seat: [
+    seats: [
       {
         col: {
           type: Number,

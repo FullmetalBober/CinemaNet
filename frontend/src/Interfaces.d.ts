@@ -10,7 +10,7 @@ export interface ICinema {
   };
 }
 
-export interface ISchedule {
+export interface IShowtime {
   _id: string;
   movie: string | IMovie;
   hall: string | IHall;
