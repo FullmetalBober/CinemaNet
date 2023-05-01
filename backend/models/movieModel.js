@@ -14,7 +14,7 @@ const movieSchema = new mongoose.Schema({
   },
   imageCover: {
     type: String,
-    default: 'default.jpg'
+    default: 'default.jpg',
   },
   trailer: {
     type: String,
@@ -60,7 +60,11 @@ const movieSchema = new mongoose.Schema({
   starring: [String],
   description: {
     type: String,
-  }
+  },
+  price: {
+    type: Number,
+    required: [true, 'Movie must have a price'],
+  },
 });
 
 movieSchema.virtual('slug').get(function () {

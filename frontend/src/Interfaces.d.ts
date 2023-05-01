@@ -9,3 +9,17 @@ export interface ICinema {
     coordinates?: [number, number];
   };
 }
+
+export interface ISchedule {
+  _id: string;
+  movie: string | IMovie;
+  hall: string | IHall;
+  time: {
+    start: Date;
+    end?: Date;
+  };
+  price: {
+    standard: number;
+    lux: number;
+  };
+}

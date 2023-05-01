@@ -1,37 +1,58 @@
 const mongoose = require('mongoose');
 const Movie = require('./movieModel');
 
-const showtimeSchema = new mongoose.Schema({
-  movie: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Movie',
-    required: [true, 'Showtime must belong to a movie'],
-  },
-  hall: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Hall',
-    required: [true, 'Showtime must belong to a hall'],
-  },
-  time: {
-    start: {
-      type: Date,
-      required: [true, 'Showtime must have a start time'],
+const showtimeSchema = new mongoose.Schema(
+  {
+    movie: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Movie',
+      required: [true, 'Showtime must belong to a movie'],
     },
-    end: {
-      type: Date,
-      // required: [true, 'Showtime must have an end time'],
+    hall: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Hall',
+      required: [true, 'Showtime must belong to a hall'],
     },
+    time: {
+      start: {
+        type: Date,
+        required: [true, 'Showtime must have a start time'],
+      },
+      end: {
+        type: Date,
+        required: [true, 'Showtime must have an end time'],
+      },
+    },
+    // price: {
+    //   standard: {
+    //     type: Number,
+    //     required: [true, 'Showtime must have a price'],
+    //   },
+    //   lux: {
+    //     type: Number,
+    //   },
+    // },
   },
-  price: {
-    standard: {
-      type: Number,
-      required: [true, 'Showtime must have a price'],
-    },
-    lux: {
-      type: Number,
-      required: [true, 'Showtime must have a price'],
-    },
-  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+showtimeSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'movie hall',
+    select: 'imageCover price',
+  });
+
+  next();
+});
+
+showtimeSchema.virtual('price').get(function () {
+  return {
+    standard: this.hall.price.standard + this.movie.price,
+    lux: this.hall.price.lux + this.movie.price,
+  };
 });
 
 showtimeSchema.index(

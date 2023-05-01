@@ -25,6 +25,15 @@ const hallSchema = new mongoose.Schema({
     ],
     lux: Number,
   },
+  price: {
+    standard: {
+      type: Number,
+      required: [true, 'Hall must have a price'],
+    },
+    lux: {
+      type: Number,
+    },
+  },
 });
 
 hallSchema.index({ name: 1, cinema: 1 }, { unique: true });
