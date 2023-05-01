@@ -25,6 +25,11 @@ const showtimeSchema = new mongoose.Schema(
   }
 );
 
+showtimeSchema.index(
+  { hall: 1, 'time.start': 1, 'time.end': 1 },
+  { unique: true }
+);
+
 showtimeSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'movie hall',
@@ -46,11 +51,6 @@ showtimeSchema.virtual('time.end').get(function () {
   if (!this.time.start || !this.movie.duration) return;
   return new Date(this.time.start.getTime() + this.movie.duration * 60 * 1000);
 });
-
-showtimeSchema.index(
-  { hall: 1, 'time.start': 1, 'time.end': 1 },
-  { unique: true }
-);
 
 const Showtime = mongoose.model('Showtime', showtimeSchema);
 

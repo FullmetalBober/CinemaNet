@@ -3,14 +3,16 @@ import TextOpacity from '../UI/TextOpacity';
 import { IoLocationOutline } from 'react-icons/io5';
 import { HiOutlinePhone } from 'react-icons/hi';
 import { CinemaState } from '../../contexts/CinemaProvider';
+import Loading from '../UI/Loading';
 
 const ImageCover = () => {
   const { cinema } = CinemaState();
 
+  if (!cinema.imageCover) return <Loading />;
   return (
     <div
       style={{ backgroundImage: `url(${cinema.imageCover})` }}
-      className={`bg-center bg-cover`}
+      className="bg-center bg-cover"
     >
       <div style={{ backgroundImage: "url('images/cinema/tv.png')" }}>
         <div className="pt-[10rem]">

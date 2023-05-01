@@ -2,6 +2,7 @@ export interface ICinema {
   _id: string;
   name: string;
   imageCover: string;
+  halls: string[] | IHall[];
   location: {
     city: string;
     address?: string;

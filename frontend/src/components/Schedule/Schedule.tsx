@@ -1,33 +1,70 @@
 import { useEffect, useState } from 'react';
 import { IShowtime } from '../../Interfaces';
 import { CinemaState } from '../../contexts/CinemaProvider';
-import Loading from '../UI/Loading';
 import ImageCover from './ImageCover';
 import axios from 'axios';
+import DatesSchedule from './DatesSchedule';
 
 const Schedule = () => {
-  const [showtime, setShowtime] = useState<IShowtime[]>([]);
+  const [showtimes, setShowtimes] = useState<IShowtime[]>([]);
+  const [showtimesSelectedDay, setShowtimesSelectedDay] =
+    useState<IShowtime[]>();
+  const [days, setDays] = useState<Date[]>([]);
+  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
   const { cinema } = CinemaState();
 
   useEffect(() => {
-    //date now
-    const date = new Date();
     (async () => {
       try {
-        const response = await axios.get(
-          `/api/v1/showtimes?time.start[gte]=${date}`
+        if (!cinema.halls) return;
+        const dateNow = new Date();
+        const urls = cinema.halls.map(
+          hall =>
+            `/api/v1/showtimes?time.start[gte]=${dateNow}&hall=${hall._id}`
         );
-        console.log(response.data.data.data);
+        const response = await axios.all(urls.map(url => axios.get(url)));
+        const data = response.map(res => res.data.data.data);
+        const showtimes = data.flat();
+        setShowtimes(showtimes);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [cinema]);
 
-  if (!cinema.imageCover) return <Loading />;
+  useEffect(() => {
+    if (!showtimes) return;
+    const days = showtimes.map(showtime => {
+      const date = new Date(showtime.time.start);
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0).getTime();
+    });
+    const uniqueDays = [...new Set(days)].map(day => new Date(day));
+    setDays(uniqueDays);
+    if (uniqueDays) setSelectedDay(uniqueDays[0]);
+  }, [showtimes]);
+
+  useEffect(() => {
+    if (!showtimes || !selectedDay) return;
+    const showtimesSelectedDay = showtimes.filter(showtime => {
+      const date = new Date(showtime.time.start);
+      return (
+        date.getFullYear() === selectedDay.getFullYear() &&
+        date.getMonth() === selectedDay.getMonth() &&
+        date.getDate() === selectedDay.getDate()
+      );
+    });
+    console.log(showtimesSelectedDay);
+    setShowtimesSelectedDay(showtimesSelectedDay);
+  }, [showtimes, selectedDay]);
+
+  const handleDayClick = (day: Date) => {
+    setSelectedDay(day);
+  };
+
   return (
-    <div className="lg:max-w-screen-xl lg:px-9 mx-auto mt-7">
+    <div className="flex flex-col gap-3 lg:max-w-screen-xl lg:px-9 mx-auto mt-7">
       <ImageCover />
+      <DatesSchedule days={days} selectedDay={selectedDay} handleDayClick={handleDayClick} />
     </div>
   );
 };
