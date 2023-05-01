@@ -18,10 +18,10 @@ const showtimeSchema = new mongoose.Schema(
         type: Date,
         required: [true, 'Showtime must have a start time'],
       },
-      end: {
-        type: Date,
-        required: [true, 'Showtime must have an end time'],
-      },
+      // end: {
+      //   type: Date,
+      //   required: [true, 'Showtime must have an end time'],
+      // },
     },
     // price: {
     //   standard: {
@@ -42,7 +42,7 @@ const showtimeSchema = new mongoose.Schema(
 showtimeSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'movie hall',
-    select: 'imageCover price',
+    select: 'imageCover price duration',
   });
 
   next();
@@ -53,6 +53,10 @@ showtimeSchema.virtual('price').get(function () {
     standard: this.hall.price.standard + this.movie.price,
     lux: this.hall.price.lux + this.movie.price,
   };
+});
+
+showtimeSchema.virtual('time.end').get(function () {
+  return new Date(this.time.start.getTime() + this.movie.duration * 60 * 1000);
 });
 
 showtimeSchema.index(
