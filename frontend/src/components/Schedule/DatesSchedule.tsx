@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import Loading from '../UI/Loading';
-import ScrollbarDiv from '../UI/ScrollbarDiv';
 import DayCard from '../UI/DayCard';
 import DropdownButton from './DropdownButton';
 import DropdownList from './DropdownList';
@@ -49,7 +48,7 @@ const DatesSchedule = (props: IProps) => {
 
   if (props.days.length === 0) return <Loading />;
   return (
-    <div className={`flex justify-between items-center ${props.className}`}>
+    <div className={`flex items-center justify-between ${props.className}`}>
       {week.map((day, index) => (
         <DayCard
           key={index}
@@ -60,7 +59,7 @@ const DatesSchedule = (props: IProps) => {
         />
       ))}
 
-      <div ref={refChoose} className="flex-[1.4] relative">
+      <div ref={refChoose} className="relative flex-[1.4]">
         <DropdownButton
           isHover={isHover}
           setIsHover={setIsHover}

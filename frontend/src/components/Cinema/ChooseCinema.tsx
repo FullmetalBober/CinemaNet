@@ -61,7 +61,7 @@ const ChooseCinema = () => {
   return (
     <>
       <Modal show={showCinemas} onCancel={() => setShowCinemas(false)}>
-        <div className="flex justify-between h-screen child:p-10 text-3xl">
+        <div className="flex h-screen justify-between text-3xl child:p-10">
           <CitiesModal city={city} cities={cities} onClick={handleCityClick} />
 
           <CinemasModal

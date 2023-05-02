@@ -6,7 +6,7 @@ interface IProps {
 const Circle = (props: IProps) => {
   return (
     <div
-      className={`w-[68px] h-[68px] flex justify-center border-2 rounded-full border-white/25 place-items-center ${props.className}`}
+      className={`flex h-[68px] w-[68px] place-items-center justify-center rounded-full border-2 border-white/25 ${props.className}`}
     >
       {props.children}
     </div>

@@ -4,9 +4,7 @@ interface IProps {
 }
 
 const TextOpacity = (props: IProps) => {
-  return (
-    <p className={`text-white/50 ${props.className}`}>{props.children}</p>
-  );
+  return <p className={`text-white/50 ${props.className}`}>{props.children}</p>;
 };
 
 export default TextOpacity;

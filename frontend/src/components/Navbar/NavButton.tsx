@@ -3,11 +3,11 @@ const NavButton = () => {
     <button
       data-collapse-toggle="navbar-multi-level"
       type="button"
-      className="inline-flex items-center p-2 ml-3 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
+      className="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 hover:bg-gray-700 md:hidden"
     >
       <span className="sr-only">Open main menu</span>
       <svg
-        className="w-6 h-6"
+        className="h-6 w-6"
         aria-hidden="true"
         fill="currentColor"
         viewBox="0 0 20 20"

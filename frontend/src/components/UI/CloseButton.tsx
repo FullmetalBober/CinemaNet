@@ -1,6 +1,6 @@
 const CloseButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <button onClick={onClick} className="fixed top-0 right-0 m-4">
+    <button onClick={onClick} className="fixed right-0 top-0 m-4">
       <svg
         height="30px"
         width="30px"

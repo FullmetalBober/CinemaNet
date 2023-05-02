@@ -72,16 +72,19 @@ const Schedule = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 lg:max-w-screen-xl lg:px-9 mx-auto mt-7">
+    <div className="mx-auto mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9">
       <ImageCover />
       <DatesSchedule
         days={days}
         selectedDay={selectedDay}
         handleDayClick={handleDayClick}
-        className='mb-5'
+        className="mb-5"
       />
-      <HorizontalLine className='flex'><BsHandIndex size={23} className='mr-3' />Click on a session time to select seats</HorizontalLine>
-      <Showtime className='mt-5' showtimes={showtimesSelectedDay} />
+      <HorizontalLine className="flex">
+        <BsHandIndex size={23} className="mr-3" />
+        Click on a session time to select seats
+      </HorizontalLine>
+      <Showtime className="mt-5" showtimes={showtimesSelectedDay} />
     </div>
   );
 };

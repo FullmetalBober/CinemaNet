@@ -10,7 +10,7 @@ interface IProps {
 const DayCard = (props: IProps) => {
   return (
     <div
-      className={`text-center flex-1 py-2 mr-1 rounded cursor-pointer border border-white/10 hover:border-white duration-200 ${
+      className={`mr-1 flex-1 cursor-pointer rounded border border-white/10 py-2 text-center duration-200 hover:border-white ${
         props.selectedDay === props.day && 'bg-red-500'
       }`}
       onClick={() => props.handleDayClick(props.day)}
@@ -22,7 +22,7 @@ const DayCard = (props: IProps) => {
       </p>
       <TextOpacity
         className={`text-[12px] ${
-          props.selectedDay === props.day && 'text-white/100'
+          props.selectedDay === props.day && '!text-white/100'
         }`}
       >
         {props.day

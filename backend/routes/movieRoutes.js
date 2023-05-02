@@ -17,7 +17,7 @@ router.route('/').post(movieController.createMovie);
 
 router
   .route('/:id')
-  .patch(movieController.updateMovie)
-  .delete(movieController.deleteMovie);
+  .patch(movieController.uploadMoviePhoto, movieController.updateMovie)
+  .delete(movieController.deleteMoviePhoto, movieController.deleteMovie);
 
 module.exports = router;

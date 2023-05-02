@@ -15,11 +15,11 @@ const DropdownButton = (props: IProps) => {
       onMouseEnter={() => props.setIsHover(true)}
       onMouseLeave={() => props.setIsHover(false)}
       onClick={() => props.setIsClicked(true)}
-      className={`text-center px-4 py-2 rounded cursor-pointer border border-white/10 hover:border-white duration-200 ${
+      className={`cursor-pointer rounded border border-white/10 px-4 py-2 text-center duration-200 hover:border-white ${
         props.afterWeek.includes(props.selectedDay) && 'bg-red-500'
       }`}
     >
-      <div className="flex justify-between items-center text-left">
+      <div className="flex items-center justify-between text-left">
         <div>
           {props.afterWeek.includes(props.selectedDay) ? (
             <>

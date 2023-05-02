@@ -9,7 +9,7 @@ const ModalContent = (props: IProps) => {
   return createPortal(
     <div
       ref={props.nodeRef}
-      className="z-10 fixed bg-white w-full md:w-[48rem] h-screen right-0"
+      className="fixed right-0 z-10 h-screen w-full bg-white md:w-[48rem]"
     >
       {props.children}
     </div>,

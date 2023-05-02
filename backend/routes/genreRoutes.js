@@ -14,7 +14,7 @@ router.route('/').post(genreController.createGenre);
 
 router
   .route('/:id')
-  .patch(genreController.updateGenre)
-  .delete(genreController.deleteGenre);
+  .patch(genreController.uploadGenrePhoto, genreController.updateGenre)
+  .delete(genreController.deleteGenrePhoto, genreController.deleteGenre);
 
 module.exports = router;

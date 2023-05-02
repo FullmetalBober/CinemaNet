@@ -7,7 +7,7 @@ interface IProps {
 const TextClick = (props: IProps) => {
   return (
     <p
-      className={`${props.className} cursor-pointer transition duration-250`}
+      className={`${props.className} duration-250 cursor-pointer transition`}
       onClick={props.onClick}
     >
       {props.children}

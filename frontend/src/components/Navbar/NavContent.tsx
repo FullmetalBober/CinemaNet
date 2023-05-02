@@ -1,9 +1,9 @@
-import ChooseCinema from "../Cinema/ChooseCinema";
+import ChooseCinema from '../Cinema/ChooseCinema';
 
 const NavContent = () => {
   return (
     <div className="block w-auto">
-      <ul className="flex font-semibold p-0 space-x-8 mt-0">
+      <ul className="mt-0 flex space-x-8 p-0 font-semibold">
         <li>
           <ChooseCinema />
         </li>
