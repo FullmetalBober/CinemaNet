@@ -6,7 +6,7 @@ interface IProps {
 const ScrollbarDiv = (props: IProps) => {
   return (
     <div
-      className={`overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 ${props.className}`}
+      className={`overflow-y-auto scrollbar scrollbar-w-[6px] scrollbar-thumb-gray-300 scrollbar-track-gray-100 ${props.className}`}
     >
       {props.children}
     </div>
