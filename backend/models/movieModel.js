@@ -14,7 +14,7 @@ const movieSchema = new mongoose.Schema({
   },
   imageCover: {
     type: String,
-    default: 'default.jpg',
+    default: 'images/movie/movie.jpg',
   },
   trailer: {
     type: String,
@@ -50,25 +50,33 @@ const movieSchema = new mongoose.Schema({
   genres: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Genre',
-      required: [true, 'Movie must have a genre'],
+      ref: 'Genre'
     },
   ],
   production: [String],
   studio: [String],
   scenario: [String],
   starring: [String],
-  description: {
-    type: String,
-  },
+  description: String,
   price: {
     type: Number,
     required: [true, 'Movie must have a price'],
   },
+  slug: String,
 });
 
-movieSchema.virtual('slug').get(function () {
-  return slugify(this.name, { lower: true });
+movieSchema.index({ slug: 1 });
+
+movieSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+movieSchema.pre('findOneAndUpdate', function (next) {
+  if (!this._update.name) return next();
+  console.log(this._update.name);
+  this._update.slug = slugify(this._update.name, { lower: true });
+  next();
 });
 
 const Movie = mongoose.model('Movie', movieSchema);

@@ -13,8 +13,8 @@ export interface ICinema {
 
 export interface IShowtime {
   _id: string;
-  movie: string | IMovie;
-  hall: string | IHall;
+  movie: IMovie;
+  hall: IHall;
   time: {
     start: Date;
     end?: Date;
@@ -23,4 +23,29 @@ export interface IShowtime {
     standard: number;
     lux: number;
   };
+}
+
+export interface IMovie {
+  _id: string;
+  name: string;
+  duration: number;
+  imageCover: string;
+  trailer?: string;
+  ageRating?: number;
+  releaseYear?: number;
+  originalName?: string;
+  director?: string;
+  rentalPeriod: {
+    start?: Date;
+    end?: Date;
+  };
+  language?: string;
+  genres?: string[];
+  production?: string[];
+  studio?: string[];
+  scenario?: string[];
+  starring?: string[];
+  description?: string;
+  price?: number;
+  slug: string;
 }

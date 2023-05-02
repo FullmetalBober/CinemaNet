@@ -4,6 +4,9 @@ import { CinemaState } from '../../contexts/CinemaProvider';
 import ImageCover from './ImageCover';
 import axios from 'axios';
 import DatesSchedule from './DatesSchedule';
+import Showtime from './Showtime';
+import HorizontalLine from '../UI/HorizontalLine';
+import { BsHandIndex } from 'react-icons/bs';
 
 const Schedule = () => {
   const [showtimes, setShowtimes] = useState<IShowtime[]>([]);
@@ -36,7 +39,15 @@ const Schedule = () => {
     if (!showtimes) return;
     const days = showtimes.map(showtime => {
       const date = new Date(showtime.time.start);
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0).getTime();
+      return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        0,
+        0,
+        0,
+        0
+      ).getTime();
     });
     const uniqueDays = [...new Set(days)].map(day => new Date(day));
     setDays(uniqueDays);
@@ -53,7 +64,6 @@ const Schedule = () => {
         date.getDate() === selectedDay.getDate()
       );
     });
-    console.log(showtimesSelectedDay);
     setShowtimesSelectedDay(showtimesSelectedDay);
   }, [showtimes, selectedDay]);
 
@@ -62,9 +72,16 @@ const Schedule = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 lg:max-w-screen-xl lg:px-9 mx-auto mt-7">
+    <div className="flex flex-col gap-4 lg:max-w-screen-xl lg:px-9 mx-auto mt-7">
       <ImageCover />
-      <DatesSchedule days={days} selectedDay={selectedDay} handleDayClick={handleDayClick} />
+      <DatesSchedule
+        days={days}
+        selectedDay={selectedDay}
+        handleDayClick={handleDayClick}
+        className='mb-5'
+      />
+      <HorizontalLine className='flex'><BsHandIndex size={23} className='mr-3' />Click on a session time to select seats</HorizontalLine>
+      <Showtime className='mt-5' showtimes={showtimesSelectedDay} />
     </div>
   );
 };

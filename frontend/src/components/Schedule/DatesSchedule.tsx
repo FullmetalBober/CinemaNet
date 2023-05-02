@@ -9,6 +9,7 @@ interface IProps {
   days: Date[];
   selectedDay: Date;
   handleDayClick: (day: Date) => void;
+  className?: string;
 }
 
 const DatesSchedule = (props: IProps) => {
@@ -48,35 +49,33 @@ const DatesSchedule = (props: IProps) => {
 
   if (props.days.length === 0) return <Loading />;
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        {week.map((day, index) => (
-          <DayCard
-            key={index}
-            days={props.days}
-            day={day}
-            selectedDay={props.selectedDay}
+    <div className={`flex justify-between items-center ${props.className}`}>
+      {week.map((day, index) => (
+        <DayCard
+          key={index}
+          days={props.days}
+          day={day}
+          selectedDay={props.selectedDay}
+          handleDayClick={props.handleDayClick}
+        />
+      ))}
+
+      <div ref={refChoose} className="flex-[1.4] relative">
+        <DropdownButton
+          isHover={isHover}
+          setIsHover={setIsHover}
+          setIsClicked={setIsClicked}
+          afterWeek={afterWeek}
+          selectedDay={props.selectedDay}
+        />
+        {isClicked && (
+          <DropdownList
+            afterWeek={afterWeek}
+            setIsClicked={setIsClicked}
+            setIsHover={setIsHover}
             handleDayClick={props.handleDayClick}
           />
-        ))}
-
-        <div ref={refChoose} className="flex-[1.2] relative">
-          <DropdownButton
-            isHover={isHover}
-            setIsHover={setIsHover}
-            setIsClicked={setIsClicked}
-            afterWeek={afterWeek}
-            selectedDay={props.selectedDay}
-          />
-          {isClicked && (
-            <DropdownList
-              afterWeek={afterWeek}
-              setIsClicked={setIsClicked}
-              setIsHover={setIsHover}
-              handleDayClick={props.handleDayClick}
-            />
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
