@@ -42,8 +42,9 @@ showtimeSchema.pre(/^find/, function (next) {
 showtimeSchema.virtual('price').get(function () {
   if (!this.hall.price || !this.movie.price) return;
   return {
-    standard: this.hall.price.standard + this.movie.price,
-    lux: this.hall.price.lux + this.movie.price,
+    standard:
+      Math.round((this.hall.price.standard + this.movie.price) * 100) / 100,
+    lux: Math.round((this.hall.price.lux + this.movie.price) * 100) / 100,
   };
 });
 
