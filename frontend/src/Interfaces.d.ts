@@ -2,7 +2,7 @@ export interface ICinema {
   _id: string;
   name: string;
   imageCover: string;
-  halls: string[] | IHall[];
+  halls: IHall[];
   location: {
     city: string;
     address?: string;
@@ -35,17 +35,43 @@ export interface IMovie {
   releaseYear?: number;
   originalName?: string;
   director?: string;
-  rentalPeriod: {
-    start?: Date;
-    end?: Date;
+  rentalPeriod?: {
+    start: Date;
+    end: Date;
   };
   language?: string;
-  genres?: string[];
+  genres?: (IGenre | string)[];
   production?: string[];
   studio?: string[];
   scenario?: string[];
   starring?: string[];
   description?: string;
   price?: number;
+  slug: string;
+}
+
+export interface IHall {
+  _id: string;
+  name: string;
+  cinema: ICinema;
+  seats: {
+    standard: [
+      {
+        row: number;
+        seats: number;
+      }
+    ];
+    lux: number;
+  };
+  price: {
+    standard: number;
+    lux: number;
+  };
+}
+
+export interface IGenre {
+  _id: string;
+  name: string;
+  description?: string;
   slug: string;
 }

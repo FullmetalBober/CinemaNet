@@ -31,6 +31,10 @@ const CinemaProvider = (props: IProps) => {
     (async () => {
       if (cinemaId) {
         const response = await axios.get(`/api/v1/cinemas/${cinemaId}`);
+        cookies.set('CinemaNet: cinema._id', cinemaId, {
+          path: '/',
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        });
         setCinema(response.data.data.data);
       } else {
         const response = await axios.get('/api/v1/cinemas?limit=1');

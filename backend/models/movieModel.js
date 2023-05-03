@@ -37,10 +37,12 @@ const movieSchema = new mongoose.Schema({
     start: {
       type: Date,
       default: Date.now(),
+      required: [true, 'Movie must have a rental period start'],
     },
     end: {
       type: Date,
       default: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      required: [true, 'Movie must have a rental period end'],
     },
   },
   language: {
@@ -50,7 +52,7 @@ const movieSchema = new mongoose.Schema({
   genres: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Genre'
+      ref: 'Genre',
     },
   ],
   production: [String],

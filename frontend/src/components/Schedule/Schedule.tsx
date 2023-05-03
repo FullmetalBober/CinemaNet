@@ -7,8 +7,8 @@ import DatesSchedule from './DatesSchedule';
 import Showtime from './Showtime';
 import HorizontalLine from '../UI/HorizontalLine';
 import { BsHandIndex } from 'react-icons/bs';
-import Map from './Map';
 import Footer from './Footer';
+import BottomSchedule from './BottomSchedule';
 
 const Schedule = () => {
   const [showtimes, setShowtimes] = useState<IShowtime[]>([]);
@@ -87,9 +87,8 @@ const Schedule = () => {
           <BsHandIndex size={23} className="mr-3" />
           Click on a session time to select seats
         </HorizontalLine>
-        <Showtime className="mt-5" showtimes={showtimesSelectedDay} />
-        <h1 className="text-center text-4xl font-black">How to find us</h1>
-        <Map />
+        <Showtime className="mb-3 mt-5" showtimes={showtimesSelectedDay} />
+        <BottomSchedule />
       </div>
       <Footer />
     </>
