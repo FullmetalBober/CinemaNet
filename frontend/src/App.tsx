@@ -4,6 +4,7 @@ import './App.css';
 import CinemaProvider from './contexts/CinemaProvider';
 import Schedule from './components/Schedule/Schedule';
 import Movie from './components/Movie/Movie';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </CinemaProvider>
+      <Analytics />
     </>
   );
 }
