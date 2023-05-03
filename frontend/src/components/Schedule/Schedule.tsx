@@ -8,6 +8,7 @@ import Showtime from './Showtime';
 import HorizontalLine from '../UI/HorizontalLine';
 import { BsHandIndex } from 'react-icons/bs';
 import Map from './Map';
+import Footer from './Footer';
 
 const Schedule = () => {
   const [showtimes, setShowtimes] = useState<IShowtime[]>([]);
@@ -73,22 +74,25 @@ const Schedule = () => {
   };
 
   return (
-    <div className="mx-auto mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9">
-      <ImageCover />
-      <DatesSchedule
-        days={days}
-        selectedDay={selectedDay}
-        handleDayClick={handleDayClick}
-        className="mb-5"
-      />
-      <HorizontalLine className="flex">
-        <BsHandIndex size={23} className="mr-3" />
-        Click on a session time to select seats
-      </HorizontalLine>
-      <Showtime className="mt-5" showtimes={showtimesSelectedDay} />
-      <h1 className='text-center font-black text-4xl'>How to find us</h1>
-      <Map />
-    </div>
+    <>
+      <div className="mx-auto mb-7 mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9">
+        <ImageCover />
+        <DatesSchedule
+          days={days}
+          selectedDay={selectedDay}
+          handleDayClick={handleDayClick}
+          className="mb-5"
+        />
+        <HorizontalLine className="flex">
+          <BsHandIndex size={23} className="mr-3" />
+          Click on a session time to select seats
+        </HorizontalLine>
+        <Showtime className="mt-5" showtimes={showtimesSelectedDay} />
+        <h1 className="text-center text-4xl font-black">How to find us</h1>
+        <Map />
+      </div>
+      <Footer />
+    </>
   );
 };
 

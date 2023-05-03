@@ -27,9 +27,9 @@ const Map = () => {
         fullscreenControl: false,
         keyboardShortcuts: false,
         mapTypeControlOptions: {
-            mapTypeIds: ['roadmap', 'satellite', 'hybrid'],
-            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        }
+          mapTypeIds: ['roadmap', 'hybrid'],
+          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        },
       }}
       mapContainerClassName="rounded-lg h-96 w-full"
     >
