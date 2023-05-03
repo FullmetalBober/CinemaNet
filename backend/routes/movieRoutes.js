@@ -8,6 +8,7 @@ const router = express.Router();
 router.use('/:movieId/reviews', reviewRouter);
 
 router.route('/').get(movieController.getAllMovies);
+router.route('/slug/:slug').get(movieController.getMovieBySlug);
 router.route('/:id').get(movieController.getMovie);
 
 router.use(authController.protect);
