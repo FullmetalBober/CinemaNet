@@ -37,12 +37,23 @@ app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
     crossOriginResourcePolicy: {
-      allowOrigins: ['https://res.cloudinary.com'],
+      allowOrigins: [
+        'https://res.cloudinary.com',
+        'https://maps.googleapis.com',
+      ],
     },
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'img-src': ["'self'", 'data:', 'https://res.cloudinary.com'],
+        'img-src': [
+          "'self'",
+          'data:',
+          'https://res.cloudinary.com',
+          'https://maps.googleapis.com',
+          'https://maps.gstatic.com',
+        ],
+        'script-src': ["'self'", 'https://maps.googleapis.com'],
+        'connect-src': ["'self'", 'https://maps.googleapis.com'],
       },
     },
   })
