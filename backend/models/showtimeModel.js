@@ -32,7 +32,7 @@ showtimeSchema.index(
 
 showtimeSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'movie hall',
+    path: 'movie',
     select: 'imageCover price duration slug name',
   });
 

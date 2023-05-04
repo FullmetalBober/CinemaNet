@@ -17,7 +17,7 @@ export interface IShowtime {
   hall: IHall;
   time: {
     start: Date;
-    end?: Date;
+    end: Date;
   };
   price: {
     standard: number;
@@ -46,7 +46,7 @@ export interface IMovie {
   scenario?: string[];
   starring?: string[];
   description?: string;
-  price?: number;
+  price: number;
   slug: string;
 }
 

@@ -24,11 +24,10 @@ const Movie = () => {
   }, [movieSlug]);
 
   if (!movie) return <Loading />;
+  if (showTrailer)
+    return <TrailerMovie movie={movie} setShowTrailer={setShowTrailer} />;
   return (
     <>
-      {showTrailer && (
-        <TrailerMovie movie={movie} setShowTrailer={setShowTrailer} />
-      )}
       <div className="mx-auto mb-7 mt-7 flex gap-4 lg:max-w-screen-xl lg:px-9">
         <LeftSideMovie movie={movie} setShowTrailer={setShowTrailer} />
         <CenterSideMovie movie={movie} />

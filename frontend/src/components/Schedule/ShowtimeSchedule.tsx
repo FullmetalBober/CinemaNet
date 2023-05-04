@@ -17,7 +17,7 @@ interface IShowtimeByMovie {
   }[];
 }
 
-const Showtime = (props: IProps) => {
+const ShowtimeSchedule = (props: IProps) => {
   const [showtimesByMovie, setShowtimesByMovie] = useState<IShowtimeByMovie[]>(
     []
   );
@@ -82,7 +82,7 @@ const Showtime = (props: IProps) => {
                   return (
                     <Link
                       key={index}
-                      to={`/showtime/${time._id}}`}
+                      to={`/showtime/${time._id}`}
                       className="group relative mx-1 mb-3 flex flex-col items-center font-black text-red-500 hover:text-white"
                     >
                       <span>{`${hourString}:${minuteString}`}</span>
@@ -99,4 +99,4 @@ const Showtime = (props: IProps) => {
   );
 };
 
-export default Showtime;
+export default ShowtimeSchedule;

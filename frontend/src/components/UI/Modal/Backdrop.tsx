@@ -7,7 +7,7 @@ interface IProps {
 const Backdrop = (props: IProps) => {
   return createPortal(
     <div
-      className="fixed inset-0 h-screen w-full bg-black opacity-20"
+      className="fixed inset-0 z-20 h-screen w-full bg-black opacity-20"
       onClick={props.onClick}
     ></div>,
     document.getElementById('backdrop-hook')!

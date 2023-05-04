@@ -5,6 +5,7 @@ import CinemaProvider from './contexts/CinemaProvider';
 import Schedule from './components/Schedule/Schedule';
 import Movie from './components/Movie/Movie';
 import { Analytics } from '@vercel/analytics/react';
+import Showtime from './components/Showtime/Showtime';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Schedule />} />
           <Route path="movie/:movieSlug" element={<Movie />} />
-          <Route path="showtime/:showtimeId" element={<>showtime</>} />
+          <Route path="showtime/:showtimeId" element={<Showtime />} />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </CinemaProvider>

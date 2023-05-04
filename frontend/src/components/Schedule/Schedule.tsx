@@ -4,7 +4,7 @@ import { CinemaState } from '../../contexts/CinemaProvider';
 import ImageCover from './ImageCover';
 import axios from 'axios';
 import DatesSchedule from './DatesSchedule';
-import Showtime from './Showtime';
+import ShowtimeSchedule from './ShowtimeSchedule';
 import HorizontalLine from '../UI/HorizontalLine';
 import { BsHandIndex } from 'react-icons/bs';
 import Footer from './Footer';
@@ -87,7 +87,7 @@ const Schedule = () => {
           <BsHandIndex size={23} className="mr-3" />
           Click on a session time to select seats
         </HorizontalLine>
-        <Showtime className="mb-3 mt-5" showtimes={showtimesSelectedDay} />
+        <ShowtimeSchedule className="mb-3 mt-5" showtimes={showtimesSelectedDay} />
         <BottomSchedule />
       </div>
       <Footer />

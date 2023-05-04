@@ -9,7 +9,7 @@ interface IProps {
 
 const TrailerMovie = (props: IProps) => {
   return (
-    <div className="absolute top-0 flex h-full w-full flex-col">
+    <div className="absolute top-0 z-10 flex h-full w-full flex-col">
       <div className="flex w-full justify-between gap-3 bg-[#221f1f] p-3 px-7 text-2xl">
         <div
           onClick={() => props.setShowTrailer(false)}
