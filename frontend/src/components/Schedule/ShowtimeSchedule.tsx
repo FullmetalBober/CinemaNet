@@ -86,7 +86,7 @@ const ShowtimeSchedule = (props: IProps) => {
                       className="group relative mx-1 mb-3 flex flex-col items-center font-black text-red-500 hover:text-white"
                     >
                       <span>{`${hourString}:${minuteString}`}</span>
-                      <Tooltip side="top">from ${time.price}</Tooltip>
+                      <Tooltip side="top-full">from ${time.price}</Tooltip>
                     </Link>
                   );
                 })}

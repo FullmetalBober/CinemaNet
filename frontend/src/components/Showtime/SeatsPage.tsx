@@ -37,7 +37,7 @@ const SeatsPage = (props: IProps) => {
       )
         seats.push(
           <div key={col} className="group relative flex flex-col items-center">
-            <Tooltip side="bottom">Is this seat taken</Tooltip>
+            <Tooltip side="bottom-full">Is this seat taken</Tooltip>
             <ShowtimeSeatCard
               className={`${className} flex items-center justify-center bg-[#e4e4e4]/70 hover:opacity-50`}
             >
@@ -48,7 +48,7 @@ const SeatsPage = (props: IProps) => {
       else
         seats.push(
           <div key={col} className="group relative flex flex-col items-center">
-            <Tooltip side="bottom">
+            <Tooltip side="bottom-full">
               <p>
                 {row} Row, {col + 1} Seat
               </p>
