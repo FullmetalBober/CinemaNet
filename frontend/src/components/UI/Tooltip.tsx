@@ -9,6 +9,7 @@ interface IProps {
 const Tooltip = (props: IProps) => {
   const side = useMemo<string>(() => `${props.side}-full`, [props.side]);
 
+  if (!side) return <></>;
   return (
     <div
       className={`absolute z-10 mt-1 hidden whitespace-nowrap rounded bg-black px-3 py-1 text-center text-sm group-hover:block hover:!hidden ${side} ${props.className}`}
