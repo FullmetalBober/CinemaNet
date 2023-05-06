@@ -54,6 +54,7 @@ app.use(
         ],
         'script-src': ["'self'", 'https://maps.googleapis.com'],
         'connect-src': ["'self'", 'https://maps.googleapis.com'],
+        'frame-src': ["'self'", 'https://www.youtube-nocookie.com'],
       },
     },
   })

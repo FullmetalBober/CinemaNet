@@ -24,7 +24,6 @@ const AnotherMovies = (props: IProps) => {
         if (filteredMovies.length > 8) {
           filteredMovies = filteredMovies.slice(0, 8);
         }
-        console.log(filteredMovies);
         setAnotherMovies(filteredMovies);
       } catch (error) {
         console.error(error);

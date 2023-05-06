@@ -76,7 +76,7 @@ movieSchema.pre('save', function (next) {
 
 movieSchema.pre('findOneAndUpdate', function (next) {
   if (!this._update.name) return next();
-  console.log(this._update.name);
+
   this._update.slug = slugify(this._update.name, { lower: true });
   next();
 });
