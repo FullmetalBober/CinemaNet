@@ -11,7 +11,7 @@ const Tooltip = (props: IProps) => {
 
   return (
     <div
-      className={`absolute z-10 mt-1 hidden whitespace-nowrap rounded bg-black px-3 py-1 text-center text-sm group-hover:block hover:!hidden ${side} ${props.className}`}
+      className={`absolute z-10 mt-1 hidden whitespace-nowrap rounded bg-black px-3 py-1 text-center text-sm group-hover:block hover:!hidden top-full ${props.className}`}
     >
       {props.children}
     </div>
