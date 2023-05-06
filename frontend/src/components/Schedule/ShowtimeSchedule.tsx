@@ -69,7 +69,7 @@ const ShowtimeSchedule = (props: IProps) => {
               />
             </Link>
             <div className="ml-4">
-              <Link to={movie.slug} className="mb-4">
+              <Link to={`movie/${movie.slug}`} className="mb-4">
                 <h1 className="text-xl font-bold">{movie.name}</h1>
               </Link>
               <div className="flex flex-wrap gap-2">
@@ -86,7 +86,7 @@ const ShowtimeSchedule = (props: IProps) => {
                       className="group relative mx-1 mb-3 flex flex-col items-center font-black text-red-500 hover:text-white"
                     >
                       <span>{`${hourString}:${minuteString}`}</span>
-                      <Tooltip>from ${time.price}</Tooltip>
+                      <Tooltip side="top">from ${time.price}</Tooltip>
                     </Link>
                   );
                 })}

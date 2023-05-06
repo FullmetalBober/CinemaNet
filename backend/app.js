@@ -24,7 +24,7 @@ const showtimeRouter = require('./routes/showtimeRoutes');
 const ticketRouter = require('./routes/ticketRoutes');
 
 const app = express();
-expressWs(app);
+// expressWs(app);
 
 app.enable('trust proxy');
 

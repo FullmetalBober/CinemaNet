@@ -23,6 +23,7 @@ export interface IShowtime {
     standard: number;
     lux: number;
   };
+  tickets: ITicket[];
 }
 
 export interface IMovie {
@@ -74,4 +75,22 @@ export interface IGenre {
   name: string;
   description?: string;
   slug: string;
+}
+
+export interface ITicket {
+  _id: string;
+  showtime: IShowtime;
+  seats: [
+    {
+      row: number;
+      col: number;
+    }
+  ];
+  user: IUser;
+  barOrders: [
+    {
+      bar: IBar;
+      count: number;
+    }
+  ];
 }

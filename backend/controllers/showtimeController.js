@@ -5,14 +5,20 @@ exports.getAllShowtimes = factory.getAll(Showtime, {
   path: 'hall',
   select: 'name price',
 });
-exports.getShowtime = factory.getOne(Showtime, {
-  path: 'hall',
-  select: 'name cinema price seats',
-  populate: {
-    path: 'cinema',
-    select: 'name location.city',
+exports.getShowtime = factory.getOne(Showtime, [
+  {
+    path: 'hall',
+    select: 'name price cinema seats',
+    populate: {
+      path: 'cinema',
+      select: 'name location.city',
+    },
   },
-});
+  {
+    path: 'tickets',
+    select: 'seats',
+  },
+]);
 exports.createShowtime = factory.createOne(Showtime);
 exports.updateShowtime = factory.updateOne(Showtime);
 exports.deleteShowtime = factory.deleteOne(Showtime);

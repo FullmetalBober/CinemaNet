@@ -53,6 +53,12 @@ showtimeSchema.virtual('time.end').get(function () {
   return new Date(this.time.start.getTime() + this.movie.duration * 60 * 1000);
 });
 
+showtimeSchema.virtual('tickets', {
+  ref: 'Ticket',
+  foreignField: 'showtime',
+  localField: '_id',
+});
+
 const Showtime = mongoose.model('Showtime', showtimeSchema);
 
 module.exports = Showtime;

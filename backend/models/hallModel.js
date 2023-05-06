@@ -18,6 +18,7 @@ const hallSchema = new mongoose.Schema({
           type: Number,
           required: [true, 'Row must have a number'],
           min: [1, 'Row must be greater than 0'],
+          unique: true,
         },
         seats: {
           type: Number,

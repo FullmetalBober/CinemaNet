@@ -87,7 +87,10 @@ const Schedule = () => {
           <BsHandIndex size={23} className="mr-3" />
           Click on a session time to select seats
         </HorizontalLine>
-        <ShowtimeSchedule className="mb-3 mt-5" showtimes={showtimesSelectedDay} />
+        <ShowtimeSchedule
+          className="mb-3 mt-5"
+          showtimes={showtimesSelectedDay}
+        />
         <BottomSchedule />
       </div>
       <Footer />

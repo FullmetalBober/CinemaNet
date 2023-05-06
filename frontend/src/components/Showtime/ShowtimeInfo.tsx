@@ -6,6 +6,7 @@ import { HiOutlineClock } from 'react-icons/hi2';
 
 interface IProps {
   showtime: IShowtime;
+  className?: string;
 }
 
 const ShowtimeInfo = (props: IProps) => {
@@ -17,10 +18,10 @@ const ShowtimeInfo = (props: IProps) => {
         width={149}
         src={showtime.movie.imageCover}
         alt={showtime.movie.name}
-        className='rounded'
+        className="rounded"
       />
       <div>
-        <h1 className="text-3xl font-bold">{showtime.movie.name}</h1>
+        <h1 className="text-3xl mb-3 font-bold">{showtime.movie.name}</h1>
         <div className="flex flex-wrap gap-2">
           <ShowtimeInfoCard
             header={`Hall №${showtime.hall.name}`}

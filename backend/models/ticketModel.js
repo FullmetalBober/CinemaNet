@@ -7,22 +7,26 @@ const ticketSchema = new mongoose.Schema(
       ref: 'Showtime',
       required: [true, 'Ticket must belong to a showtime'],
     },
-    seats: [
-      {
-        col: {
-          type: Number,
-          required: [true, 'Ticket must have a column'],
+    seats: {
+      type: [
+        {
+          col: {
+            type: Number,
+            required: [true, 'Ticket must have a column'],
+          },
+          row: {
+            type: Number,
+            required: [true, 'Ticket must have a row'],
+          },
+          // luxSeat: {
+          //   type: Boolean,
+          //   default: false,
+          // },
         },
-        row: {
-          type: Number,
-          required: [true, 'Ticket must have a row'],
-        },
-        luxSeat: {
-          type: Boolean,
-          default: false,
-        },
-      },
-    ],
+      ],
+      required: [true, 'Ticket must have a seat'],
+      validate: [val => val.length > 1, 'At least one seat must be selected'],
+    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
