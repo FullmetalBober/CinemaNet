@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { IShowtime } from '../../Interfaces';
+import { ISeat, IShowtime } from '../../Interfaces';
 import ShowtimeInfo from './ShowtimeInfo';
 import ShowtimeMainPriceCard from './ShowtimeMainPriceCard';
 import ShowtimeSeatCard from './ShowtimeSeatCard';
@@ -8,6 +8,8 @@ import Tooltip from '../UI/Tooltip';
 
 interface IProps {
   showtime: IShowtime;
+  selectedSeats: ISeat[];
+  setSelectedSeats: React.Dispatch<React.SetStateAction<ISeat[]>>;
 }
 
 const SeatsPage = (props: IProps) => {
@@ -22,14 +24,27 @@ const SeatsPage = (props: IProps) => {
     return Math.max(maxStandardSeats, maxLuxSeats);
   }, [showtime]);
 
+  const handleSelectSeat = (row: number, col: number) => {
+    props.setSelectedSeats(prevState => {
+      const index = prevState.findIndex(
+        seat => seat.row === row && seat.col === col
+      );
+      if (index === -1) return [...prevState, { row, col }];
+      else
+        return prevState.filter(seat => seat.row !== row || seat.col !== col);
+    });
+  };
+
   const renderSeats = (
     row: number,
     cols: number,
     price: number,
+    color: string,
     className?: string
   ) => {
     const seats = [];
     for (let col = 0; col < cols; col++) {
+      let colorNow = 'bg-transparent';
       if (
         showtime.tickets.some(ticket =>
           ticket.seats.some(seat => seat.row === row && seat.col === col + 1)
@@ -45,7 +60,13 @@ const SeatsPage = (props: IProps) => {
             </ShowtimeSeatCard>
           </div>
         );
-      else
+      else {
+        if (
+          props.selectedSeats.some(
+            seat => seat.row === row && seat.col === col + 1
+          )
+        )
+          colorNow = color;
         seats.push(
           <div key={col} className="group relative flex flex-col items-center">
             <Tooltip side="bottom-full">
@@ -54,9 +75,13 @@ const SeatsPage = (props: IProps) => {
               </p>
               <p>Price: ${price}</p>
             </Tooltip>
-            <ShowtimeSeatCard className={className} />
+            <ShowtimeSeatCard
+              onClick={() => handleSelectSeat(row, col + 1)}
+              className={`${className} ${colorNow}`}
+            />
           </div>
         );
+      }
     }
     return seats;
   };
@@ -106,6 +131,7 @@ const SeatsPage = (props: IProps) => {
                 row.row,
                 row.seats,
                 showtime.price.standard,
+                'bg-[#95c7f4]',
                 'border border-[#95c7f4] cursor-pointer hover:bg-[#95c7f4]/50 transition'
               )}
             </div>
@@ -116,6 +142,7 @@ const SeatsPage = (props: IProps) => {
                 showtime.hall.seats.standard.length + 1,
                 showtime.hall.seats.lux,
                 showtime.price.lux,
+                'bg-red-500',
                 'border border-red-500 cursor-pointer transition hover:bg-red-500/50'
               )
             )}

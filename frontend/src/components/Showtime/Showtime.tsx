@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import SeatsPage from './SeatsPage';
-import { IShowtime } from '../../Interfaces';
+import { ISeat, IShowtime } from '../../Interfaces';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Loading from '../UI/Loading';
+import BuyMenu from './BuyMenu';
 
 const Showtime = () => {
   const { showtimeId } = useParams();
   const [showtime, setShowtime] = useState<IShowtime>();
   const [isSeatsPage, setIsSeatsPage] = useState(true);
+  const [selectedSeats, setSelectedSeats] = useState<ISeat[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -25,9 +27,9 @@ const Showtime = () => {
   return (
     <div className="flex flex-wrap justify-between">
       <div className="flex-grow">
-        {isSeatsPage ? <SeatsPage showtime={showtime} /> : <div>BAR</div>}
+        {isSeatsPage ? <SeatsPage showtime={showtime} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} /> : <div>BAR</div>}
       </div>
-      <div className="w-[511px]">Right side</div>
+      <div className="w-[511px]"><BuyMenu /></div>
     </div>
   );
 };

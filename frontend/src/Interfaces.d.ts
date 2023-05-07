@@ -80,12 +80,7 @@ export interface IGenre {
 export interface ITicket {
   _id: string;
   showtime: IShowtime;
-  seats: [
-    {
-      row: number;
-      col: number;
-    }
-  ];
+  seats: ISeat[];
   user: IUser;
   barOrders: [
     {
@@ -93,4 +88,9 @@ export interface ITicket {
       count: number;
     }
   ];
+}
+
+export interface ISeat{
+  row: number;
+  col: number;
 }
