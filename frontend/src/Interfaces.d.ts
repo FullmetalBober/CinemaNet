@@ -90,7 +90,7 @@ export interface ITicket {
   ];
 }
 
-export interface ISeat{
+export interface ISeat {
   row: number;
   col: number;
   isLux: boolean;

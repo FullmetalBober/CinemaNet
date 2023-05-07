@@ -61,18 +61,18 @@ const ShowtimeSchedule = (props: IProps) => {
         );
 
         return (
-          <div key={movie._id} className="flex">
+          <div key={movie._id} className='flex'>
             <Link to={`movie/${movie.slug}`}>
               <div
                 style={{ backgroundImage: `url(${movie.imageCover})` }}
-                className="h-[224px] w-[140px] rounded bg-cover bg-top"
+                className='h-[224px] w-[140px] rounded bg-cover bg-top'
               />
             </Link>
-            <div className="ml-4">
-              <Link to={`movie/${movie.slug}`} className="mb-4">
-                <h1 className="text-xl font-bold">{movie.name}</h1>
+            <div className='ml-4'>
+              <Link to={`movie/${movie.slug}`} className='mb-4'>
+                <h1 className='text-xl font-bold'>{movie.name}</h1>
               </Link>
-              <div className="flex flex-wrap gap-2">
+              <div className='flex flex-wrap gap-2'>
                 {times.map((time, index) => {
                   const date = new Date(time.time);
                   const hour = date.getHours();
@@ -83,10 +83,13 @@ const ShowtimeSchedule = (props: IProps) => {
                     <Link
                       key={index}
                       to={`/showtime/${time._id}`}
-                      className="group relative mx-1 mb-3 flex flex-col items-center font-black text-red-500 hover:text-white"
+                      className='group relative mx-1 mb-3 flex flex-col items-center font-black text-red-500 hover:text-white'
                     >
                       <span>{`${hourString}:${minuteString}`}</span>
-                      <Tooltip side="top-full">from <small>$</small>{time.price}</Tooltip>
+                      <Tooltip side='top-full'>
+                        from <small>$</small>
+                        {time.price}
+                      </Tooltip>
                     </Link>
                   );
                 })}

@@ -13,10 +13,10 @@ function App() {
       <CinemaProvider>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Schedule />} />
-          <Route path="movie/:movieSlug" element={<Movie />} />
-          <Route path="showtime/:showtimeId" element={<Showtime />} />
-          <Route path="*" element={<h1>404</h1>} />
+          <Route path='/' element={<Schedule />} />
+          <Route path='movie/:movieSlug' element={<Movie />} />
+          <Route path='showtime/:showtimeId' element={<Showtime />} />
+          <Route path='*' element={<h1>404</h1>} />
         </Routes>
       </CinemaProvider>
       <Analytics />

@@ -22,10 +22,10 @@ const BuyMenu = (props: IProps) => {
   };
 
   return (
-    <div className="right-0 border-white/50 lg:fixed lg:w-[445px] lg:border-l">
-      <ScrollbarDiv className="mb-[120px] px-3 lg:mb-0 lg:h-[calc(100vh-204px)]">
-        <div className="flex justify-between py-2">
-          <h1 className="text-2xl">Tickets</h1>
+    <div className='right-0 border-white/50 lg:fixed lg:w-[445px] lg:border-l'>
+      <ScrollbarDiv className='mb-[120px] px-3 lg:mb-0 lg:h-[calc(100vh-204px)]'>
+        <div className='flex justify-between py-2'>
+          <h1 className='text-2xl'>Tickets</h1>
           <TextOpacity>
             {props.seats.length} tickets, <small>$</small>
             {Math.round(
@@ -33,17 +33,17 @@ const BuyMenu = (props: IProps) => {
             ) / 100}
           </TextOpacity>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className='flex flex-col gap-2'>
           {props.seats.map((seat, index) => (
             <ShowtimeBuyCard key={index} seat={seat} {...props} />
           ))}
         </div>
         <div>
-          <h1 className="text-2xl">Bar goods</h1>
+          <h1 className='text-2xl'>Bar goods</h1>
         </div>
       </ScrollbarDiv>
-      <div className="fixed bottom-0 left-0 w-full border-t border-white/50 bg-[#221f1f] p-6 text-xl lg:sticky">
-        <div className="flex justify-between">
+      <div className='fixed bottom-0 left-0 w-full border-t border-white/50 bg-[#221f1f] p-6 text-xl lg:sticky'>
+        <div className='flex justify-between'>
           <div>Total payable:</div>
           <div>
             <small>$</small>

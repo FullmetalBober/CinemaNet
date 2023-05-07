@@ -8,11 +8,14 @@ interface IProps {
 
 const ShowtimeMainPriceCard = (props: IProps) => {
   return (
-    <div className="flex items-center">
+    <div className='flex items-center'>
       <ShowtimeSeatCard className={`mr-2 ${props.color}`} />
-      <div className="flex flex-col text-sm/4 font-semibold">
+      <div className='flex flex-col text-sm/4 font-semibold'>
         <span>{props.title}</span>
-        <span>- <small>$</small>{props.price}</span>
+        <span>
+          - <small>$</small>
+          {props.price}
+        </span>
       </div>
     </div>
   );

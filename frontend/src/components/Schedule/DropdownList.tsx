@@ -9,7 +9,7 @@ interface IProps {
 
 const DropdownList = (props: IProps) => {
   return (
-    <ScrollbarDiv className="absolute right-0 flex h-72 w-64 flex-col divide-y divide-black/10 rounded bg-white scrollbar-thumb-red-500">
+    <ScrollbarDiv className='absolute right-0 flex h-72 w-64 flex-col divide-y divide-black/10 rounded bg-white scrollbar-thumb-red-500'>
       {props.afterWeek.map((day, index) => (
         <div
           key={index}
@@ -20,7 +20,7 @@ const DropdownList = (props: IProps) => {
             props.setIsHover(false);
             props.handleDayClick(day);
           }}
-          className="cursor-pointer p-2 text-sm text-black duration-200 hover:text-red-500 child:hover:text-red-500"
+          className='cursor-pointer p-2 text-sm text-black duration-200 hover:text-red-500 child:hover:text-red-500'
         >
           {day
             .toLocaleDateString('en-GB', {
@@ -28,7 +28,7 @@ const DropdownList = (props: IProps) => {
               month: 'short',
             })
             .toLowerCase()}{' '}
-          <span className="text-black/60">
+          <span className='text-black/60'>
             ({day.toLocaleDateString('en-GB', { weekday: 'long' })})
           </span>
         </div>

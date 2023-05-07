@@ -23,7 +23,7 @@ const Modal = (props: IProps) => {
         mountOnEnter
         unmountOnExit
         timeout={500}
-        classNames="modal"
+        classNames='modal'
       >
         <ModalContent nodeRef={nodeRef} {...props} />
       </CSSTransition>

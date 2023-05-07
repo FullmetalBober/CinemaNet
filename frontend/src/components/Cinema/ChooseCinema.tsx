@@ -61,7 +61,7 @@ const ChooseCinema = () => {
   return (
     <>
       <Modal show={showCinemas} onCancel={() => setShowCinemas(false)}>
-        <div className="flex h-screen justify-between text-3xl child:p-10">
+        <div className='flex h-screen justify-between text-3xl child:p-10'>
           <CitiesModal city={city} cities={cities} onClick={handleCityClick} />
 
           <CinemasModal
@@ -71,7 +71,7 @@ const ChooseCinema = () => {
         </div>
         <RiCloseFill
           onClick={() => setShowCinemas(false)}
-          className="fixed right-0 top-0 m-4 h-[40px] w-[40px] cursor-pointer text-black"
+          className='fixed right-0 top-0 m-4 h-[40px] w-[40px] cursor-pointer text-black'
         />
       </Modal>
 

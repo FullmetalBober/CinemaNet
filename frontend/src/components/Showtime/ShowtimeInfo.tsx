@@ -13,16 +13,16 @@ const ShowtimeInfo = (props: IProps) => {
   const { showtime } = props;
 
   return (
-    <div className="mt-4 flex gap-5 px-4">
+    <div className='mt-4 flex gap-5 px-4'>
       <img
         width={153}
         src={showtime.movie.imageCover}
         alt={showtime.movie.name}
-        className="rounded"
+        className='rounded'
       />
       <div>
-        <h1 className="text-3xl mb-3 font-bold">{showtime.movie.name}</h1>
-        <div className="flex flex-wrap gap-2">
+        <h1 className='mb-3 text-3xl font-bold'>{showtime.movie.name}</h1>
+        <div className='flex flex-wrap gap-2'>
           <ShowtimeInfoCard
             header={`Hall №${showtime.hall.name}`}
             text={`${showtime.hall.cinema.location.city}, ${showtime.hall.cinema.name}`}
@@ -36,7 +36,7 @@ const ShowtimeInfo = (props: IProps) => {
             icon={<RxCalendar />}
           />
           <ShowtimeInfoCard
-            header="Time"
+            header='Time'
             text={`${new Date(showtime.time.start).toLocaleTimeString('en-GB', {
               hour: '2-digit',
               minute: '2-digit',

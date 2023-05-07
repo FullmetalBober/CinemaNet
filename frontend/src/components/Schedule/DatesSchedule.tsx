@@ -59,7 +59,7 @@ const DatesSchedule = (props: IProps) => {
         />
       ))}
 
-      <div ref={refChoose} className="relative flex-[1.4]">
+      <div ref={refChoose} className='relative flex-[1.4]'>
         <DropdownButton
           isHover={isHover}
           setIsHover={setIsHover}

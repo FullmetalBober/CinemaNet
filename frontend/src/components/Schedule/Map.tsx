@@ -31,7 +31,7 @@ const Map = () => {
           style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         },
       }}
-      mapContainerClassName="h-96 w-full"
+      mapContainerClassName='h-96 w-full'
     >
       <MarkerF position={center} title={'qwe'} />
     </GoogleMap>

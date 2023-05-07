@@ -42,9 +42,9 @@ const Showtime = () => {
 
   if (!showtime) return <Loading />;
   return (
-    <div className="m-3 flex flex-col justify-between lg:flex-row">
-      <div className="flex-grow">
-      <ShowtimeInfo showtime={showtime} />
+    <div className='m-3 flex flex-col justify-between lg:flex-row'>
+      <div className='flex-grow'>
+        <ShowtimeInfo showtime={showtime} />
         {isSeatsPage ? (
           <SeatsPage
             showtime={showtime}
@@ -55,7 +55,7 @@ const Showtime = () => {
           <div>BAR</div>
         )}
       </div>
-      <div className="lg:w-[445px]">
+      <div className='lg:w-[445px]'>
         <BuyMenu
           seats={selectedSeats}
           isSeatsPage={isSeatsPage}

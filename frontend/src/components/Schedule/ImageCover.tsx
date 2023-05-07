@@ -12,25 +12,25 @@ const ImageCover = () => {
   return (
     <div
       style={{ backgroundImage: `url(${cinema.imageCover})` }}
-      className="bg-cover bg-center"
+      className='bg-cover bg-center'
     >
       <div style={{ backgroundImage: "url('images/cinema/tv.png')" }}>
-        <div className="pt-[10rem]">
-          <h1 className="text-center text-6xl font-extrabold">{cinema.name}</h1>
-          <div className="mt-5 flex justify-between">
-            <div className="flex items-center justify-center p-8">
-              <Circle className="mr-4">
-                <IoLocationOutline color="white" size={27} />
+        <div className='pt-[10rem]'>
+          <h1 className='text-center text-6xl font-extrabold'>{cinema.name}</h1>
+          <div className='mt-5 flex justify-between'>
+            <div className='flex items-center justify-center p-8'>
+              <Circle className='mr-4'>
+                <IoLocationOutline color='white' size={27} />
               </Circle>
               <div>
-                <p className="text-2xl font-bold">{cinema.location.address}</p>
+                <p className='text-2xl font-bold'>{cinema.location.address}</p>
                 <TextOpacity>{cinema.location.city}</TextOpacity>
               </div>
             </div>
-            <div className="flex items-center p-8">
+            <div className='flex items-center p-8'>
               <TextOpacity>Contact center</TextOpacity>
-              <Circle className="ml-4">
-                <HiOutlinePhone color="white" size={27} />
+              <Circle className='ml-4'>
+                <HiOutlinePhone color='white' size={27} />
               </Circle>
             </div>
           </div>

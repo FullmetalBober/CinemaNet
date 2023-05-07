@@ -15,7 +15,7 @@ const DayCard = (props: IProps) => {
       }`}
       onClick={() => props.handleDayClick(props.day)}
     >
-      <p className="text-sm font-bold">
+      <p className='text-sm font-bold'>
         {props.day
           .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
           .toUpperCase()}

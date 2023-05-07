@@ -75,20 +75,20 @@ const Schedule = () => {
 
   return (
     <>
-      <div className="mx-auto mb-7 mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9">
+      <div className='mx-auto mb-7 mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9'>
         <ImageCover />
         <DatesSchedule
           days={days}
           selectedDay={selectedDay}
           handleDayClick={handleDayClick}
-          className="mb-5"
+          className='mb-5'
         />
-        <HorizontalLine className="flex">
-          <BsHandIndex size={23} className="mr-3" />
+        <HorizontalLine className='flex'>
+          <BsHandIndex size={23} className='mr-3' />
           Click on a session time to select seats
         </HorizontalLine>
         <ShowtimeSchedule
-          className="mb-3 mt-5"
+          className='mb-3 mt-5'
           showtimes={showtimesSelectedDay}
         />
         <BottomSchedule />

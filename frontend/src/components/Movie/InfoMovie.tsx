@@ -12,21 +12,21 @@ const InfoMovie = (props: IProps) => {
   return (
     <ul>
       {movie.ageRating && (
-        <InfoMovieCard title="Age">{movie.ageRating}+</InfoMovieCard>
+        <InfoMovieCard title='Age'>{movie.ageRating}+</InfoMovieCard>
       )}
       {movie.releaseYear && (
-        <InfoMovieCard title="Release year">{movie.releaseYear}</InfoMovieCard>
+        <InfoMovieCard title='Release year'>{movie.releaseYear}</InfoMovieCard>
       )}
       {movie.originalName && (
-        <InfoMovieCard title="Original name">
+        <InfoMovieCard title='Original name'>
           {movie.originalName}
         </InfoMovieCard>
       )}
       {movie.director && (
-        <InfoMovieCard title="Director">{movie.director}</InfoMovieCard>
+        <InfoMovieCard title='Director'>{movie.director}</InfoMovieCard>
       )}
       {movie.rentalPeriod && (
-        <InfoMovieCard title="Rental period">
+        <InfoMovieCard title='Rental period'>
           {' '}
           {new Date(movie.rentalPeriod.start).toLocaleDateString('uk-UA')}
           {' - '}
@@ -34,39 +34,39 @@ const InfoMovie = (props: IProps) => {
         </InfoMovieCard>
       )}
       {movie.language && (
-        <InfoMovieCard title="Language">{movie.language}</InfoMovieCard>
+        <InfoMovieCard title='Language'>{movie.language}</InfoMovieCard>
       )}
       {movie.genres && (
-        <InfoMovieCard classNameSecond="!text-white" title="Genres">
+        <InfoMovieCard classNameSecond='!text-white' title='Genres'>
           {' '}
           {movie.genres.map((genre, index) => {
             if (typeof genre === 'string') return null;
             return (
               <Link key={genre._id} to={`/genre/${genre.slug}`}>
-                <span className="border-b">{genre.name}</span>
+                <span className='border-b'>{genre.name}</span>
                 {movie.genres && index !== movie.genres.length - 1 && ', '}
               </Link>
             );
           })}
         </InfoMovieCard>
       )}
-      <InfoMovieCard title="Duration">
+      <InfoMovieCard title='Duration'>
         {Math.floor(movie.duration / 60)}:{movie.duration % 60}
       </InfoMovieCard>
 
       {movie.production && (
-        <InfoMovieCard title="Production">{movie.production}</InfoMovieCard>
+        <InfoMovieCard title='Production'>{movie.production}</InfoMovieCard>
       )}
       {movie.studio && (
-        <InfoMovieCard title="Studio">{movie.studio.join(', ')}</InfoMovieCard>
+        <InfoMovieCard title='Studio'>{movie.studio.join(', ')}</InfoMovieCard>
       )}
       {movie.scenario && (
-        <InfoMovieCard title="Scenario">
+        <InfoMovieCard title='Scenario'>
           {movie.scenario.join(', ')}
         </InfoMovieCard>
       )}
       {movie.starring && (
-        <InfoMovieCard title="Starring">
+        <InfoMovieCard title='Starring'>
           {movie.starring.join(', ')}
         </InfoMovieCard>
       )}

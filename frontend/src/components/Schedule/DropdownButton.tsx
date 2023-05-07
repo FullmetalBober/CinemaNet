@@ -19,11 +19,11 @@ const DropdownButton = (props: IProps) => {
         props.afterWeek.includes(props.selectedDay) && 'bg-red-500'
       }`}
     >
-      <div className="flex items-center justify-between text-left">
+      <div className='flex items-center justify-between text-left'>
         <div>
           {props.afterWeek.includes(props.selectedDay) ? (
             <>
-              <p className="text-sm font-bold">
+              <p className='text-sm font-bold'>
                 {props.selectedDay
                   .toLocaleDateString('en-GB', {
                     day: 'numeric',
@@ -31,7 +31,7 @@ const DropdownButton = (props: IProps) => {
                   })
                   .toUpperCase()}
               </p>
-              <p className="text-[12px] text-white">
+              <p className='text-[12px] text-white'>
                 {props.selectedDay
                   .toLocaleDateString('en-GB', { weekday: 'long' })
                   .toUpperCase()}
@@ -39,8 +39,8 @@ const DropdownButton = (props: IProps) => {
             </>
           ) : (
             <>
-              <p className="text-sm font-bold">TO CHOOSE</p>
-              <TextOpacity className="text-[12px]">DAY</TextOpacity>
+              <p className='text-sm font-bold'>TO CHOOSE</p>
+              <TextOpacity className='text-[12px]'>DAY</TextOpacity>
             </>
           )}
         </div>

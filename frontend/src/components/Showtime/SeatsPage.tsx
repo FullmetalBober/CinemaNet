@@ -45,12 +45,12 @@ const SeatsPage = (props: IProps) => {
         )
       )
         seats.push(
-          <div key={col} className="group relative flex flex-col items-center">
-            <Tooltip side="bottom-full">Is this seat taken</Tooltip>
+          <div key={col} className='group relative flex flex-col items-center'>
+            <Tooltip side='bottom-full'>Is this seat taken</Tooltip>
             <ShowtimeSeatCard
               className={`${className} flex items-center justify-center bg-[#e4e4e4]/70 hover:opacity-50`}
             >
-              <RiCloseFill className="text-black" />
+              <RiCloseFill className='text-black' />
             </ShowtimeSeatCard>
           </div>
         );
@@ -62,8 +62,8 @@ const SeatsPage = (props: IProps) => {
         )
           colorNow = color;
         seats.push(
-          <div key={col} className="group relative flex flex-col items-center">
-            <Tooltip side="bottom-full">
+          <div key={col} className='group relative flex flex-col items-center'>
+            <Tooltip side='bottom-full'>
               <p>
                 {row} Row, {col + 1} Seat
               </p>
@@ -97,32 +97,32 @@ const SeatsPage = (props: IProps) => {
 
   return (
     <div>
-      <div className="my-3 flex flex-col items-center">
-        <div className="flex gap-14">
+      <div className='my-3 flex flex-col items-center'>
+        <div className='flex gap-14'>
           <ShowtimeMainPriceCard
-            title="GOOD"
+            title='GOOD'
             price={showtime.price.standard}
-            color="bg-[#95c7f4]"
+            color='bg-[#95c7f4]'
           />
           <ShowtimeMainPriceCard
-            title="SUPER LUX"
+            title='SUPER LUX'
             price={showtime.price.lux}
-            color="bg-red-500"
+            color='bg-red-500'
           />
         </div>
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 806 21"
-          fill="white"
+          xmlns='http://www.w3.org/2000/svg'
+          viewBox='0 0 806 21'
+          fill='white'
           className={`mt-4`}
           width={`${screenSize * 27}px`}
         >
-          <path d="M3.2,20l-2,0.2l-0.3-4l2-0.2C136.2,5.3,269.6,0,403,0s266.8,5.3,400.2,16l2,0.2l-0.3,4l-2-0.2 C669.5,9.3,536.3,4,403,4S136.4,9.3,3.2,20z"></path>
+          <path d='M3.2,20l-2,0.2l-0.3-4l2-0.2C136.2,5.3,269.6,0,403,0s266.8,5.3,400.2,16l2,0.2l-0.3,4l-2-0.2 C669.5,9.3,536.3,4,403,4S136.4,9.3,3.2,20z'></path>
         </svg>
-        <div className="font-semibold">SCREEN</div>
-        <div className="mt-3 flex flex-col items-center gap-1">
+        <div className='font-semibold'>SCREEN</div>
+        <div className='mt-3 flex flex-col items-center gap-1'>
           {showtime.hall.seats.standard.map((row, index) => (
-            <div key={index} className="flex gap-1.5">
+            <div key={index} className='flex gap-1.5'>
               {renderSeats(
                 row.row,
                 row.seats,
@@ -133,7 +133,7 @@ const SeatsPage = (props: IProps) => {
               )}
             </div>
           ))}
-          <div className="mt-2 flex gap-1.5">
+          <div className='mt-2 flex gap-1.5'>
             {AddEmptySeats(
               renderSeats(
                 showtime.hall.seats.standard.length + 1,

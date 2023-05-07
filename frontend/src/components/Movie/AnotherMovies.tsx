@@ -32,15 +32,15 @@ const AnotherMovies = (props: IProps) => {
   }, [movieSlug]);
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className='grid grid-cols-4 gap-4'>
       {anotherMovies.map(movie => (
         <Link
           to={`/movie/${movie.slug}`}
           key={movie._id}
-          className="w-[150px] transition duration-300 hover:text-red-500"
+          className='w-[150px] transition duration-300 hover:text-red-500'
         >
           <div
-            className="relative mb-[10px] h-[220px] w-full rounded bg-cover bg-center bg-no-repeat"
+            className='relative mb-[10px] h-[220px] w-full rounded bg-cover bg-center bg-no-repeat'
             style={{ backgroundImage: `url(${movie.imageCover})` }}
           />
           {movie.name}

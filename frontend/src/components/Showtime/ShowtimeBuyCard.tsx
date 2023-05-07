@@ -18,12 +18,12 @@ const ShowtimeBuyCard = ({ seat, handleSelectSeat }: IProps) => {
         seat.isLux ? 'border-red-500' : 'border-[#6caadf]'
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className='flex items-center justify-between'>
         <span>{seat.row} row</span>
         <span>
           {seat.col} seat <strong>{seat.isLux ? 'SUPER LUX' : 'GOOD'}</strong>
         </span>
-        <div className="flex items-center">
+        <div className='flex items-center'>
           <span>
             <small>$</small>
             <strong>{seat.price}</strong>
@@ -32,7 +32,7 @@ const ShowtimeBuyCard = ({ seat, handleSelectSeat }: IProps) => {
             onClick={() =>
               handleSelectSeat(seat.row, seat.col, seat.isLux, seat.price)
             }
-            className="ml-3 cursor-pointer rounded-full bg-[#e9e9e9] text-2xl text-black hover:bg-[#d9d9d9]"
+            className='ml-3 cursor-pointer rounded-full bg-[#e9e9e9] text-2xl text-black hover:bg-[#d9d9d9]'
           />
         </div>
       </div>

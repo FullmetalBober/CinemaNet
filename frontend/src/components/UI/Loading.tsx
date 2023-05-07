@@ -5,8 +5,8 @@ const Loading = () => {
   return (
     <UseAnimations
       animation={loading}
-      strokeColor="white"
-      className="mx-auto"
+      strokeColor='white'
+      className='mx-auto'
     />
   );
 };

@@ -10,8 +10,8 @@ interface IProps {
 
 const CitiesModal = (props: IProps) => {
   return (
-    <ScrollbarDiv className="w-1/3 overflow-y-auto bg-[#221f1f]">
-      <HeaderText className="mb-3 font-extrabold">City</HeaderText>
+    <ScrollbarDiv className='w-1/3 overflow-y-auto bg-[#221f1f]'>
+      <HeaderText className='mb-3 font-extrabold'>City</HeaderText>
 
       {props.cities.map((value, index) => (
         <TextClick
