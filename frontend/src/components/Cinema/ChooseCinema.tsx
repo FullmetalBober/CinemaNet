@@ -6,8 +6,8 @@ import { CinemaState } from '../../contexts/CinemaProvider';
 import Cookies from 'universal-cookie';
 import CitiesModal from './CitiesModal';
 import CinemasModal from './CinemasModal';
-import CloseButton from '../UI/CloseButton';
 import Loading from '../UI/Loading';
+import { RiCloseFill } from 'react-icons/ri';
 
 const ChooseCinema = () => {
   const [showCinemas, setShowCinemas] = useState<boolean>(false);
@@ -69,7 +69,10 @@ const ChooseCinema = () => {
             handleCinemaClick={handleCinemaClick}
           />
         </div>
-        <CloseButton onClick={() => setShowCinemas(false)} />
+        <RiCloseFill
+          onClick={() => setShowCinemas(false)}
+          className="fixed right-0 top-0 m-4 h-[40px] w-[40px] cursor-pointer text-black"
+        />
       </Modal>
 
       <button onClick={() => setShowCinemas(true)}>

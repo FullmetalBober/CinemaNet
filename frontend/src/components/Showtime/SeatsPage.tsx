@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { ISeat, IShowtime } from '../../Interfaces';
-import ShowtimeInfo from './ShowtimeInfo';
 import ShowtimeMainPriceCard from './ShowtimeMainPriceCard';
 import ShowtimeSeatCard from './ShowtimeSeatCard';
 import { RiCloseFill } from 'react-icons/ri';
@@ -9,7 +8,12 @@ import Tooltip from '../UI/Tooltip';
 interface IProps {
   showtime: IShowtime;
   selectedSeats: ISeat[];
-  setSelectedSeats: React.Dispatch<React.SetStateAction<ISeat[]>>;
+  handleSelectSeat: (
+    row: number,
+    col: number,
+    isLux: boolean,
+    price: number
+  ) => void;
 }
 
 const SeatsPage = (props: IProps) => {
@@ -24,20 +28,10 @@ const SeatsPage = (props: IProps) => {
     return Math.max(maxStandardSeats, maxLuxSeats);
   }, [showtime]);
 
-  const handleSelectSeat = (row: number, col: number) => {
-    props.setSelectedSeats(prevState => {
-      const index = prevState.findIndex(
-        seat => seat.row === row && seat.col === col
-      );
-      if (index === -1) return [...prevState, { row, col }];
-      else
-        return prevState.filter(seat => seat.row !== row || seat.col !== col);
-    });
-  };
-
   const renderSeats = (
     row: number,
     cols: number,
+    isLux: boolean,
     price: number,
     color: string,
     className?: string
@@ -73,10 +67,13 @@ const SeatsPage = (props: IProps) => {
               <p>
                 {row} Row, {col + 1} Seat
               </p>
-              <p>Price: ${price}</p>
+              <p>
+                Price: <small>$</small>
+                {price}
+              </p>
             </Tooltip>
             <ShowtimeSeatCard
-              onClick={() => handleSelectSeat(row, col + 1)}
+              onClick={() => props.handleSelectSeat(row, col + 1, isLux, price)}
               className={`${className} ${colorNow}`}
             />
           </div>
@@ -100,8 +97,7 @@ const SeatsPage = (props: IProps) => {
 
   return (
     <div>
-      <ShowtimeInfo showtime={showtime} />
-      <div className="flex flex-col items-center">
+      <div className="my-3 flex flex-col items-center">
         <div className="flex gap-14">
           <ShowtimeMainPriceCard
             title="GOOD"
@@ -130,8 +126,9 @@ const SeatsPage = (props: IProps) => {
               {renderSeats(
                 row.row,
                 row.seats,
+                false,
                 showtime.price.standard,
-                'bg-[#95c7f4]',
+                'bg-[#95c7f4] hover:bg-[#95c7f4]/100',
                 'border border-[#95c7f4] cursor-pointer hover:bg-[#95c7f4]/50 transition'
               )}
             </div>
@@ -141,8 +138,9 @@ const SeatsPage = (props: IProps) => {
               renderSeats(
                 showtime.hall.seats.standard.length + 1,
                 showtime.hall.seats.lux,
+                true,
                 showtime.price.lux,
-                'bg-red-500',
+                'bg-red-500 hover:bg-red-500/100',
                 'border border-red-500 cursor-pointer transition hover:bg-red-500/50'
               )
             )}

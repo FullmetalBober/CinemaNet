@@ -13,9 +13,9 @@ const ShowtimeInfo = (props: IProps) => {
   const { showtime } = props;
 
   return (
-    <div className="mt-4 flex gap-5 px-6">
+    <div className="mt-4 flex gap-5 px-4">
       <img
-        width={149}
+        width={153}
         src={showtime.movie.imageCover}
         alt={showtime.movie.name}
         className="rounded"
