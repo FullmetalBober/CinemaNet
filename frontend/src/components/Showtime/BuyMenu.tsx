@@ -1,7 +1,8 @@
-import { ISeat } from '../../Interfaces';
+import { IGoods, ISeat } from '../../Interfaces';
 import Currency from '../UI/Currency';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
 import TextOpacity from '../UI/TextOpacity';
+import BuyMenuHeader from './BuyMenuHeader';
 import ShowtimeBuyCard from './ShowtimeBuyCard';
 
 interface IProps {
@@ -14,9 +15,21 @@ interface IProps {
     isLux: boolean,
     price: number
   ) => void;
+  selectedGoods: IGoods[];
 }
 
 const BuyMenu = (props: IProps) => {
+  const priceSeats =
+    Math.round(props.seats.reduce((sum, item) => sum + item.price, 0) * 100) /
+    100;
+  const priceGoods =
+    Math.round(
+      props.selectedGoods.reduce(
+        (sum, item) => sum + item.bar.price * item.count,
+        0
+      ) * 100
+    ) / 100;
+
   const handleClickButton = () => {
     if (props.seats.length === 0) return;
     if (props.isSeatsPage) props.setIsSeatsPage(false);
@@ -25,24 +38,25 @@ const BuyMenu = (props: IProps) => {
   return (
     <div className='right-0 border-white/50 lg:fixed lg:w-[420px] lg:border-l'>
       <ScrollbarDiv className='mb-[120px] px-3 lg:mb-0 lg:h-[calc(100vh-204px)]'>
-        <div className='flex justify-between py-2'>
-          <h1 className='text-2xl'>Tickets</h1>
-          <TextOpacity>
-            {props.seats.length} tickets,{' '}
-            <Currency>
-              {Math.round(
-                props.seats.reduce((sum, item) => sum + item.price, 0) * 100
-              ) / 100}
-            </Currency>
-          </TextOpacity>
-        </div>
+        <BuyMenuHeader
+          title='Tickets'
+          count={`${props.seats.length} tickets`}
+          price={priceSeats}
+        />
         <div className='flex flex-col gap-2'>
           {props.seats.map((seat, index) => (
             <ShowtimeBuyCard key={index} seat={seat} {...props} />
           ))}
         </div>
         <div>
-          <h1 className='text-2xl'>Bar goods</h1>
+          <BuyMenuHeader
+            title='Bar goods'
+            count={`${props.selectedGoods.reduce(
+              (sum, item) => sum + item.count,
+              0
+            )} pieces`}
+            price={priceGoods}
+          />
         </div>
       </ScrollbarDiv>
       <div className='fixed bottom-0 left-0 w-full border-t border-white/50 bg-[#221f1f] p-6 text-xl lg:sticky'>
@@ -50,9 +64,7 @@ const BuyMenu = (props: IProps) => {
           <div>Total payable:</div>
           <div>
             <Currency>
-            {Math.round(
-              props.seats.reduce((sum, item) => sum + item.price, 0) * 100
-            ) / 100}
+              {Math.round((priceSeats + priceGoods) * 100) / 100}
             </Currency>
           </div>
         </div>

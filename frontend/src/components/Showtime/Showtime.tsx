@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import SeatsPage from './SeatsPage';
 import { IBar, IGoods, ISeat, IShowtime } from '../../Interfaces';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import Loading from '../UI/Loading';
 import BuyMenu from './BuyMenu';
 import ShowtimeInfo from './ShowtimeInfo';
 import NavMenu from './NavMenu';
-import Bar from './Bar';
+const Bar = lazy(() => import('./Bar'));
 
 const Showtime = () => {
   const { showtimeId } = useParams();
@@ -65,6 +65,7 @@ const Showtime = () => {
 
   const handleSelectGoods = (bar: IBar, count: number) => {
     setSelectedGoods(prevState => {
+      if (count < 0) return prevState;
       const index = prevState.findIndex(item => item.bar._id === bar._id);
       if (index === -1)
         return [
@@ -75,12 +76,13 @@ const Showtime = () => {
           },
         ];
       else {
-        prevState[index].count = count;
-        if (prevState[index].count === 0)
-          return prevState.filter(
-            item => item.bar._id !== prevState[index].bar._id
+        const updatedState = [...prevState];
+        updatedState[index].count = count;
+        if (updatedState[index].count < 1)
+          return updatedState.filter(
+            item => item.bar._id !== updatedState[index].bar._id
           );
-        return prevState;
+        return updatedState;
       }
     });
   };
@@ -103,11 +105,13 @@ const Showtime = () => {
               handleSelectSeat={handleSelectSeat}
             />
           ) : (
-            <Bar
-              goods={goods}
-              handleSelectGoods={handleSelectGoods}
-              selectedGoods={selectedGoods}
-            />
+            <Suspense fallback={<Loading />}>
+              <Bar
+                goods={goods}
+                handleSelectGoods={handleSelectGoods}
+                selectedGoods={selectedGoods}
+              />
+            </Suspense>
           )}
         </div>
         <div className='shrink-0 lg:w-[420px]'>
@@ -116,6 +120,7 @@ const Showtime = () => {
             isSeatsPage={isSeatsPage}
             setIsSeatsPage={setIsSeatsPage}
             handleSelectSeat={handleSelectSeat}
+            selectedGoods={selectedGoods}
           />
         </div>
       </div>
