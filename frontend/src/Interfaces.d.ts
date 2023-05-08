@@ -82,12 +82,7 @@ export interface ITicket {
   showtime: IShowtime;
   seats: ISeat[];
   user: IUser;
-  barOrders: [
-    {
-      bar: IBar;
-      count: number;
-    }
-  ];
+  barOrders: IGoods[];
 }
 
 export interface ISeat {
@@ -103,4 +98,9 @@ export interface IBar {
   name: string;
   imageCover: string;
   price: number;
+}
+
+export interface IGoods {
+  bar: IBar;
+  count: number;
 }

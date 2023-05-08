@@ -1,5 +1,6 @@
 import { RiCloseFill } from 'react-icons/ri';
 import { ISeat } from '../../Interfaces';
+import Currency from '../UI/Currency';
 
 interface IProps {
   seat: ISeat;
@@ -25,8 +26,9 @@ const ShowtimeBuyCard = ({ seat, handleSelectSeat }: IProps) => {
         </span>
         <div className='flex items-center'>
           <span>
-            <small>$</small>
-            <strong>{seat.price}</strong>
+            <Currency>
+              <strong>{seat.price}</strong>
+            </Currency>
           </span>
           <RiCloseFill
             onClick={() =>

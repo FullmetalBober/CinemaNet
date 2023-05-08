@@ -1,3 +1,4 @@
+import IconCard from '../UI/IconCard';
 import TextOpacity from '../UI/TextOpacity';
 
 interface IProps {
@@ -9,9 +10,7 @@ interface IProps {
 const ShowtimeInfoCard = (props: IProps) => {
   return (
     <div className='flex items-center rounded border border-white/50'>
-      <div className='flex items-center bg-white/50 p-2 text-4xl text-black'>
-        {props.icon}
-      </div>
+      <IconCard>{props.icon}</IconCard>
       <div className='ml-3 pr-4 text-center'>
         <TextOpacity className='text-sm font-medium'>
           {props.header}

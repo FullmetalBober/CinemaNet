@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SeatsPage from './SeatsPage';
-import { IBar, ISeat, IShowtime } from '../../Interfaces';
+import { IBar, IGoods, ISeat, IShowtime } from '../../Interfaces';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Loading from '../UI/Loading';
@@ -15,6 +15,7 @@ const Showtime = () => {
   const [isSeatsPage, setIsSeatsPage] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState<ISeat[]>([]);
   const [goods, setGoods] = useState<IBar[]>([]);
+  const [selectedGoods, setSelectedGoods] = useState<IGoods[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -62,6 +63,28 @@ const Showtime = () => {
     });
   };
 
+  const handleSelectGoods = (bar: IBar, count: number) => {
+    setSelectedGoods(prevState => {
+      const index = prevState.findIndex(item => item.bar._id === bar._id);
+      if (index === -1)
+        return [
+          ...prevState,
+          {
+            bar,
+            count,
+          },
+        ];
+      else {
+        prevState[index].count = count;
+        if (prevState[index].count === 0)
+          return prevState.filter(
+            item => item.bar._id !== prevState[index].bar._id
+          );
+        return prevState;
+      }
+    });
+  };
+
   if (!showtime) return <Loading />;
   return (
     <>
@@ -80,7 +103,11 @@ const Showtime = () => {
               handleSelectSeat={handleSelectSeat}
             />
           ) : (
-            <Bar goods={goods} />
+            <Bar
+              goods={goods}
+              handleSelectGoods={handleSelectGoods}
+              selectedGoods={selectedGoods}
+            />
           )}
         </div>
         <div className='shrink-0 lg:w-[420px]'>

@@ -1,4 +1,5 @@
 import { ISeat } from '../../Interfaces';
+import Currency from '../UI/Currency';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
 import TextOpacity from '../UI/TextOpacity';
 import ShowtimeBuyCard from './ShowtimeBuyCard';
@@ -27,10 +28,12 @@ const BuyMenu = (props: IProps) => {
         <div className='flex justify-between py-2'>
           <h1 className='text-2xl'>Tickets</h1>
           <TextOpacity>
-            {props.seats.length} tickets, <small>$</small>
-            {Math.round(
-              props.seats.reduce((sum, item) => sum + item.price, 0) * 100
-            ) / 100}
+            {props.seats.length} tickets,{' '}
+            <Currency>
+              {Math.round(
+                props.seats.reduce((sum, item) => sum + item.price, 0) * 100
+              ) / 100}
+            </Currency>
           </TextOpacity>
         </div>
         <div className='flex flex-col gap-2'>
@@ -46,10 +49,11 @@ const BuyMenu = (props: IProps) => {
         <div className='flex justify-between'>
           <div>Total payable:</div>
           <div>
-            <small>$</small>
+            <Currency>
             {Math.round(
               props.seats.reduce((sum, item) => sum + item.price, 0) * 100
             ) / 100}
+            </Currency>
           </div>
         </div>
         <button

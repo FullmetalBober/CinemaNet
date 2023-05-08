@@ -4,6 +4,7 @@ import ShowtimeMainPriceCard from './ShowtimeMainPriceCard';
 import ShowtimeSeatCard from './ShowtimeSeatCard';
 import { RiCloseFill } from 'react-icons/ri';
 import Tooltip from '../UI/Tooltip';
+import Currency from '../UI/Currency';
 
 interface IProps {
   showtime: IShowtime;
@@ -68,8 +69,7 @@ const SeatsPage = (props: IProps) => {
                 {row} Row, {col + 1} Seat
               </p>
               <p>
-                Price: <small>$</small>
-                {price}
+                Price: <Currency>{price}</Currency>
               </p>
             </Tooltip>
             <ShowtimeSeatCard

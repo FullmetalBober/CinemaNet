@@ -1,3 +1,4 @@
+import Currency from '../UI/Currency';
 import ShowtimeSeatCard from './ShowtimeSeatCard';
 
 interface IProps {
@@ -13,8 +14,7 @@ const ShowtimeMainPriceCard = (props: IProps) => {
       <div className='flex flex-col text-sm/4 font-semibold'>
         <span>{props.title}</span>
         <span>
-          - <small>$</small>
-          {props.price}
+          - <Currency>{props.price}</Currency>
         </span>
       </div>
     </div>

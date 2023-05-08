@@ -1,5 +1,6 @@
+import { lazy } from 'react';
 import { CinemaState } from '../../contexts/CinemaProvider';
-import Map from './Map';
+const Map = lazy(() => import('./Map'));
 
 const BottomSchedule = () => {
   const { cinema } = CinemaState();

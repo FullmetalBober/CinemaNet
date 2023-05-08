@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { IShowtime } from '../../Interfaces';
 import { useEffect, useState } from 'react';
 import Tooltip from '../UI/Tooltip';
+import Currency from '../UI/Currency';
 
 interface IProps {
   showtimes?: IShowtime[];
@@ -87,8 +88,7 @@ const ShowtimeSchedule = (props: IProps) => {
                     >
                       <span>{`${hourString}:${minuteString}`}</span>
                       <Tooltip side='top-full'>
-                        from <small>$</small>
-                        {time.price}
+                        from <Currency>{time.price}</Currency>
                       </Tooltip>
                     </Link>
                   );
