@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Loading from '../UI/Loading';
 import BuyMenu from './BuyMenu';
 import ShowtimeInfo from './ShowtimeInfo';
+import NavMenu from './NavMenu';
 
 const Showtime = () => {
   const { showtimeId } = useParams();
@@ -35,35 +36,43 @@ const Showtime = () => {
         seat => seat.row === row && seat.col === col
       );
       if (index === -1) return [...prevState, { row, col, isLux, price }];
-      else
+      else {
+        const filteredSeats = prevState.filter(
+          seat => seat.row !== row || seat.col !== col
+        );
+        if (filteredSeats.length === 0) setIsSeatsPage(true);
         return prevState.filter(seat => seat.row !== row || seat.col !== col);
+      }
     });
   };
 
   if (!showtime) return <Loading />;
   return (
-    <div className='m-3 flex flex-col justify-between lg:flex-row'>
-      <div className='flex-grow'>
-        <ShowtimeInfo showtime={showtime} />
-        {isSeatsPage ? (
-          <SeatsPage
-            showtime={showtime}
-            selectedSeats={selectedSeats}
+    <>
+      <NavMenu selectedSeats={selectedSeats} isSeatsPage={isSeatsPage} setIsSeatsPage={setIsSeatsPage} />
+      <div className='m-3 flex flex-col justify-between lg:flex-row'>
+        <div className='flex-grow'>
+          <ShowtimeInfo showtime={showtime} />
+          {isSeatsPage ? (
+            <SeatsPage
+              showtime={showtime}
+              selectedSeats={selectedSeats}
+              handleSelectSeat={handleSelectSeat}
+            />
+          ) : (
+            <div>BAR</div>
+          )}
+        </div>
+        <div className='lg:w-[445px]'>
+          <BuyMenu
+            seats={selectedSeats}
+            isSeatsPage={isSeatsPage}
+            setIsSeatsPage={setIsSeatsPage}
             handleSelectSeat={handleSelectSeat}
           />
-        ) : (
-          <div>BAR</div>
-        )}
+        </div>
       </div>
-      <div className='lg:w-[445px]'>
-        <BuyMenu
-          seats={selectedSeats}
-          isSeatsPage={isSeatsPage}
-          setIsSeatsPage={setIsSeatsPage}
-          handleSelectSeat={handleSelectSeat}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 
