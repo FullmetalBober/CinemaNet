@@ -96,55 +96,53 @@ const SeatsPage = (props: IProps) => {
   };
 
   return (
-    <div>
-      <div className='my-3 flex flex-col items-center'>
-        <div className='flex gap-14'>
-          <ShowtimeMainPriceCard
-            title='GOOD'
-            price={showtime.price.standard}
-            color='bg-[#95c7f4]'
-          />
-          <ShowtimeMainPriceCard
-            title='SUPER LUX'
-            price={showtime.price.lux}
-            color='bg-red-500'
-          />
-        </div>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          viewBox='0 0 806 21'
-          fill='white'
-          className={`mt-4`}
-          width={`${screenSize * 27}px`}
-        >
-          <path d='M3.2,20l-2,0.2l-0.3-4l2-0.2C136.2,5.3,269.6,0,403,0s266.8,5.3,400.2,16l2,0.2l-0.3,4l-2-0.2 C669.5,9.3,536.3,4,403,4S136.4,9.3,3.2,20z'></path>
-        </svg>
-        <div className='font-semibold'>SCREEN</div>
-        <div className='mt-3 flex flex-col items-center gap-1'>
-          {showtime.hall.seats.standard.map((row, index) => (
-            <div key={index} className='flex gap-1.5'>
-              {renderSeats(
-                row.row,
-                row.seats,
-                false,
-                showtime.price.standard,
-                'bg-[#95c7f4] hover:bg-[#95c7f4]/100',
-                'border border-[#95c7f4] cursor-pointer hover:bg-[#95c7f4]/50 transition'
-              )}
-            </div>
-          ))}
-          <div className='mt-2 flex gap-1.5'>
-            {AddEmptySeats(
-              renderSeats(
-                showtime.hall.seats.standard.length + 1,
-                showtime.hall.seats.lux,
-                true,
-                showtime.price.lux,
-                'bg-red-500 hover:bg-red-500/100',
-                'border border-red-500 cursor-pointer transition hover:bg-red-500/50'
-              )
+    <div className='my-3 flex flex-col items-center'>
+      <div className='flex gap-14'>
+        <ShowtimeMainPriceCard
+          title='GOOD'
+          price={showtime.price.standard}
+          color='bg-[#95c7f4]'
+        />
+        <ShowtimeMainPriceCard
+          title='SUPER LUX'
+          price={showtime.price.lux}
+          color='bg-red-500'
+        />
+      </div>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        viewBox='0 0 806 21'
+        fill='white'
+        className={`mt-4`}
+        width={`${screenSize * 27}px`}
+      >
+        <path d='M3.2,20l-2,0.2l-0.3-4l2-0.2C136.2,5.3,269.6,0,403,0s266.8,5.3,400.2,16l2,0.2l-0.3,4l-2-0.2 C669.5,9.3,536.3,4,403,4S136.4,9.3,3.2,20z'></path>
+      </svg>
+      <div className='font-semibold'>SCREEN</div>
+      <div className='mt-3 flex flex-col items-center gap-1'>
+        {showtime.hall.seats.standard.map((row, index) => (
+          <div key={index} className='flex gap-1.5'>
+            {renderSeats(
+              row.row,
+              row.seats,
+              false,
+              showtime.price.standard,
+              'bg-[#95c7f4] hover:!bg-[#95c7f4]/100',
+              'border border-[#95c7f4] cursor-pointer hover:bg-[#95c7f4]/50 transition'
             )}
           </div>
+        ))}
+        <div className='mt-2 flex gap-1.5'>
+          {AddEmptySeats(
+            renderSeats(
+              showtime.hall.seats.standard.length + 1,
+              showtime.hall.seats.lux,
+              true,
+              showtime.price.lux,
+              'bg-red-500 hover:!bg-red-500/100',
+              'border border-red-500 cursor-pointer transition hover:bg-red-500/50'
+            )
+          )}
         </div>
       </div>
     </div>

@@ -9,17 +9,18 @@ const barSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Bar must have a name'],
-    unique: true,
   },
   imageCover: {
     type: String,
-    default: 'default.jpg'
+    default: '/images/bar/default.png',
   },
   price: {
     type: Number,
     required: [true, 'Bar must have a price'],
   },
 });
+
+barSchema.index({ name: 1, cinema: 1 }, { unique: true });
 
 const Bar = mongoose.model('Bar', barSchema);
 

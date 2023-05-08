@@ -10,7 +10,7 @@ const genreSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      default: 'default.jpg'
+      default: '/images/genre/default.jpg'
     },
     description: {
       type: String,

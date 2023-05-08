@@ -9,7 +9,7 @@ const cinemaSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      default: 'images/cinema/cinema.jpg',
+      default: '/images/cinema/default.jpg',
     },
     location: {
       type: {

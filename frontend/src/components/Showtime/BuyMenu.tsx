@@ -22,7 +22,7 @@ const BuyMenu = (props: IProps) => {
   };
 
   return (
-    <div className='right-0 border-white/50 lg:fixed lg:w-[445px] lg:border-l'>
+    <div className='right-0 border-white/50 lg:fixed lg:w-[420px] lg:border-l'>
       <ScrollbarDiv className='mb-[120px] px-3 lg:mb-0 lg:h-[calc(100vh-204px)]'>
         <div className='flex justify-between py-2'>
           <h1 className='text-2xl'>Tickets</h1>

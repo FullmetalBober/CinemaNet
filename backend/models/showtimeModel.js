@@ -26,7 +26,7 @@ const showtimeSchema = new mongoose.Schema(
 );
 
 showtimeSchema.index(
-  { hall: 1, 'time.start': 1, 'time.end': 1 },
+  { hall: 1, 'time.start': 1 },
   { unique: true }
 );
 

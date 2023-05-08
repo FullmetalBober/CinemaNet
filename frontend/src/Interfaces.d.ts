@@ -96,3 +96,11 @@ export interface ISeat {
   isLux: boolean;
   price: number;
 }
+
+export interface IBar {
+  _id: string;
+  cinema: string;
+  name: string;
+  imageCover: string;
+  price: number;
+}

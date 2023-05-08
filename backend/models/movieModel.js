@@ -14,7 +14,7 @@ const movieSchema = new mongoose.Schema({
   },
   imageCover: {
     type: String,
-    default: 'images/movie/movie.jpg',
+    default: '/images/movie/default.jpg',
   },
   trailer: {
     type: String,
