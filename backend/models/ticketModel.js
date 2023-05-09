@@ -50,7 +50,7 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.index(
-  { showtime: 1, 'seat.col': 1, 'seat.row': 1 },
+  { showtime: 1, 'seats.col': 1, 'seats.row': 1 },
   { unique: true }
 );
 
