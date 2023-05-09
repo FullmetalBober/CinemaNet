@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className='flex items-center justify-between px-7'>
         <div className='flex items-center'>
           <NavLink to='/' className=''>
-            <img width={104} src='/logo.png' alt='CinemaNet' />
+            <img width={104} height={60} src='/logo.png' alt='CinemaNet' />
           </NavLink>
           <div id='nav-hook' />
         </div>

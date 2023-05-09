@@ -121,6 +121,7 @@ const Showtime = () => {
             setIsSeatsPage={setIsSeatsPage}
             handleSelectSeat={handleSelectSeat}
             selectedGoods={selectedGoods}
+            handleSelectGoods={handleSelectGoods}
           />
         </div>
       </div>

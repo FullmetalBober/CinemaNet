@@ -1,43 +1,14 @@
-import { RiCloseFill } from 'react-icons/ri';
-import { ISeat } from '../../Interfaces';
-import Currency from '../UI/Currency';
-
 interface IProps {
-  seat: ISeat;
-  handleSelectSeat: (
-    row: number,
-    col: number,
-    isLux: boolean,
-    price: number
-  ) => void;
+  className?: string;
+  children: React.ReactNode;
 }
 
-const ShowtimeBuyCard = ({ seat, handleSelectSeat }: IProps) => {
+const ShowtimeBuyCard = (props: IProps) => {
   return (
     <div
-      className={`rounded border p-4 ${
-        seat.isLux ? 'border-red-500' : 'border-[#6caadf]'
-      }`}
+      className={`flex items-center justify-between rounded border p-4 ${props.className}`}
     >
-      <div className='flex items-center justify-between'>
-        <span>{seat.row} row</span>
-        <span>
-          {seat.col} seat <strong>{seat.isLux ? 'SUPER LUX' : 'GOOD'}</strong>
-        </span>
-        <div className='flex items-center'>
-          <span>
-            <Currency>
-              <strong>{seat.price}</strong>
-            </Currency>
-          </span>
-          <RiCloseFill
-            onClick={() =>
-              handleSelectSeat(seat.row, seat.col, seat.isLux, seat.price)
-            }
-            className='ml-3 cursor-pointer rounded-full bg-[#e9e9e9] text-2xl text-black hover:bg-[#d9d9d9]'
-          />
-        </div>
-      </div>
+      {props.children}
     </div>
   );
 };

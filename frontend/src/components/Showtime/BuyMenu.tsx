@@ -1,9 +1,10 @@
-import { IGoods, ISeat } from '../../Interfaces';
+import { RiCloseFill } from 'react-icons/ri';
+import { IBar, IGoods, ISeat } from '../../Interfaces';
 import Currency from '../UI/Currency';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
-import TextOpacity from '../UI/TextOpacity';
 import BuyMenuHeader from './BuyMenuHeader';
-import ShowtimeBuyCard from './ShowtimeBuyCard';
+import ShowtimeBuySeatCard from './ShowtimeBuySeatCard';
+import ShowtimeBuyGoodsCard from './ShowtimeBuyGoodsCard';
 
 interface IProps {
   seats: ISeat[];
@@ -16,6 +17,7 @@ interface IProps {
     price: number
   ) => void;
   selectedGoods: IGoods[];
+  handleSelectGoods: (goods: IBar, count: number) => void;
 }
 
 const BuyMenu = (props: IProps) => {
@@ -45,7 +47,7 @@ const BuyMenu = (props: IProps) => {
         />
         <div className='flex flex-col gap-2'>
           {props.seats.map((seat, index) => (
-            <ShowtimeBuyCard key={index} seat={seat} {...props} />
+            <ShowtimeBuySeatCard key={index} seat={seat} {...props} />
           ))}
         </div>
         <div>
@@ -54,9 +56,14 @@ const BuyMenu = (props: IProps) => {
             count={`${props.selectedGoods.reduce(
               (sum, item) => sum + item.count,
               0
-            )} pieces`}
+            )} pcs`}
             price={priceGoods}
           />
+          <div className='flex flex-col gap-2'>
+            {props.selectedGoods.map((goods, index) => (
+              <ShowtimeBuyGoodsCard key={index} goods={goods} {...props} />
+            ))}
+          </div>
         </div>
       </ScrollbarDiv>
       <div className='fixed bottom-0 left-0 w-full border-t border-white/50 bg-[#221f1f] p-6 text-xl lg:sticky'>

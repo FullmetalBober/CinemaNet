@@ -10,7 +10,7 @@ interface IProps {
 
 const BuyMenuHeader = (props: IProps) => {
   return (
-    <div className='flex justify-between py-2'>
+    <div className='flex items-center justify-between py-2'>
       <h1 className='text-2xl'>{props.title}</h1>
       <TextOpacity>
         {props.count}, <Currency>{props.price}</Currency>

@@ -12,13 +12,6 @@ interface IProps {
 }
 
 const Bar = (props: IProps) => {
-  // const handleButtonClick = (goods: IBar, count: number) => {
-  //   let selectedCount =
-  //     props.selectedGoods.find(item => item.bar._id === goods._id)?.count || 0;
-  //   if (selectedCount + count < 0) return;
-  //   props.handleSelectGoods(goods, selectedCount + count);
-  // };
-
   return (
     <div className='p-3'>
       <h1 className='py-3 text-xl font-semibold'>
