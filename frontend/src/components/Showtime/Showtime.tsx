@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import Loading from '../UI/Loading';
 import BuyMenu from './BuyMenu';
 import ShowtimeInfo from './ShowtimeInfo';
-import NavMenu from './NavMenu';
+import NavBuyMenu from './NavBuyMenu';
 const Bar = lazy(() => import('./Bar'));
 
 const Showtime = () => {
@@ -90,7 +90,7 @@ const Showtime = () => {
   if (!showtime) return <Loading />;
   return (
     <>
-      <NavMenu
+      <NavBuyMenu
         selectedSeats={selectedSeats}
         isSeatsPage={isSeatsPage}
         setIsSeatsPage={setIsSeatsPage}

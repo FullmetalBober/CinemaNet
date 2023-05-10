@@ -4,6 +4,7 @@ import ChooseCinema from '../Cinema/ChooseCinema';
 import ArrowDown from '../UI/ArrowDown';
 import { useState } from 'react';
 import { BsPersonFill } from 'react-icons/bs';
+import Loading from '../UI/Loading';
 
 const NavContent = () => {
   const [hoverChooseCinema, setHoverChooseCinema] = useState<boolean>(false);
@@ -19,7 +20,11 @@ const NavContent = () => {
           className='cursor-pointer'
         >
           <ChooseCinema className='flex items-center gap-2'>
-            {cinema.location.city}, {cinema.name}
+            {cinema.name.length > 0 ? (
+              `${cinema.location.city}, ${cinema.name}`
+            ) : (
+              <Loading />
+            )}
             <ArrowDown
               className={`${hoverChooseCinema ? '!bg-red-500' : ''}`}
             />

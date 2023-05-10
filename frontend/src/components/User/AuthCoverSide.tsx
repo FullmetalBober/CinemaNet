@@ -1,12 +1,13 @@
-import TextOpacity from "../UI/TextOpacity";
+import TextOpacity from '../UI/TextOpacity';
 
-const AuthCover = () => {
+const AuthCoverSide = () => {
   return (
     <>
       <img
         className='w-full max-w-[350px]'
         src='/images/bar/default.png'
         alt='popcorn'
+        loading='lazy'
       />
       <h1 className='text-4xl font-semibold'>No need to download or print!</h1>
       <TextOpacity className='text-lg'>
@@ -17,4 +18,4 @@ const AuthCover = () => {
   );
 };
 
-export default AuthCover;
+export default AuthCoverSide;

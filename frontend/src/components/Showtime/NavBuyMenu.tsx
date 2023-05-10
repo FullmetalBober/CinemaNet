@@ -9,7 +9,7 @@ interface IProps {
   setIsSeatsPage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavMenu = (props: IProps) => {
+const NavBuyMenu = (props: IProps) => {
   return createPortal(
     <div className='ml-4 flex items-center gap-2'>
       <div>
@@ -38,4 +38,4 @@ const NavMenu = (props: IProps) => {
   );
 };
 
-export default NavMenu;
+export default NavBuyMenu;
