@@ -95,7 +95,7 @@ const Showtime = () => {
         isSeatsPage={isSeatsPage}
         setIsSeatsPage={setIsSeatsPage}
       />
-      <div className='m-3 flex flex-col justify-between lg:flex-row'>
+      <main className='m-3 flex flex-col justify-between lg:flex-row'>
         <div className='flex-grow'>
           <ShowtimeInfo showtime={showtime} />
           {isSeatsPage ? (
@@ -124,7 +124,7 @@ const Showtime = () => {
             handleSelectGoods={handleSelectGoods}
           />
         </div>
-      </div>
+      </main>
     </>
   );
 };

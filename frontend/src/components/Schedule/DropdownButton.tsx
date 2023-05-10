@@ -16,7 +16,7 @@ const DropdownButton = (props: IProps) => {
       onMouseLeave={() => props.setIsHover(false)}
       onClick={() => props.setIsClicked(true)}
       className={`cursor-pointer rounded border border-white/10 px-4 py-2 text-center duration-200 hover:border-white ${
-        props.afterWeek.includes(props.selectedDay) && 'bg-red-500'
+        props.afterWeek.includes(props.selectedDay) && 'bg-red-600'
       }`}
     >
       <div className='flex items-center justify-between text-left'>

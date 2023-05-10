@@ -11,7 +11,7 @@ const DayCard = (props: IProps) => {
   return (
     <div
       className={`mr-1 flex-1 cursor-pointer rounded border border-white/10 py-2 text-center duration-200 hover:border-white ${
-        props.selectedDay === props.day && 'bg-red-500'
+        props.selectedDay === props.day && 'bg-red-600'
       }`}
       onClick={() => props.handleDayClick(props.day)}
     >

@@ -75,7 +75,7 @@ const Schedule = () => {
 
   return (
     <>
-      <div className='mx-auto mb-7 mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9'>
+      <main className='mx-auto mb-7 mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9'>
         <ImageCover />
         <DatesSchedule
           days={days}
@@ -92,7 +92,7 @@ const Schedule = () => {
           showtimes={showtimesSelectedDay}
         />
         <BottomSchedule />
-      </div>
+      </main>
       <Footer />
     </>
   );

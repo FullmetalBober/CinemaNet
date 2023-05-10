@@ -26,7 +26,7 @@ const NavContent = () => {
           </ChooseCinema>
         </div>
         <Link
-          to='/login'
+          to='/auth'
           className='flex items-center gap-2'
           onMouseOver={() => setHoverSignIn(true)}
           onMouseOut={() => setHoverSignIn(false)}

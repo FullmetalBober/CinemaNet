@@ -27,12 +27,10 @@ const Movie = () => {
   if (showTrailer)
     return <TrailerMovie movie={movie} setShowTrailer={setShowTrailer} />;
   return (
-    <>
-      <div className='mx-auto mb-7 mt-7 flex gap-4 lg:max-w-screen-xl lg:px-9'>
-        <LeftSideMovie movie={movie} setShowTrailer={setShowTrailer} />
-        <CenterSideMovie movie={movie} />
-      </div>
-    </>
+    <main className='mx-auto mb-7 mt-7 flex gap-4 lg:max-w-screen-xl lg:px-9'>
+      <LeftSideMovie movie={movie} setShowTrailer={setShowTrailer} />
+      <CenterSideMovie movie={movie} />
+    </main>
   );
 };
 

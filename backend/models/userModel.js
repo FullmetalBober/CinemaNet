@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'User must have a name'],
+    trim: true,
   },
   email: {
     type: String,
@@ -14,7 +15,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    immutable: true,
+    // immutable: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
