@@ -1,14 +1,44 @@
+import { Link } from 'react-router-dom';
+import { CinemaState } from '../../contexts/CinemaProvider';
 import ChooseCinema from '../Cinema/ChooseCinema';
+import ArrowDown from '../UI/ArrowDown';
+import { useState } from 'react';
+import { BsPersonFill } from 'react-icons/bs';
 
 const NavContent = () => {
+  const [hoverChooseCinema, setHoverChooseCinema] = useState<boolean>(false);
+  const [hoverSignIn, setHoverSignIn] = useState<boolean>(false);
+  const { cinema } = CinemaState();
   return (
     <div className='block w-auto'>
-      <ul className='mt-0 flex space-x-8 p-0 font-semibold'>
-        <li>
-          <ChooseCinema />
-        </li>
-        <li></li>
-      </ul>
+      <div className='flex items-center justify-between divide-x-2 divide-white/30 text-lg font-semibold child:px-3'>
+        <div
+          onMouseOver={() => setHoverChooseCinema(true)}
+          onMouseOut={() => setHoverChooseCinema(false)}
+          onClick={() => setTimeout(() => setHoverChooseCinema(false), 500)}
+          className='cursor-pointer'
+        >
+          <ChooseCinema className='flex items-center gap-2'>
+            {cinema.location.city}, {cinema.name}
+            <ArrowDown
+              className={`${hoverChooseCinema ? '!bg-red-500' : ''}`}
+            />
+          </ChooseCinema>
+        </div>
+        <Link
+          to='/login'
+          className='flex items-center gap-2'
+          onMouseOver={() => setHoverSignIn(true)}
+          onMouseOut={() => setHoverSignIn(false)}
+        >
+          Sign in
+          <BsPersonFill
+            className={`hover:bg-red-500' flex cursor-pointer items-center rounded-full bg-white/20 p-1 text-3xl ${
+              hoverSignIn ? '!bg-red-500' : ''
+            }`}
+          />
+        </Link>
+      </div>
     </div>
   );
 };

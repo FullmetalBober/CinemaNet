@@ -33,7 +33,7 @@ const Map = () => {
       }}
       mapContainerClassName='h-96 w-full'
     >
-      <MarkerF position={center} title={'qwe'} />
+      <MarkerF position={center} title={cinema.name} />
     </GoogleMap>
   );
 };

@@ -1,5 +1,5 @@
-import { IoIosArrowDropdownCircle } from 'react-icons/io';
 import TextOpacity from '../UI/TextOpacity';
+import ArrowDown from '../UI/ArrowDown';
 
 interface IProps {
   selectedDay: Date;
@@ -44,11 +44,10 @@ const DropdownButton = (props: IProps) => {
             </>
           )}
         </div>
-        <IoIosArrowDropdownCircle
-          className={`text-4xl ${
-            props.isHover ? 'text-red-500' : 'text-white/50'
-          } ${props.afterWeek.includes(props.selectedDay) && 'text-white/100'}
-            }`}
+        <ArrowDown
+          active={props.afterWeek.includes(props.selectedDay)}
+          className={`${props.isHover ? '!bg-red-500' : null}
+            `}
         />
       </div>
     </div>

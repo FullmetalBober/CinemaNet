@@ -6,10 +6,14 @@ import { CinemaState } from '../../contexts/CinemaProvider';
 import Cookies from 'universal-cookie';
 import CitiesModal from './CitiesModal';
 import CinemasModal from './CinemasModal';
-import Loading from '../UI/Loading';
 import { RiCloseFill } from 'react-icons/ri';
 
-const ChooseCinema = () => {
+interface IProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const ChooseCinema = ({ children, className }: IProps) => {
   const [showCinemas, setShowCinemas] = useState<boolean>(false);
   const [cinemas, setCinemas] = useState<ICinema[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -24,7 +28,9 @@ const ChooseCinema = () => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get('/api/v1/cinemas?sort=location.city&sort=name');
+        const response = await axios.get(
+          '/api/v1/cinemas?sort=location.city&sort=name'
+        );
         setCinemas(response.data.data.data);
       } catch (error) {
         console.error(error);
@@ -75,14 +81,8 @@ const ChooseCinema = () => {
         />
       </Modal>
 
-      <button onClick={() => setShowCinemas(true)}>
-        {cinema._id === '' ? (
-          <Loading />
-        ) : (
-          <>
-            {cinema.location.city}, {cinema.name}
-          </>
-        )}
+      <button onClick={() => setShowCinemas(true)} className={className}>
+        {children}
       </button>
     </>
   );
