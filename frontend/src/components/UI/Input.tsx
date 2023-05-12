@@ -1,6 +1,5 @@
 import { validate } from '../../util/validators';
 import { useReducer, Reducer, useEffect } from 'react';
-import Tooltip from './Tooltip';
 
 interface IProps {
   type: string;
@@ -110,7 +109,7 @@ const Input = (props: IProps) => {
     );
 
   return (
-    <div className='group relative flex flex-col items-center'>
+    <div className='group relative mb-3 flex flex-col items-center'>
       {element}
       <label
         htmlFor={props.id}
@@ -121,7 +120,7 @@ const Input = (props: IProps) => {
         {props.label}
       </label>
       {inputState.isTouched && !inputState.isValid && (
-        <p className='absolute -bottom-6 left-2 text-left text-sm text-red-600'>
+        <p className='absolute right-0 top-0 text-left text-sm text-red-600'>
           {props.errorText}
         </p>
       )}

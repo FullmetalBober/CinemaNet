@@ -26,7 +26,7 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          name: {
+          email: {
             value: '',
             isValid: false,
           },
@@ -73,7 +73,11 @@ const Auth = () => {
           isLoginMode={isLoginMode}
           setIsLoginMode={setIsLoginMode}
         />
-        {isLoginMode ? <LoginMode /> : <RegistrationMode />}
+        {isLoginMode ? (
+          <LoginMode inputHandler={inputHandler} formState={formState} />
+        ) : (
+          <RegistrationMode />
+        )}
       </div>
       <div className='m-auto hidden flex-[1.2] flex-col items-center text-center md:flex'>
         <AuthCoverSide />

@@ -5,6 +5,7 @@ import ScrollbarDiv from '../UI/ScrollbarDiv';
 import BuyMenuHeader from './BuyMenuHeader';
 import ShowtimeBuySeatCard from './ShowtimeBuySeatCard';
 import ShowtimeBuyGoodsCard from './ShowtimeBuyGoodsCard';
+import Button from '../UI/Button';
 
 interface IProps {
   seats: ISeat[];
@@ -75,16 +76,9 @@ const BuyMenu = (props: IProps) => {
             </Currency>
           </div>
         </div>
-        <button
-          onClick={handleClickButton}
-          className={`mt-2 w-full rounded bg-red-500 py-2 text-white transition ${
-            props.seats.length === 0
-              ? 'cursor-not-allowed opacity-50'
-              : 'hover:bg-red-700'
-          }`}
-        >
+        <Button onClick={handleClickButton} disabled={props.seats.length === 0}>
           Continue
-        </button>
+        </Button>
       </div>
     </div>
   );

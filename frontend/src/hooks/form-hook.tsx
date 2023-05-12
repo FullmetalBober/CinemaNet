@@ -1,6 +1,6 @@
 import { useReducer, Reducer, useCallback } from 'react';
 
-interface InputData {
+export interface InputData {
   [key: string]: {
     value: string;
     isValid: boolean;
