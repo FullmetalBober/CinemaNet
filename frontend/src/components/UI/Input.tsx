@@ -1,4 +1,4 @@
-import { validate } from '../../util/validators';
+import { validate } from '../../utils/validators';
 import { useReducer, Reducer, useEffect } from 'react';
 
 interface IProps {

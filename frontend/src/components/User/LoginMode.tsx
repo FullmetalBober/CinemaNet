@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { InputData } from '../../hooks/form-hook';
-import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../util/validators';
+import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../utils/validators';
 import Button from '../UI/Button';
 import Input from '../UI/Input';
 import TextOpacity from '../UI/TextOpacity';
 import { UserState } from '../../contexts/UserProvider';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Loading from '../UI/Loading';
 
 interface IProps {
   inputHandler?: (id: string, value: string, isValid: boolean) => void;
@@ -15,11 +18,14 @@ interface IProps {
 }
 
 const LoginPage = ({ inputHandler, formState }: IProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { setUser } = UserState();
+  const navigate = useNavigate();
 
   const authSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
+      setIsLoading(true);
       try {
         const data = {
           email: formState.inputs.email.value,
@@ -27,9 +33,11 @@ const LoginPage = ({ inputHandler, formState }: IProps) => {
         };
         const responds = await axios.post('/api/v1/users/login', data);
         setUser(responds.data.data.user);
+        navigate('/');
       } catch (err) {
         console.log(err);
       }
+      setIsLoading(false);
     })();
   };
 
@@ -60,7 +68,9 @@ const LoginPage = ({ inputHandler, formState }: IProps) => {
           autoComplete='off'
           onInput={inputHandler}
         />
-        <Button disabled={!formState.isValid}>Login</Button>
+        <Button disabled={!formState.isValid || isLoading}>
+          {isLoading ? <Loading size={28} /> : 'Login'}
+        </Button>
       </form>
     </>
   );

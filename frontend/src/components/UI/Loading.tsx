@@ -1,12 +1,17 @@
 import UseAnimations from 'react-useanimations';
 import loading from 'react-useanimations/lib/loading';
 
-const Loading = () => {
+interface IProps {
+  size?: number;
+}
+
+const Loading = ({ size }: IProps) => {
   return (
     <UseAnimations
       animation={loading}
       strokeColor='white'
-      className='mx-auto'
+      size={size}
+      className='border-box mx-auto'
     />
   );
 };

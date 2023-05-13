@@ -7,8 +7,11 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_EQUAL,
   VALIDATOR_REQUIRE,
-} from '../../util/validators';
+} from '../../utils/validators';
 import Button from '../UI/Button';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Loading from '../UI/Loading';
 
 interface IProps {
   inputHandler?: (id: string, value: string, isValid: boolean) => void;
@@ -19,11 +22,14 @@ interface IProps {
 }
 
 const RegistrationPage = ({ inputHandler, formState }: IProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { setUser } = UserState();
+  const navigate = useNavigate();
 
   const authSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
+      setIsLoading(true);
       try {
         const data = {
           name: formState.inputs.name.value,
@@ -33,9 +39,11 @@ const RegistrationPage = ({ inputHandler, formState }: IProps) => {
         };
         const responds = await axios.post('/api/v1/users/signup', data);
         setUser(responds.data.data.user);
+        navigate('/');
       } catch (err) {
         console.log(err);
       }
+      setIsLoading(false);
     })();
   };
 
@@ -89,7 +97,9 @@ const RegistrationPage = ({ inputHandler, formState }: IProps) => {
           autoComplete='off'
           onInput={inputHandler}
         />
-        <Button disabled={!formState.isValid}>Login</Button>
+        <Button disabled={!formState.isValid || isLoading}>
+          {isLoading ? <Loading size={28} /> : 'Register'}
+        </Button>
       </form>
     </>
   );

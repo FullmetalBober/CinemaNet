@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/react';
 import Showtime from './components/Showtime/Showtime';
 import Auth from './components/User/Auth';
 import Providers from './contexts/Providers';
+import PrivateWrapper from './components/utils/PrivateWrapper';
 import './App.css';
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
           <Route path='movie/:movieSlug' element={<Movie />} />
           <Route path='showtime/:showtimeId' element={<Showtime />} />
           <Route path='auth' element={<Auth />} />
+          <Route element={<PrivateWrapper />}>
+            <Route path='me' element={<h1>Me</h1>} />
+          </Route>
           <Route path='*' element={<h1>404</h1>} />
         </Routes>
       </Providers>
