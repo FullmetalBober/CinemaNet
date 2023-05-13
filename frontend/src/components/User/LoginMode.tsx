@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const LoginPage = ({ inputHandler, formState }: IProps) => {
-  const { user, setUser } = UserState();
+  const { setUser } = UserState();
 
   const authSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

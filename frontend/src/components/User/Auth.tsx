@@ -76,7 +76,7 @@ const Auth = () => {
         {isLoginMode ? (
           <LoginMode inputHandler={inputHandler} formState={formState} />
         ) : (
-          <RegistrationMode />
+          <RegistrationMode inputHandler={inputHandler} formState={formState} />
         )}
       </div>
       <div className='m-auto hidden flex-[1.2] flex-col items-center text-center md:flex'>
