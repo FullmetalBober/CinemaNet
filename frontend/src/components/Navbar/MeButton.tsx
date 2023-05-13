@@ -7,7 +7,11 @@ const MeButton = () => {
   return (
     <Link to='/me' className='flex items-center gap-2'>
       {user.name.split(' ')[0]}
-      <img className='h-8 w-8 rounded-full' src={user.photo} alt={user.name} />
+      <img
+        className='h-[30px] w-[30px] rounded-full'
+        src={user.photo}
+        alt={user.name}
+      />
     </Link>
   );
 };
