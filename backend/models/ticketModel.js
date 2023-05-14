@@ -45,6 +45,10 @@ const ticketSchema = new mongoose.Schema(
         },
       },
     ],
+    booking: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   { timestamps: true }
 );
@@ -53,6 +57,8 @@ ticketSchema.index(
   { showtime: 1, 'seats.col': 1, 'seats.row': 1 },
   { unique: true }
 );
+
+ticketSchema.index({ booking: 1 }, { expireAfterSeconds: 60 * 7 });
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
 

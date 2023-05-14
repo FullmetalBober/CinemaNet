@@ -9,7 +9,11 @@ router.route('/:id').get(ticketController.getTicket);
 
 router.use(authController.protect);
 
-router.route('/').post(ticketController.setUserId, ticketController.createTicket);
+router.get('/checkout-session/:id', ticketController.getCheckoutSession);
+
+router
+  .route('/')
+  .post(ticketController.setUserId, ticketController.createTicket);
 
 router.use(authController.restrictTo('admin'));
 

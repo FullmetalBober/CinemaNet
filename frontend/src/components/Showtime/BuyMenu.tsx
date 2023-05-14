@@ -1,11 +1,13 @@
-import { RiCloseFill } from 'react-icons/ri';
-import { IBar, IGoods, ISeat } from '../../Interfaces';
+import { IBar, IGoods, ISeat, ITicket } from '../../Interfaces';
 import Currency from '../UI/Currency';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
 import BuyMenuHeader from './BuyMenuHeader';
 import ShowtimeBuySeatCard from './ShowtimeBuySeatCard';
 import ShowtimeBuyGoodsCard from './ShowtimeBuyGoodsCard';
 import Button from '../UI/Button';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 interface IProps {
   seats: ISeat[];
@@ -22,6 +24,8 @@ interface IProps {
 }
 
 const BuyMenu = (props: IProps) => {
+  const { showtimeId } = useParams();
+
   const priceSeats =
     Math.round(props.seats.reduce((sum, item) => sum + item.price, 0) * 100) /
     100;
@@ -33,9 +37,32 @@ const BuyMenu = (props: IProps) => {
       ) * 100
     ) / 100;
 
-  const handleClickButton = () => {
+  const handleClickButton = async () => {
     if (props.seats.length === 0) return;
     if (props.isSeatsPage) props.setIsSeatsPage(false);
+    else {
+      const responseTicket = await axios.post(`/api/v1/tickets`, {
+        showtime: showtimeId,
+        seats: props.seats,
+        barOrders: props.selectedGoods.map(item => ({
+          bar: item.bar._id,
+          count: item.count,
+        })),
+      });
+      if (responseTicket.data.status != 'success') return;
+
+      const stripe = await loadStripe(
+        import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+      );
+
+      const response = await axios.get(
+        `/api/v1/tickets/checkout-session/${responseTicket.data.data.data._id}`
+      );
+      const session = response.data.session;
+      await stripe?.redirectToCheckout({
+        sessionId: session.id,
+      });
+    }
   };
 
   return (
