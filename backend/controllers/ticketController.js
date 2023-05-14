@@ -33,13 +33,15 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     },
   ]);
 
-  const priceSeats = ticket.seats.reduce((acc, el) => {
-    const isLux = el.row > ticket.showtime.hall.seats.standard.length;
-    const priceHall = isLux
-      ? ticket.showtime.hall.price.lux
-      : ticket.showtime.hall.price.standard;
-    return priceHall + ticket.showtime.movie.price + acc;
-  }, 0);
+  const priceSeats = Math.round(
+    ticket.seats.reduce((acc, el) => {
+      const isLux = el.row > ticket.showtime.hall.seats.standard.length;
+      const priceHall = isLux
+        ? ticket.showtime.hall.price.lux
+        : ticket.showtime.hall.price.standard;
+      return priceHall + ticket.showtime.movie.price + acc;
+    }, 0) * 100
+  );
 
   const imgUrl = ticket.showtime.movie.imageCover.startsWith('http')
     ? ticket.showtime.movie.imageCover
@@ -47,24 +49,27 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         ticket.showtime.movie.imageCover
       }`;
 
+  const host = req.get('host').includes('localhost')
+    ? 'localhost:3000'
+    : req.get('host');
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/me`,
-    cancel_url: `${req.protocol}://${req.get('host')}/showtime/${
-      ticket.showtime._id
-    }`,
+    success_url: `${req.protocol}://${host}/me`,
+    cancel_url: `${req.protocol}://${host}/showtime/${ticket.showtime._id}`,
     customer_email: ticket.user.email,
     client_reference_id: req.params.id,
     mode: 'payment',
+    expires_at: Math.floor(ticket.booking.getTime() / 1000) + 30 * 60,
     line_items: [
       {
         quantity: 1,
         price_data: {
           currency: 'usd',
-          unit_amount: priceSeats * 100,
+          unit_amount: priceSeats,
           product_data: {
-            name: `${ticket.showtime.movie.name} - ${ticket.showtime.hall.name}`,
-            description: ticket.showtime.hall.cinema.name,
+            name: ticket.showtime.movie.name,
+            description: `${ticket.showtime.hall.cinema.name} - №${ticket.showtime.hall.name}`,
             images: [imgUrl],
           },
         },

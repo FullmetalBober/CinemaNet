@@ -8,6 +8,8 @@ import Button from '../UI/Button';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import Loading from '../UI/Loading';
 
 interface IProps {
   seats: ISeat[];
@@ -25,6 +27,7 @@ interface IProps {
 
 const BuyMenu = (props: IProps) => {
   const { showtimeId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const priceSeats =
     Math.round(props.seats.reduce((sum, item) => sum + item.price, 0) * 100) /
@@ -41,6 +44,7 @@ const BuyMenu = (props: IProps) => {
     if (props.seats.length === 0) return;
     if (props.isSeatsPage) props.setIsSeatsPage(false);
     else {
+      setIsLoading(true);
       const responseTicket = await axios.post(`/api/v1/tickets`, {
         showtime: showtimeId,
         seats: props.seats,
@@ -62,6 +66,7 @@ const BuyMenu = (props: IProps) => {
       await stripe?.redirectToCheckout({
         sessionId: session.id,
       });
+      setIsLoading(false);
     }
   };
 
@@ -103,8 +108,11 @@ const BuyMenu = (props: IProps) => {
             </Currency>
           </div>
         </div>
-        <Button onClick={handleClickButton} disabled={props.seats.length === 0}>
-          Continue
+        <Button
+          onClick={handleClickButton}
+          disabled={props.seats.length === 0 || isLoading}
+        >
+          {isLoading ? <Loading size={28} /> : 'Continue'}
         </Button>
       </div>
     </div>
