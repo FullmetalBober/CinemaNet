@@ -99,4 +99,24 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.webhookCheckout = (req, res, next) => {};
+exports.webhookCheckout = catchAsync(async (req, res, next) => {
+  const signature = req.headers['stripe-signature'];
+
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return next(new AppError(`Webhook error: ${err}`, 400));
+  }
+
+  if (event.type === 'checkout.session.completed')
+    await Ticket.findByIdAndUpdate(event.data.object.client_reference_id, {
+      booking: null,
+    });
+
+  res.status(200).json({ received: true });
+});
