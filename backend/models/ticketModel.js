@@ -18,10 +18,6 @@ const ticketSchema = new mongoose.Schema(
             type: Number,
             required: [true, 'Ticket must have a row'],
           },
-          // luxSeat: {
-          //   type: Boolean,
-          //   default: false,
-          // },
         },
       ],
       required: [true, 'Ticket must have a seat'],
@@ -59,6 +55,13 @@ ticketSchema.index(
 );
 
 ticketSchema.index({ booking: 1 }, { expireAfterSeconds: 60 * 32 });
+
+ticketSchema.pre('save', function (next) {
+  if (this.isNew && this.booking) {
+    this.booking = undefined;
+  }
+  next();
+});
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
 
