@@ -25,7 +25,7 @@ const ticketSchema = new mongoose.Schema(
         },
       ],
       required: [true, 'Ticket must have a seat'],
-      validate: [val => val.length > 1, 'At least one seat must be selected'],
+      validate: [val => val.length > 0, 'At least one seat must be selected'],
     },
     user: {
       type: mongoose.Schema.ObjectId,
@@ -58,7 +58,7 @@ ticketSchema.index(
   { unique: true }
 );
 
-ticketSchema.index({ booking: 1 }, { expireAfterSeconds: 60 * 7 });
+ticketSchema.index({ booking: 1 }, { expireAfterSeconds: 60 * 32 });
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
 

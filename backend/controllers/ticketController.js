@@ -14,6 +14,26 @@ exports.setUserId = (req, res, next) => {
   next();
 };
 
+const getImageUrl = (req, el) => {
+  return el.startsWith('http')
+    ? el
+    : `${req.protocol}://${req.get('host')}/${el}`;
+};
+
+const createSessionLine = (req, name, quantity, unit_amount, images) => {
+  return {
+    quantity,
+    price_data: {
+      currency: 'usd',
+      unit_amount: Math.round(unit_amount * 100),
+      product_data: {
+        name,
+        images: [getImageUrl(req, images)],
+      },
+    },
+  };
+};
+
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const ticket = await Ticket.findById(req.params.id).populate([
     {
@@ -29,25 +49,34 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     },
     {
       path: 'user barOrders.bar',
-      select: 'name email price',
+      select: 'name email price imageCover',
     },
   ]);
 
-  const priceSeats = Math.round(
-    ticket.seats.reduce((acc, el) => {
-      const isLux = el.row > ticket.showtime.hall.seats.standard.length;
-      const priceHall = isLux
-        ? ticket.showtime.hall.price.lux
-        : ticket.showtime.hall.price.standard;
-      return priceHall + ticket.showtime.movie.price + acc;
-    }, 0) * 100
-  );
+  const seatLines = ticket.seats.map(el => {
+    const isLux = el.row > ticket.showtime.hall.seats.standard.length;
+    const priceHall = isLux
+      ? ticket.showtime.hall.price.lux
+      : ticket.showtime.hall.price.standard;
 
-  const imgUrl = ticket.showtime.movie.imageCover.startsWith('http')
-    ? ticket.showtime.movie.imageCover
-    : `${req.protocol}://${req.get('host')}/${
-        ticket.showtime.movie.imageCover
-      }`;
+    return createSessionLine(
+      req,
+      `${ticket.showtime.hall.cinema.name} - ${ticket.showtime.movie.name} - Row ${el.row} - Seat ${el.col}`,
+      1,
+      priceHall + ticket.showtime.movie.price,
+      ticket.showtime.movie.imageCover
+    );
+  });
+
+  const barLines = ticket.barOrders.map(el => {
+    return createSessionLine(
+      req,
+      el.bar.name,
+      el.count,
+      el.bar.price,
+      el.bar.imageCover
+    );
+  });
 
   const host = req.get('host').includes('localhost')
     ? 'localhost:3000'
@@ -60,28 +89,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     customer_email: ticket.user.email,
     client_reference_id: req.params.id,
     mode: 'payment',
-    expires_at: Math.floor(ticket.booking.getTime() / 1000) + 30 * 60,
-    line_items: [
-      {
-        quantity: 1,
-        price_data: {
-          currency: 'usd',
-          unit_amount: priceSeats,
-          product_data: {
-            name: ticket.showtime.movie.name,
-            description: `${ticket.showtime.hall.cinema.name} - №${ticket.showtime.hall.name}`,
-            images: [imgUrl],
-          },
-        },
-      },
-      // {
-      //   name: 'Bar Order',
-      //   description: ticket.barOrders.map(el => el.bar.name).join(', '),
-      //   amount: ticket.barOrders.reduce((acc, el) => acc + el.price, 0) * 100,
-      //   currency: 'usd',
-      //   quantity: 1,
-      // },
-    ],
+    expires_at: Math.floor(ticket.booking.getTime() / 1000) + 31 * 60,
+    line_items: [...seatLines, ...barLines],
   });
 
   res.status(200).json({

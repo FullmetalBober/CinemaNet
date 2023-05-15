@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import Loading from '../UI/Loading';
+import { UserState } from '../../contexts/UserProvider';
 
 interface IProps {
   seats: ISeat[];
@@ -27,6 +28,7 @@ interface IProps {
 
 const BuyMenu = (props: IProps) => {
   const { showtimeId } = useParams();
+  const { user } = UserState();
   const [isLoading, setIsLoading] = useState(false);
 
   const priceSeats =
@@ -110,7 +112,7 @@ const BuyMenu = (props: IProps) => {
         </div>
         <Button
           onClick={handleClickButton}
-          disabled={props.seats.length === 0 || isLoading}
+          disabled={props.seats.length === 0 || isLoading || !user._id}
         >
           {isLoading ? <Loading size={28} /> : 'Continue'}
         </Button>

@@ -53,7 +53,11 @@ app.use(
           'https://maps.googleapis.com',
           'https://maps.gstatic.com',
         ],
-        'script-src': ["'self'", 'https://maps.googleapis.com'],
+        'script-src': [
+          "'self'",
+          'https://maps.googleapis.com',
+          'https://js.stripe.com/v3',
+        ],
         'connect-src': ["'self'", 'https://maps.googleapis.com'],
         'frame-src': ["'self'", 'https://www.youtube-nocookie.com'],
       },
