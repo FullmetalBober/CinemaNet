@@ -59,7 +59,11 @@ app.use(
           'https://js.stripe.com/v3',
         ],
         'connect-src': ["'self'", 'https://maps.googleapis.com'],
-        'frame-src': ["'self'", 'https://www.youtube-nocookie.com'],
+        'frame-src': [
+          "'self'",
+          'https://www.youtube-nocookie.com',
+          'https://js.stripe.com',
+        ],
       },
     },
   })
