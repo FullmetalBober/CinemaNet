@@ -2,6 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Ticket = require('../models/ticketModel');
 const factory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 exports.getAllTickets = factory.getAll(Ticket);
 exports.getTicket = factory.getOne(Ticket);
