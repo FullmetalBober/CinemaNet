@@ -1,4 +1,4 @@
-import TextOpacity from './TextOpacity';
+import TextOpacity from '../TextOpacity';
 
 interface IProps {
   days: Date[];

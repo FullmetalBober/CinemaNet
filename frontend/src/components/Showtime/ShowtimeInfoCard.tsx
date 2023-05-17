@@ -1,4 +1,4 @@
-import IconCard from '../UI/IconCard';
+import IconCard from '../UI/Cards/IconCard';
 import TextOpacity from '../UI/TextOpacity';
 
 interface IProps {

@@ -1,4 +1,4 @@
-import IconCard from '../UI/IconCard';
+import IconCard from '../UI/Cards/IconCard';
 
 interface IProps {
   children: React.ReactNode;

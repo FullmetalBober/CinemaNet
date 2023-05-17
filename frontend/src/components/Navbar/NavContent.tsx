@@ -2,7 +2,6 @@ import CinemaButton from './CinemaButton';
 import AuthButton from './AuthButton';
 import { UserState } from '../../contexts/UserProvider';
 import MeButton from './MeButton';
-import Loading from '../UI/Loading';
 
 const NavContent = () => {
   const { user } = UserState();

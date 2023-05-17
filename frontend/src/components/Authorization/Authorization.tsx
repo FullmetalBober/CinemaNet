@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import RegistrationMode from './RegistrationMode';
 import { useForm } from '../../hooks/form-hook';
 
-const Auth = () => {
+const Authorization = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -86,4 +86,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Authorization;

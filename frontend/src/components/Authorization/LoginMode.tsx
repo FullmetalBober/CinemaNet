@@ -2,7 +2,7 @@ import axios from 'axios';
 import { InputData } from '../../hooks/form-hook';
 import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../utils/validators';
 import Button from '../UI/Button';
-import Input from '../UI/Input';
+import Input from '../UI/Form/Input';
 import TextOpacity from '../UI/TextOpacity';
 import { UserState } from '../../contexts/UserProvider';
 import { useNavigate } from 'react-router-dom';

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UserState } from '../../contexts/UserProvider';
 import { InputData } from '../../hooks/form-hook';
 import TextOpacity from '../UI/TextOpacity';
-import Input from '../UI/Input';
+import Input from '../UI/Form/Input';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_EQUAL,

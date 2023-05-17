@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Loading from '../UI/Loading';
-import DayCard from '../UI/DayCard';
+import DayCard from '../UI/Cards/DayCard';
 import DropdownButton from './DropdownButton';
 import DropdownList from './DropdownList';
 
