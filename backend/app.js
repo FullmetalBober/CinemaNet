@@ -48,6 +48,7 @@ app.use(
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         'img-src': [
           "'self'",
+          'blob:',
           'data:',
           'https://res.cloudinary.com',
           'https://maps.googleapis.com',
