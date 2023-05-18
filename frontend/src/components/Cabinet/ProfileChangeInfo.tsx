@@ -1,25 +1,29 @@
+import { useState } from 'react';
 import { UserState } from '../../contexts/UserProvider';
 import { useForm } from '../../hooks/form-hook';
 import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../utils/validators';
+import Button from '../UI/Button';
 import ImageUpload from '../UI/Form/ImageUpload';
 import Input from '../UI/Form/Input';
+import Loading from '../UI/Loading';
 
 const ProfileChangeInfo = () => {
   const { user } = UserState();
-  const [formState, inputHandler, setFormData] = useForm(
+  const [isLoading, setIsLoading] = useState(false);
+  const [formState, inputHandler] = useForm(
     {
       name: {
         value: '',
-        isValid: false,
+        isValid: true,
       },
       email: {
         value: '',
-        isValid: false,
+        isValid: true,
       },
       photo: {
-        value: '',
-        isValid: false,
-      },
+        value: File,
+        isValid: true,
+      }
     },
     false
   );
@@ -31,6 +35,8 @@ const ProfileChangeInfo = () => {
         preview={user.photo}
         size={190}
         rounded='rounded-full'
+        onInput={inputHandler}
+        initialValid={true}
       />
       <Input
         element='input'
@@ -56,6 +62,9 @@ const ProfileChangeInfo = () => {
         value={user.email}
         initialValid={true}
       />
+      <Button disabled={!formState.isValid || isLoading}>
+        {isLoading ? <Loading size={28} /> : 'Save'}
+      </Button>
     </form>
   );
 };

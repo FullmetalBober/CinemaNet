@@ -2,7 +2,7 @@ import { useReducer, Reducer, useCallback } from 'react';
 
 export interface InputData {
   [key: string]: {
-    value: string;
+    value: any;
     isValid: boolean;
   };
 }
@@ -15,7 +15,7 @@ interface State {
 interface ChangeAction {
   type: 'INPUT_CHANGE';
   inputId: string;
-  value: string;
+  value: any;
   isValid: boolean;
 }
 
@@ -70,7 +70,7 @@ export const useForm = (
   });
 
   const inputHandler = useCallback(
-    (id: string, value: string, isValid: boolean) => {
+    (id: string, value: any, isValid: boolean) => {
       dispatch({
         type: 'INPUT_CHANGE',
         value,

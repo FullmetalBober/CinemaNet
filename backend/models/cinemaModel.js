@@ -12,11 +12,6 @@ const cinemaSchema = new mongoose.Schema(
       default: '/images/cinema/default.jpg',
     },
     location: {
-      type: {
-        type: String,
-        default: 'Point',
-        enum: ['Point'],
-      },
       coordinates: [Number],
       city: {
         type: String,

@@ -5,12 +5,14 @@ interface Props {
   preview: string;
   size?: number;
   rounded?: 'rounded' | 'rounded-full';
+  onInput: (id: string, value: File, isValid: boolean) => void;
+  initialValid?: boolean;
 }
 
 const ImageUpload = (props: Props) => {
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File>(null!);
   const [previewUrl, setPreviewUrl] = useState<string>(props.preview);
-  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(props.initialValid || false);
 
   const filePickerRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +24,8 @@ const ImageUpload = (props: Props) => {
     } else {
       setIsValid(false);
     }
+
+    props.onInput(props.id, file, isValid);
   };
 
   return (
