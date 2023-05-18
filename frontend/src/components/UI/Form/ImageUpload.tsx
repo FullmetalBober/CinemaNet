@@ -1,32 +1,33 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 interface Props {
   id: string;
   preview: string;
   size?: number;
   rounded?: 'rounded' | 'rounded-full';
-  onInput: (id: string, value: File, isValid: boolean) => void;
+  onInput: (id: string, value: File | null, isValid: boolean) => void;
   initialValid?: boolean;
 }
 
 const ImageUpload = (props: Props) => {
-  const [file, setFile] = useState<File>(null!);
   const [previewUrl, setPreviewUrl] = useState<string>(props.preview);
-  const [isValid, setIsValid] = useState<boolean>(props.initialValid || false);
 
   const filePickerRef = useRef<HTMLInputElement>(null);
 
-  const pickedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length === 1) {
-      setFile(event.target.files[0]);
-      setPreviewUrl(URL.createObjectURL(event.target.files[0]));
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+  const pickedHandler = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      let file: File | null = null;
+      let isValid: boolean = false;
+      if (event.target.files && event.target.files.length === 1) {
+        file = event.target.files[0];
+        setPreviewUrl(URL.createObjectURL(file));
+        isValid = true;
+      }
 
-    props.onInput(props.id, file, isValid);
-  };
+      props.onInput(props.id, file, isValid);
+    },
+    [props.id, props.onInput]
+  );
 
   return (
     <div>

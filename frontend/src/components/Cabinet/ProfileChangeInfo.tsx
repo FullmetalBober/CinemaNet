@@ -6,9 +6,10 @@ import Button from '../UI/Button';
 import ImageUpload from '../UI/Form/ImageUpload';
 import Input from '../UI/Form/Input';
 import Loading from '../UI/Loading';
+import axios from 'axios';
 
 const ProfileChangeInfo = () => {
-  const { user } = UserState();
+  const { user, setUser } = UserState();
   const [isLoading, setIsLoading] = useState(false);
   const [formState, inputHandler] = useForm(
     {
@@ -23,13 +24,32 @@ const ProfileChangeInfo = () => {
       photo: {
         value: File,
         isValid: true,
-      }
+      },
     },
     false
   );
 
+  const updateInfoSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    (async () => {
+      setIsLoading(true);
+      try {
+        const formData = new FormData();
+        formData.append('name', formState.inputs.name.value);
+        formData.append('email', formState.inputs.email.value);
+        if (formState.inputs.photo.value !== File)
+          formData.append('photo', formState.inputs.photo.value);
+        const responds = await axios.patch('/api/v1/users/updateMe', formData);
+        setUser(responds.data.data.user);
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    })();
+  };
+
   return (
-    <form>
+    <form onSubmit={updateInfoSubmitHandler}>
       <ImageUpload
         id='photo'
         preview={user.photo}

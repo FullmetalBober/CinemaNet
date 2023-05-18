@@ -29,9 +29,6 @@ const UserProvider = (props: IProps) => {
   useEffect(() => {
     (async () => {
       setUserLoading(true);
-      // const cookies = new Cookies();
-      // console.log(cookies.get('jwt'));
-      // if (!cookies.get('jwt')) return;
       try {
         const response = await axios.get('/api/v1/users/me');
         if (response.data.status === 'success')
