@@ -58,7 +58,7 @@ ticketSchema.index({ booking: 1 }, { expireAfterSeconds: 60 * 32 });
 
 ticketSchema.pre('save', function (next) {
   if (this.isNew && this.booking) {
-    this.booking = undefined;
+    this.booking = Date.now();
   }
   next();
 });
