@@ -39,18 +39,21 @@ const Schedule = () => {
 
   useEffect(() => {
     if (!showtimes) return;
-    const days = showtimes.map(showtime => {
-      const date = new Date(showtime.time.start);
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        0,
-        0,
-        0,
-        0
-      ).getTime();
-    });
+    const days = showtimes
+      .map(showtime => {
+        const date = new Date(showtime.time.start);
+        return new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          0,
+          0,
+          0,
+          0
+        ).getTime();
+      })
+      .sort();
+
     const uniqueDays = [...new Set(days)].map(day => new Date(day));
     setDays(uniqueDays);
     if (uniqueDays) setSelectedDay(uniqueDays[0]);
@@ -83,7 +86,7 @@ const Schedule = () => {
           handleDayClick={handleDayClick}
           className='mb-5'
         />
-        <HorizontalLine className='flex'>
+        <HorizontalLine classNameChild='flex'>
           <BsHandIndex size={23} className='mr-3' />
           Click on a session time to select seats
         </HorizontalLine>

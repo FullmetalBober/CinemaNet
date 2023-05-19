@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IUser } from '../Interfaces';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 
 interface UserContextType {
   user: IUser;
@@ -12,13 +11,6 @@ interface UserContextType {
 interface IProps {
   children: React.ReactNode;
 }
-
-// const UserDefault = {
-//   _id: '',
-//   name: '',
-//   email: '',
-//   role: '',
-// } as IUser;
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
 

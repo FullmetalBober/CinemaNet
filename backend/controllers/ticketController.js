@@ -21,7 +21,7 @@ const getImageUrl = (req, el) => {
     : `${req.protocol}://${req.get('host')}/${el}`;
 };
 
-const createSessionLine = (req, name, quantity, unit_amount, images) => {
+const createSessionLine = (req, name, quantity, unit_amount, image) => {
   return {
     quantity,
     price_data: {
@@ -29,7 +29,7 @@ const createSessionLine = (req, name, quantity, unit_amount, images) => {
       unit_amount: Math.round(unit_amount * 100),
       product_data: {
         name,
-        images: [getImageUrl(req, images)],
+        images: [getImageUrl(req, image)],
       },
     },
   };

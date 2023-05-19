@@ -8,7 +8,7 @@ interface IProps {
 const ArrowDown = ({ className, active }: IProps) => {
   return (
     <IoIosArrowDown
-      className={`flex cursor-pointer items-center rounded-full p-1 text-3xl ${
+      className={`flex cursor-pointer items-center rounded-full p-1 text-3xl transition ${
         active === true
           ? '!bg-white/100 !text-red-500'
           : 'bg-white/20 hover:bg-red-500'

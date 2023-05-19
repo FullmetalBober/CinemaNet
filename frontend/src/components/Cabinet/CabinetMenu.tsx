@@ -4,28 +4,40 @@ import { RiTicketLine } from 'react-icons/ri';
 import { MdOutlineMovie } from 'react-icons/md';
 import { FaNapster } from 'react-icons/fa';
 import { IoFastFoodOutline } from 'react-icons/io5';
+import { useMemo } from 'react';
+import { UserState } from '../../contexts/UserProvider';
 
 interface IProps {
   active: string;
   setActive: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const classNameIcon = 'text-xl';
-
-const menuItems = [
-  { value: 'Tickets', icon: <RiTicketLine className={classNameIcon} /> },
-  { value: 'Profile', icon: <AiOutlineUser className={classNameIcon} /> },
-  { value: 'Showtime', icon: <HiOutlineClock className={classNameIcon} /> },
-  { value: 'Genre', icon: <FaNapster className={classNameIcon} /> },
-  { value: 'Movie', icon: <MdOutlineMovie className={classNameIcon} /> },
-  { value: 'Bar', icon: <IoFastFoodOutline className={classNameIcon} /> },
-  {
-    value: 'Cinema',
-    icon: <HiOutlineLocationMarker className={classNameIcon} />,
-  },
-];
-
 const CabinetMenu = ({ active, setActive }: IProps) => {
+  const { user } = UserState();
+  const menuItems = useMemo(() => {
+    const classNameIcon = 'text-xl';
+    let menuItems = [
+      { value: 'Tickets', icon: <RiTicketLine className={classNameIcon} /> },
+      { value: 'Profile', icon: <AiOutlineUser className={classNameIcon} /> },
+    ];
+    if (user.role === 'admin')
+      menuItems = [
+        ...menuItems,
+        {
+          value: 'Showtime',
+          icon: <HiOutlineClock className={classNameIcon} />,
+        },
+        { value: 'Genre', icon: <FaNapster className={classNameIcon} /> },
+        { value: 'Movie', icon: <MdOutlineMovie className={classNameIcon} /> },
+        { value: 'Bar', icon: <IoFastFoodOutline className={classNameIcon} /> },
+        {
+          value: 'Cinema',
+          icon: <HiOutlineLocationMarker className={classNameIcon} />,
+        },
+      ];
+    return menuItems;
+  }, [user.role]);
+
   return (
     <ul className='flex flex-col gap-2.5'>
       {menuItems.map(item => (

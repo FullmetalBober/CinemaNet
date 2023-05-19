@@ -59,23 +59,25 @@ const DatesSchedule = (props: IProps) => {
         />
       ))}
 
-      <div ref={refChoose} className='relative flex-[1.4]'>
-        <DropdownButton
-          isHover={isHover}
-          setIsHover={setIsHover}
-          setIsClicked={setIsClicked}
-          afterWeek={afterWeek}
-          selectedDay={props.selectedDay}
-        />
-        {isClicked && (
-          <DropdownList
-            afterWeek={afterWeek}
-            setIsClicked={setIsClicked}
+      {afterWeek.length > 0 && (
+        <div ref={refChoose} className='relative flex-[1.4]'>
+          <DropdownButton
+            isHover={isHover}
             setIsHover={setIsHover}
-            handleDayClick={props.handleDayClick}
+            setIsClicked={setIsClicked}
+            afterWeek={afterWeek}
+            selectedDay={props.selectedDay}
           />
-        )}
-      </div>
+          {isClicked && (
+            <DropdownList
+              afterWeek={afterWeek}
+              setIsClicked={setIsClicked}
+              setIsHover={setIsHover}
+              handleDayClick={props.handleDayClick}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };
