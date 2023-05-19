@@ -1,17 +1,44 @@
-.modal-enter {
+/** Right */
+.modalRight-enter {
   transform: translateY(100%);
 }
 
-.modal-enter-active {
+.modalRight-enter-active {
   transform: translateY(0);
   transition: all 500ms;
 }
 
-.modal-exit {
+.modalRight-exit {
   transform: translateY(0);
 }
 
-.modal-exit-active {
+.modalRight-exit-active {
   transform: translateY(-100%);
+  transition: all 500ms;
+}
+
+/** Center */
+.modalCenter-enter {
+  opacity: 0;
+  transform: translateY(-50%) translate(-50%, -50%);
+}
+
+.modalCenter-enter-active {
+  opacity: 1;
+  transform: translateY(0) translate(-50%, -50%);
+  transition: all 500ms;
+}
+
+.modalCenter-enter-done {
+  transform: translateY(0) translate(-50%, -50%);
+}
+
+.modalCenter-exit {
+  transform: translateY(0) translate(-50%, -50%);
+}
+
+.modalCenter-exit-active {
+  opacity: 0;
+  transform: translateY(-50%) translate(-50%, -50%);
   transition: all 500ms;
 }

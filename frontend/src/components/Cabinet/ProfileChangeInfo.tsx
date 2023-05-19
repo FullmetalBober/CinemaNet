@@ -49,7 +49,7 @@ const ProfileChangeInfo = () => {
   };
 
   return (
-    <form onSubmit={updateInfoSubmitHandler}>
+    <form onSubmit={updateInfoSubmitHandler} className='flex flex-col gap-1'>
       <ImageUpload
         id='photo'
         preview={user.photo}

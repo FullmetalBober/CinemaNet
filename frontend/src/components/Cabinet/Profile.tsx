@@ -1,5 +1,5 @@
 import { UserState } from '../../contexts/UserProvider';
-import DangerContent from '../UI/DangerContent';
+import DangerContent from '../UI/Details/DangerContent';
 import DeleteMe from './DeleteMe';
 import ProfileChangeInfo from './ProfileChangeInfo';
 
@@ -11,7 +11,7 @@ const Profile = () => {
       <h1 className='mb-2 text-3xl font-medium'>YOUR ACCOUNT SETTINGS</h1>
       <ProfileChangeInfo />
       {user.role === 'user' && (
-        <DangerContent className='px-5' classNameChild='flex gap-14'>
+        <DangerContent className='px-5 mt-10' classNameChild='flex gap-14'>
           <DeleteMe />
         </DangerContent>
       )}

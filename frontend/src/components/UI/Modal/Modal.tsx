@@ -9,6 +9,7 @@ interface IProps {
   show: boolean;
   onCancel: () => void;
   children: React.ReactNode;
+  position: 'center' | 'right';
 }
 
 const Modal = (props: IProps) => {
@@ -23,9 +24,17 @@ const Modal = (props: IProps) => {
         mountOnEnter
         unmountOnExit
         timeout={500}
-        classNames='modal'
+        classNames={props.position === 'center' ? 'modalCenter' : 'modalRight'}
       >
-        <ModalContent nodeRef={nodeRef} {...props} />
+        <ModalContent
+          nodeRef={nodeRef}
+          {...props}
+          className={
+            props.position === 'center'
+              ? 'left-1/2 top-1/2 w-[28rem] rounded-md !bg-[#2d2a2a]'
+              : 'right-0 h-screen md:w-[48rem]'
+          }
+        />
       </CSSTransition>
     </>
   );
