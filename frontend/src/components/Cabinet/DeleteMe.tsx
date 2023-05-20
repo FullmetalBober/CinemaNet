@@ -2,10 +2,30 @@ import { useState } from 'react';
 import Button from '../UI/Button';
 import ConfirmationModal from '../UI/ConfirmationModal';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { UserState } from '../../contexts/UserProvider';
+import { IUser } from '../../Interfaces';
 
 const DeleteMe = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  // TODO: Add delete account functionality
+  const { setUser } = UserState();
+  const navigate = useNavigate();
+
+  const handleDelete = () => {
+    (async () => {
+      try {
+        const response = await axios.delete('/api/v1/users/deleteMe');
+        if (response.data === '') {
+          setUser({} as IUser);
+          navigate('/');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  };
+
   return (
     <>
       <ConfirmationModal
@@ -14,7 +34,7 @@ const DeleteMe = () => {
         style='danger'
         header='Delete your account'
         icon={<RiDeleteBinLine />}
-        actions={() => console.log('delete')}
+        actions={handleDelete}
       >
         <p>
           Ok, we get you clicked to delete you

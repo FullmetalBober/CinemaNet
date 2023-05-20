@@ -10,6 +10,7 @@ interface IProps {
   onCancel: () => void;
   children: React.ReactNode;
   position: 'center' | 'right';
+  closeColor?: 'black' | 'white';
 }
 
 const Modal = (props: IProps) => {

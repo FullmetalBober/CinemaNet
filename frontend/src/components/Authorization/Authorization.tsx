@@ -25,7 +25,6 @@ const Authorization = () => {
     if (isLoginMode) {
       setFormData(
         {
-          ...formState.inputs,
           email: {
             value: '',
             isValid: false,
@@ -40,7 +39,6 @@ const Authorization = () => {
     } else {
       setFormData(
         {
-          ...formState.inputs,
           name: {
             value: '',
             isValid: false,

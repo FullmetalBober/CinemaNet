@@ -70,6 +70,7 @@ const ChooseCinema = ({ children, className }: IProps) => {
         show={showCinemas}
         onCancel={() => setShowCinemas(false)}
         position='right'
+        closeColor='black'
       >
         <div className='flex h-screen justify-between text-3xl child:p-10'>
           <CitiesModal city={city} cities={cities} onClick={handleCityClick} />

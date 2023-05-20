@@ -6,6 +6,7 @@ import Input from '../UI/Form/Input';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_EQUAL,
+  VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../utils/validators';
 import Button from '../UI/Button';
@@ -79,7 +80,7 @@ const RegistrationPage = ({ inputHandler, formState }: IProps) => {
           type='password'
           label='Password'
           id='password'
-          validators={[VALIDATOR_REQUIRE()]}
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(8)]}
           errorText='Please enter a valid password'
           autoComplete='off'
           onInput={inputHandler}
