@@ -5,9 +5,13 @@ const ticketController = require('./../controllers/ticketController');
 const router = express.Router();
 
 router.route('/').get(ticketController.getAllTickets);
-router.route('/:id').get(ticketController.getTicket);
 
 router.use(authController.protect);
+
+router
+  .route('/my')
+  .get(ticketController.setUserId, ticketController.getAllTickets);
+router.route('/:id').get(ticketController.getTicket);
 
 router.get('/checkout-session/:id', ticketController.getCheckoutSession);
 

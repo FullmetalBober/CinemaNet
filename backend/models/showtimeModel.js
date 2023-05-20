@@ -25,10 +25,7 @@ const showtimeSchema = new mongoose.Schema(
   }
 );
 
-showtimeSchema.index(
-  { hall: 1, 'time.start': 1 },
-  { unique: true }
-);
+showtimeSchema.index({ hall: 1, 'time.start': 1 }, { unique: true });
 
 showtimeSchema.pre(/^find/, function (next) {
   this.populate({
@@ -40,7 +37,7 @@ showtimeSchema.pre(/^find/, function (next) {
 });
 
 showtimeSchema.virtual('price').get(function () {
-  if (!this.hall.price || !this.movie.price) return;
+  if (!this.hall || !this.hall.price || !this.movie.price) return;
   return {
     standard:
       Math.round((this.hall.price.standard + this.movie.price) * 100) / 100,

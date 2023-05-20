@@ -4,7 +4,10 @@ const factory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.getAllTickets = factory.getAll(Ticket);
+exports.getAllTickets = factory.getAll(Ticket, {
+  path: 'showtime',
+  select: 'time',
+});
 exports.getTicket = factory.getOne(Ticket);
 exports.createTicket = factory.createOne(Ticket);
 exports.updateTicket = factory.updateOne(Ticket);
@@ -12,6 +15,7 @@ exports.deleteTicket = factory.deleteOne(Ticket);
 
 exports.setUserId = (req, res, next) => {
   req.body.user = req.user.id;
+  req.query.user = req.user.id;
   next();
 };
 
