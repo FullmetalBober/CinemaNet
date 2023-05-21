@@ -41,6 +41,7 @@ const ticketSchema = new mongoose.Schema(
         },
       },
     ],
+    cost: Number,
     booking: {
       type: Date,
       default: Date.now(),

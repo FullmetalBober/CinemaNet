@@ -4,10 +4,24 @@ const factory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.getAllTickets = factory.getAll(Ticket, {
-  path: 'showtime',
-  select: 'time',
-});
+exports.getAllTickets = factory.getAll(Ticket, [
+  {
+    path: 'showtime',
+    select: 'time hall',
+    populate: {
+      path: 'hall',
+      select: 'name cinema',
+      populate: {
+        path: 'cinema',
+        select: 'name',
+      },
+    },
+  },
+  {
+    path: 'barOrders.bar',
+    select: 'name',
+  },
+]);
 exports.getTicket = factory.getOne(Ticket);
 exports.createTicket = factory.createOne(Ticket);
 exports.updateTicket = factory.updateOne(Ticket);
@@ -121,6 +135,7 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   if (event.type === 'checkout.session.completed')
     await Ticket.findByIdAndUpdate(event.data.object.client_reference_id, {
       booking: null,
+      cost: event.data.object.amount_total / 100,
     });
 
   res.status(200).json({ received: true });
