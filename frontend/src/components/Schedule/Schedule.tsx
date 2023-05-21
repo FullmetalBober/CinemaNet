@@ -72,9 +72,7 @@ const Schedule = () => {
     setShowtimesSelectedDay(showtimesSelectedDay);
   }, [showtimes, selectedDay]);
 
-  const handleDayClick = (day: Date) => {
-    setSelectedDay(day);
-  };
+  const handleDayClick = (day: Date) => setSelectedDay(day);
 
   return (
     <>

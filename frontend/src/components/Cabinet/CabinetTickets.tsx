@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ITicket } from '../../Interfaces';
+import { ISeat, ITicket } from '../../Interfaces';
 import axios from 'axios';
+import Currency from '../UI/Currency';
+import Table from '../UI/Table';
 
 const CabinetTickets = () => {
   const [tickets, setTickets] = useState<ITicket[]>([]);
@@ -38,10 +40,68 @@ const CabinetTickets = () => {
     );
   }, [tickets]);
 
+  const unitSeatsByRow = (seats: ISeat[]) => {
+    return seats.reduce((acc, seat) => {
+      const row = acc.find(el => el[0].row === seat.row);
+      if (row) row.push(seat);
+      else acc.push([seat]);
+      return acc;
+    }, [] as ISeat[][]);
+  };
+
   return (
-    <div>
-      <h1>Active tickets</h1>
-      {JSON.stringify(active)}
+    <div className='w-full'>
+      <h1 className='mb-2 text-3xl font-medium'>YOUR TICKETS</h1>
+      <Table
+        headers={[
+          'OPERATION',
+          'MOVIE',
+          'CINEMA',
+          'HALL',
+          'DATE',
+          'TICKETS',
+          'BAR - QTY',
+          'COST',
+        ]}
+      >
+        {active.map(ticket => (
+          <tr key={ticket._id}>
+            <td>{new Date(ticket.createdAt).toLocaleDateString()}</td>
+            <td>{ticket.showtime.movie.name}</td>
+            <td>{ticket.showtime.hall.cinema.name}</td>
+            <td>{ticket.showtime.hall.name}</td>
+            <td>
+              {new Date(ticket.showtime.time.start).toLocaleString(undefined, {
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+              })}
+            </td>
+            <td>
+              {unitSeatsByRow(ticket.seats).map((el, index) => (
+                <p key={index}>
+                  row {el[0].row} - seat{' '}
+                  {el
+                    .map(seat => seat.col)
+                    .sort()
+                    .join(',')}
+                </p>
+              ))}
+            </td>
+            <td>
+              {ticket.barOrders.map((el, index) => (
+                <p key={index}>
+                  {el.bar.name} - {el.count}
+                </p>
+              ))}
+            </td>
+            <td>
+              <Currency>{ticket.cost}</Currency>
+            </td>
+          </tr>
+        ))}
+      </Table>
     </div>
   );
 };

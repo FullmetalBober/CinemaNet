@@ -82,7 +82,10 @@ export interface ITicket {
   showtime: IShowtime;
   seats: ISeat[];
   user: IUser;
+  cost: number;
   barOrders: IGoods[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ISeat {
