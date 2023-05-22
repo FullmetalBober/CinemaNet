@@ -4,6 +4,7 @@ import ShowtimeTable from './ShowtimeTable';
 import { IShowtime } from '../../../Interfaces';
 import { CinemaState } from '../../../contexts/CinemaProvider';
 import axios from 'axios';
+import ShowtimeAdd from './ShowtimeAdd';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
@@ -36,7 +37,11 @@ const CabinetShowtime = () => {
     <div className='w-full'>
       <h1 className='mb-2 text-3xl font-medium'>SHOWTIMES</h1>
       <ControlMenu buttons={buttons} mode={mode} setMode={setMode} />
-      {mode === buttons[0] ? <ShowtimeTable showtimes={showtimes} /> : ''}
+      {mode === buttons[0] ? (
+        <ShowtimeTable showtimes={showtimes} />
+      ) : (
+        <ShowtimeAdd showtimes={showtimes} setShowtimes={setShowtimes} />
+      )}
     </div>
   );
 };
