@@ -22,7 +22,7 @@ const Schedule = () => {
     (async () => {
       try {
         if (!cinema.halls) return;
-        const dateNow = new Date();
+        const dateNow = new Date().getTime();
         const urls = cinema.halls.map(
           hall =>
             `/api/v1/showtimes?time.start[gte]=${dateNow}&hall=${hall._id}`
