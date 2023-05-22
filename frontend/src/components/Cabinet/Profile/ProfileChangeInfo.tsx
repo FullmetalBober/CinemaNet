@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { UserState } from '../../contexts/UserProvider';
-import { useForm } from '../../hooks/form-hook';
-import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../utils/validators';
-import Button from '../UI/Button';
-import ImageUpload from '../UI/Form/ImageUpload';
-import Input from '../UI/Form/Input';
-import Loading from '../UI/Loading';
+import { UserState } from '../../../contexts/UserProvider';
+import { useForm } from '../../../hooks/form-hook';
+import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../../utils/validators';
+import Button from '../../UI/Button';
+import ImageUpload from '../../UI/Form/ImageUpload';
+import Input from '../../UI/Form/Input';
+import Loading from '../../UI/Loading';
 import axios from 'axios';
 
 const ProfileChangeInfo = () => {

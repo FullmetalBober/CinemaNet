@@ -27,9 +27,9 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
           value: 'Showtime',
           icon: <HiOutlineClock className={classNameIcon} />,
         },
-        { value: 'Genre', icon: <FaNapster className={classNameIcon} /> },
         { value: 'Movie', icon: <MdOutlineMovie className={classNameIcon} /> },
         { value: 'Bar', icon: <IoFastFoodOutline className={classNameIcon} /> },
+        { value: 'Genre', icon: <FaNapster className={classNameIcon} /> },
         {
           value: 'Cinema',
           icon: <HiOutlineLocationMarker className={classNameIcon} />,

@@ -12,12 +12,11 @@ router.use(authController.restrictTo('admin'));
 
 router
   .route('/')
-  .post(showtimeController.createShowtime);
-  // .post(showtimeController.checkShowtime, showtimeController.createShowtime);
+  .post(showtimeController.checkShowtime, showtimeController.createShowtime);
 
-router
-  .route('/:id')
-  .patch(showtimeController.updateShowtime)
-  .delete(showtimeController.deleteShowtime);
+// router
+//   .route('/:id')
+// .patch(showtimeController.updateShowtime)
+// .delete(showtimeController.deleteShowtime);
 
 module.exports = router;

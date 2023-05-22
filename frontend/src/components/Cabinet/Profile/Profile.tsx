@@ -1,5 +1,5 @@
-import { UserState } from '../../contexts/UserProvider';
-import DangerContent from '../UI/Details/DangerContent';
+import { UserState } from '../../../contexts/UserProvider';
+import DangerContent from '../../UI/Details/DangerContent';
 import DeleteMe from './DeleteMe';
 import ProfileChangeInfo from './ProfileChangeInfo';
 

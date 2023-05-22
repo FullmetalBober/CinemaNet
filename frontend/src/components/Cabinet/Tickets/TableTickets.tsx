@@ -1,6 +1,6 @@
-import { ISeat, ITicket } from '../../Interfaces';
-import Currency from '../UI/Currency';
-import Table from '../UI/Table';
+import { ISeat, ITicket } from '../../../Interfaces';
+import Currency from '../../UI/Currency';
+import Table from '../../UI/Table';
 
 interface IProps {
   tickets: ITicket[];

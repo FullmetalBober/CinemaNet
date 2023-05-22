@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ITicket } from '../../Interfaces';
+import { ITicket } from '../../../Interfaces';
 import axios from 'axios';
 import TableTickets from './TableTickets';
 

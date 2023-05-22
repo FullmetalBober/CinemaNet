@@ -1,8 +1,9 @@
-import Profile from './Profile';
+import Profile from './Profile/Profile';
 import CabinetMenu from './CabinetMenu';
 import { useState } from 'react';
 import NavLogout from './NavLogout';
-import CabinetTickets from './CabinetTickets';
+import CabinetTickets from './Tickets/CabinetTickets';
+import CabinetShowtime from './Showtime/CabinetShowtime';
 
 const Cabinet = () => {
   const [active, setActive] = useState('Tickets');
@@ -13,6 +14,8 @@ const Cabinet = () => {
         return <CabinetTickets />;
       case 'Profile':
         return <Profile />;
+      case 'Showtime':
+        return <CabinetShowtime />;
     }
   };
 

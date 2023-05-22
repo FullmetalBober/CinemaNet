@@ -1,5 +1,5 @@
-import Button from './Button';
-import Modal from './Modal/Modal';
+import Button from '../Button';
+import Modal from './Modal';
 
 interface IProps {
   children: React.ReactNode;

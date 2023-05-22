@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Button from '../UI/Button';
-import ConfirmationModal from '../UI/ConfirmationModal';
+import Button from '../../UI/Button';
+import ConfirmationModal from '../../UI/Modal/ConfirmationModal';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { UserState } from '../../contexts/UserProvider';
-import { IUser } from '../../Interfaces';
+import { UserState } from '../../../contexts/UserProvider';
+import { IUser } from '../../../Interfaces';
 
 const DeleteMe = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);

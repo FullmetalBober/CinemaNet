@@ -33,10 +33,7 @@ const Table = (props: IProps) => {
           bField = bField.toLowerCase();
         }
 
-        console.log(aField, bField);
-
         let result = 0;
-
         if (aField < bField) result = 1;
         else if (aField > bField) result = -1;
         if (sortedDirection === 'asc') return result * -1;
