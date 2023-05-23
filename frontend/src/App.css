@@ -3,3 +3,15 @@ body {
   color: #fff;
   font-family: 'Styrene A LC App', GothamPro;
 }
+
+.ant-picker-time-panel-column::-webkit-scrollbar {
+  width: 5px; /* width of the entire scrollbar */
+}
+.ant-picker-time-panel-column::-webkit-scrollbar-track {
+  background: black; /* color of the tracking area */
+}
+.ant-picker-time-panel-column::-webkit-scrollbar-thumb {
+  background-color: red; /* color of the scroll thumb */
+  border-radius: 50px; /* roundness of the scroll thumb */
+  border: 1px solid black; /* creates padding around scroll thumb */
+}

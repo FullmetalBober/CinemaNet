@@ -1,12 +1,8 @@
-import Datepicker from 'react-tailwindcss-datepicker';
-
 import { IShowtime } from '../../../Interfaces';
-import { useState } from 'react';
-
-interface IProps {
-  showtimes: IShowtime[];
-  setShowtimes: React.Dispatch<React.SetStateAction<IShowtime[]>>;
-}
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useForm } from '../../../hooks/form-hook';
 
 interface IProps {
   showtimes: IShowtime[];
@@ -14,25 +10,46 @@ interface IProps {
 }
 
 const ShowtimeAdd = (props: IProps) => {
-  const [value, setValue] = useState<any>({
-    startDate: null,
-    endDate: null,
-  });
+  // const [formState, inputHandler, setFormData] = useForm(
+  //   {
+  //     date: {
+  //       value: Date,
+  //       isValid: false,
+  //     },
+  //   },
+  //   false
+  // );
+
+  const [value, setValue] = useState<Date>();
 
   return (
-    <div>
-      <Datepicker
-        minDate={new Date(new Date().setHours(0, 0, 0, 0))}
-        maxDate={new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7 * 2)}
-        useRange={false}
-        asSingle={true}
-        readOnly={true}
-        value={value}
-        primaryColor={'red'}
-        onChange={val => setValue(val)}
-        containerClassName='relative w-72'
+    <form>
+      <DatePicker
+        id='date'
+        onSelect={value => console.log(value)} //* This event the best for validation
+        showTime={{ format: 'HH:mm' }}
+        format='YYYY-MM-DD HH:mm'
+        size='large'
+        disabledDate={current =>
+          current < dayjs().endOf('day').add(-1, 'day') ||
+          current > dayjs().endOf('day').add(2, 'week')
+        }
+        disabledTime={() =>
+          props.showtimes.length > 0
+            ? {
+                disabledHours: () =>
+                  props.showtimes.map(showtime =>
+                    dayjs(showtime.time.start).hour()
+                  ),
+                disabledMinutes: () =>
+                  props.showtimes.map(showtime =>
+                    dayjs(showtime.time.start).minute()
+                  ),
+              }
+            : {}
+        }
       />
-    </div>
+    </form>
   );
 };
 
