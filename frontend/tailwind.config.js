@@ -2,8 +2,7 @@
 export default {
   content: [
     './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
+    './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {},
@@ -13,9 +12,6 @@ export default {
       addVariant('child', '& > *');
     },
     require('tailwind-scrollbar')({ nocompatible: true }),
-    require('@tailwindcss/forms')({
-      strategy: 'class',
-    })
   ],
   darkMode: 'media',
 };

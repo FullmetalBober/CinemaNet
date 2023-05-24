@@ -18,7 +18,7 @@ const CabinetShowtime = () => {
     (async () => {
       try {
         if (!cinema.halls) return;
-        const dateNow = new Date().getTime();
+        const dateNow = new Date().setHours(0);
         const urls = cinema.halls.map(
           hall =>
             `/api/v1/showtimes?time.start[gte]=${dateNow}&hall=${hall._id}`

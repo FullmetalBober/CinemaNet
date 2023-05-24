@@ -1,8 +1,7 @@
 import { IShowtime } from '../../../Interfaces';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm } from '../../../hooks/form-hook';
+import { useState } from 'react';
 
 interface IProps {
   showtimes: IShowtime[];
@@ -19,35 +18,50 @@ const ShowtimeAdd = (props: IProps) => {
   //   },
   //   false
   // );
-
-  const [value, setValue] = useState<Date>();
+  const [value, setValue] = useState<Date>(new Date());
 
   return (
     <form>
       <DatePicker
         id='date'
-        onSelect={value => console.log(value)} //* This event the best for validation
-        showTime={{ format: 'HH:mm' }}
+        onSelect={value => setValue(value.toDate())}
+        showTime={{ format: 'HH:mm', hideDisabledOptions: true }}
         format='YYYY-MM-DD HH:mm'
         size='large'
+        defaultValue={dayjs()}
         disabledDate={current =>
           current < dayjs().endOf('day').add(-1, 'day') ||
           current > dayjs().endOf('day').add(2, 'week')
         }
-        disabledTime={() =>
-          props.showtimes.length > 0
-            ? {
-                disabledHours: () =>
-                  props.showtimes.map(showtime =>
-                    dayjs(showtime.time.start).hour()
-                  ),
-                disabledMinutes: () =>
-                  props.showtimes.map(showtime =>
-                    dayjs(showtime.time.start).minute()
-                  ),
-              }
-            : {}
-        }
+        disabledTime={() => {
+          const disabledHours = () => {
+            const hours = [];
+            for (let i = 0; i <= 8; i++) {
+              hours.push(i);
+            }
+            for (let i = 23; i >= 18; i--) {
+              hours.push(i);
+            }
+
+            const currentDayHours = props.showtimes.reduce((acc, showtime) => {
+              if (dayjs(showtime.time.start).isSame(dayjs(value), 'day'))
+                for (
+                  let i = dayjs(showtime.time.start).hour();
+                  i <= dayjs(showtime.time.end).hour();
+                  i++
+                ) {
+                  acc.push(i);
+                }
+
+              return acc;
+            }, [] as number[]);
+
+            return [...hours, ...currentDayHours];
+          };
+          return {
+            disabledHours: disabledHours,
+          };
+        }}
       />
     </form>
   );
