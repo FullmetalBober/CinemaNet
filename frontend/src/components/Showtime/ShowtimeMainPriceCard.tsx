@@ -1,5 +1,5 @@
 import Currency from '../UI/Currency';
-import ShowtimeSeatCard from './ShowtimeSeatCard';
+import ShowtimeSeatCard from '../UI/Seats/ShowtimeSeatCard';
 
 interface IProps {
   title: string;

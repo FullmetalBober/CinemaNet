@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ModalSearch from '../UI/Modal/ModalSearch';
 import { IHall } from '../../Interfaces';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
+import axios from 'axios';
+import Seats from '../UI/Seats/Seats';
+import ScrollbarDiv from '../UI/ScrollbarDiv';
 
 interface IProps {
   children: React.ReactNode;
@@ -11,9 +14,34 @@ interface IProps {
 
 const HallSearch = (props: IProps) => {
   const [showSearch, setShowSearch] = useState(false);
+  const [halls, setHalls] = useState<IHall[]>([]);
+  const [input, setInput] = useState<string>();
 
-  const onInput = (id: string, val: string) => {
-    console.log(val); //TODO: /api/v1/halls?search=val
+  useEffect(() => {
+    (async () => {
+      try {
+        let url = `/api/v1/halls?`;
+        if (input) url += `?search=${input}`;
+
+        const response = await axios.get(url + `&sort=name`);
+        setHalls(response.data.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [input]);
+
+  const onInput = useCallback((_: string, val: string) => {
+    setInput(val);
+  }, []);
+
+  const calculationSizeSeat = (hall: IHall) => {
+    const maxCol = Math.max(...hall.seats.standard.map(seat => seat.seats));
+    const width = maxCol * 1.1;
+    return {
+      width: `${width}px`,
+      height: `${width + 8}px`,
+    };
   };
 
   return (
@@ -25,7 +53,21 @@ const HallSearch = (props: IProps) => {
         icon={<MdOutlineMeetingRoom />}
         onInput={onInput}
       >
-        qwe
+        <ScrollbarDiv className='mt-5 h-full divide-y-2 divide-white/10 p-2 scrollbar-track-stone-800 scrollbar-thumb-stone-700'>
+          {halls.map(hall => (
+            <div
+              key={hall._id}
+              className='cursor-pointer rounded p-2 transition hover:bg-white/5'
+              onClick={() => {
+                props.setHall(hall);
+                setShowSearch(false);
+              }}
+            >
+              <h2 className='text-center text-2xl font-bold'>{hall.name}</h2>
+              <Seats hall={hall} cardSize={calculationSizeSeat(hall)} />
+            </div>
+          ))}
+        </ScrollbarDiv>
       </ModalSearch>
       <div onClick={() => setShowSearch(true)}>{props.children}</div>
     </>
