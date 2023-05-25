@@ -26,7 +26,7 @@ const Modal = (props: IProps) => {
     'left-1/2 top-1/2 w-[28rem] rounded-md !bg-[#2d2a2a]':
       props.position === 'center',
     'right-0 h-screen md:w-[48rem]': props.position === 'right',
-    'left-0 h-screen md:w-[30rem] bg-[#2d2a2a]': props.position === 'left',
+    'left-0 h-screen md:w-[30rem] !bg-[#2d2a2a]': props.position === 'left',
   });
 
   return (

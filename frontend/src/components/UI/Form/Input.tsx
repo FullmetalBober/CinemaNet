@@ -109,7 +109,7 @@ const Input = (props: IProps) => {
     );
 
   return (
-    <div className='group relative mb-1.5 mt-1.5 flex flex-col items-center'>
+    <div className='group relative mb-1.5 mt-1.5'>
       {element}
       <label
         htmlFor={props.id}

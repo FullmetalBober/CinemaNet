@@ -35,3 +35,12 @@ exports.deleteMoviePhoto = (req, res, next) => {
   CloudinaryStorage.deleteSingle('Movie', req.params.id);
   next();
 };
+
+exports.regexSearch = (req, res, next) => {
+  if (req.query.search) {
+    req.query.name = { $regex: req.query.search, $options: 'i' };
+    req.query.search = undefined;
+  }
+
+  next();
+};

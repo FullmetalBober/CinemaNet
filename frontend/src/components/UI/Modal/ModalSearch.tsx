@@ -1,4 +1,4 @@
-import Button from '../Button';
+import Input from '../Form/Input';
 import Modal from './Modal';
 
 interface IProps {
@@ -7,7 +7,7 @@ interface IProps {
   icon?: React.ReactNode;
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  actions: (val: any) => void;
+  onInput: (id: string, val: string) => void;
 }
 
 const ModalSearch = (props: IProps) => {
@@ -19,23 +19,20 @@ const ModalSearch = (props: IProps) => {
       closeColor='white'
     >
       <div className='px-3 py-2'>
-        <h1 className='flex items-center gap-1 text-2xl font-semibold'>
+        <h1 className='flex items-center gap-1 text-3xl font-semibold'>
           {props.icon} {props.header}
         </h1>
-        <div className='p-2 text-xl'>{props.children}</div>
-
-        <div className='flex justify-end gap-5'>
-          {/* <Button
-            onClick={() => {
-              props.setShow(false);
-              props.actions();
-            }}
-          >
-            Yes, delete me
-          </Button> */}
-          <Button outline={true} onClick={() => props.setShow(false)}>
-            Ehh, NO
-          </Button>
+        <div className='p-2 text-xl'>
+          <Input
+            id='search'
+            element='input'
+            type='text'
+            label='Search'
+            autoComplete='off'
+            initialValid={true}
+            onInput={props.onInput}
+          />
+          {props.children}
         </div>
       </div>
     </Modal>

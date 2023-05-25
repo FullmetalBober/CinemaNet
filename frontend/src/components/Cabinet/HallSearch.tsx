@@ -12,23 +12,20 @@ interface IProps {
 const HallSearch = (props: IProps) => {
   const [showSearch, setShowSearch] = useState(false);
 
+  const onInput = (id: string, val: string) => {
+    console.log(val); //TODO: /api/v1/halls?search=val
+  };
+
   return (
     <>
       <ModalSearch
         show={showSearch}
         setShow={setShowSearch}
-        header='Delete your account'
+        header='Search hall'
         icon={<MdOutlineMeetingRoom />}
-        actions={val => props.setHall(val)}
+        onInput={onInput}
       >
-        <p>
-          Ok, we get you clicked to delete you
-          <br />
-          <br />
-          We'r not being dramatic but{' '}
-          <span className='font-black'>there's no going back from it</span>, so
-          do you really want to delete your account?
-        </p>
+        qwe
       </ModalSearch>
       <div onClick={() => setShowSearch(true)}>{props.children}</div>
     </>

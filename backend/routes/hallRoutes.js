@@ -4,7 +4,7 @@ const hallController = require('./../controllers/hallController');
 
 const router = express.Router();
 
-router.route('/').get(hallController.getAllHalls);
+router.route('/').get(hallController.regexSearch, hallController.getAllHalls);
 router.route('/:id').get(hallController.getHall);
 
 router.use(authController.protect);
