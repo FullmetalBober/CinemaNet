@@ -5,6 +5,7 @@ import { MdOutlineMeetingRoom } from 'react-icons/md';
 import axios from 'axios';
 import Seats from '../UI/Seats/Seats';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
+import { CinemaState } from '../../contexts/CinemaProvider';
 
 interface IProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const HallSearch = (props: IProps) => {
   const [showSearch, setShowSearch] = useState(false);
   const [halls, setHalls] = useState<IHall[]>([]);
   const [input, setInput] = useState<string>();
+  const { cinema } = CinemaState();
 
   useEffect(() => {
     (async () => {
@@ -23,13 +25,15 @@ const HallSearch = (props: IProps) => {
         let url = `/api/v1/halls?`;
         if (input) url += `?search=${input}`;
 
-        const response = await axios.get(url + `&sort=name`);
+        const response = await axios.get(
+          url + `&sort=name&cinema=${cinema._id}`
+        );
         setHalls(response.data.data.data);
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [input]);
+  }, [input, cinema._id]);
 
   const onInput = useCallback((_: string, val: string) => {
     setInput(val);
