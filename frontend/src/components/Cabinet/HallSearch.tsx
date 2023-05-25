@@ -23,7 +23,7 @@ const HallSearch = (props: IProps) => {
     (async () => {
       try {
         let url = `/api/v1/halls?`;
-        if (input) url += `?search=${input}`;
+        if (input) url += `search=${input}`;
 
         const response = await axios.get(
           url + `&sort=name&cinema=${cinema._id}`
