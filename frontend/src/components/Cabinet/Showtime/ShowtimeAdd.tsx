@@ -5,6 +5,7 @@ import ShowtimeSelectHall from './ShowtimeSelectHall';
 
 interface IProps {
   showtimes: IShowtime[];
+  setShowtimes: React.Dispatch<React.SetStateAction<IShowtime[]>>;
 }
 
 const ShowtimeAdd = (props: IProps) => {
