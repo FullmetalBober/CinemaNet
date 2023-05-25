@@ -57,7 +57,7 @@ const HallSearch = (props: IProps) => {
         icon={<MdOutlineMeetingRoom />}
         onInput={onInput}
       >
-        <ScrollbarDiv className='mt-5 h-full divide-y-2 divide-white/10 p-2 scrollbar-track-stone-800 scrollbar-thumb-stone-700'>
+        <ScrollbarDiv className='h-full divide-y-2 divide-white/10 p-2 scrollbar-track-stone-800 scrollbar-thumb-stone-700'>
           {halls.map(hall => (
             <div
               key={hall._id}
