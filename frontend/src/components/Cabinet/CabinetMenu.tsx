@@ -1,7 +1,7 @@
 import { AiOutlineUser } from 'react-icons/ai';
 import { HiOutlineClock, HiOutlineLocationMarker } from 'react-icons/hi';
 import { RiTicketLine } from 'react-icons/ri';
-import { MdOutlineMovie } from 'react-icons/md';
+import { MdOutlineMeetingRoom, MdOutlineMovie } from 'react-icons/md';
 import { FaNapster } from 'react-icons/fa';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import { useMemo } from 'react';
@@ -30,6 +30,10 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
         { value: 'Movie', icon: <MdOutlineMovie className={classNameIcon} /> },
         { value: 'Bar', icon: <IoFastFoodOutline className={classNameIcon} /> },
         { value: 'Genre', icon: <FaNapster className={classNameIcon} /> },
+        {
+          value: 'Hall',
+          icon: <MdOutlineMeetingRoom className={classNameIcon} />,
+        },
         {
           value: 'Cinema',
           icon: <HiOutlineLocationMarker className={classNameIcon} />,
