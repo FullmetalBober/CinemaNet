@@ -1,21 +1,45 @@
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
-import { IShowtime } from '../../../Interfaces';
+import { IMovie, IShowtime } from '../../../Interfaces';
 import type { RangePickerProps } from 'antd/es/date-picker';
+import { InputData } from '../../../hooks/form-hook';
 
 interface IProps {
+  movie: IMovie;
   showtimes: IShowtime[];
+  formState: { inputs: InputData };
   inputHandler: (id: string, value: string, isValid: boolean) => void;
 }
 
 const ShowtimeDatePicker = (props: IProps) => {
   const [value, setValue] = useState<Date>();
+  const currentHall = useMemo(() => {
+    return props.showtimes.filter(
+      showtime => props.formState.inputs.hall.value === showtime.hall._id
+    );
+  }, [props.showtimes, props.formState.inputs.hall.value]);
+
+  const currentMovie = useMemo(() => {
+    return currentHall.map(showtime => {
+      return {
+        ...showtime,
+        time: {
+          start: new Date(
+            new Date(showtime.time.start).getTime() -
+              props.movie.duration * 60 * 1000
+          ),
+          end: showtime.time.end,
+        },
+      };
+    });
+  }, [currentHall, props.movie.duration]);
+
   const currentDayShowtimes = useMemo(() => {
-    return props.showtimes.filter(showtime =>
+    return currentMovie.filter(showtime =>
       dayjs(showtime.time.start).isSame(dayjs(value), 'day')
     );
-  }, [props.showtimes, value]);
+  }, [currentMovie, value]);
 
   const onOk = () => {
     props.inputHandler('date', dayjs(value).toISOString(), true);
@@ -75,20 +99,22 @@ const ShowtimeDatePicker = (props: IProps) => {
   };
 
   return (
-    <div>
-      <DatePicker
-        id='date'
-        onOk={onOk}
-        inputReadOnly={true}
-        allowClear={false}
-        onSelect={value => setValue(value.toDate())}
-        showTime={{ format: 'HH:mm', hideDisabledOptions: true }}
-        format='YYYY-MM-DD HH:mm'
-        size='large'
-        disabledDate={disabledDate}
-        disabledTime={disabledTime}
-      />
-    </div>
+    <DatePicker
+      id='date'
+      onOk={onOk}
+      inputReadOnly={true}
+      allowClear={false}
+      onSelect={value => setValue(value.toDate())}
+      showTime={{ format: 'HH:mm', hideDisabledOptions: true }}
+      format='YYYY-MM-DD HH:mm'
+      size='large'
+      disabledDate={disabledDate}
+      disabledTime={disabledTime}
+      disabled={
+        props.formState.inputs.hall.value === '' ||
+        props.formState.inputs.movie.value === ''
+      }
+    />
   );
 };
 

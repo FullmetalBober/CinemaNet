@@ -6,7 +6,7 @@ interface IProps {
 const IconCard = ({ children, className }: IProps) => {
   return (
     <div
-      className={`flex items-center justify-center bg-white/50 p-2 text-center text-4xl text-black ${className}`}
+      className={`flex h-full items-center justify-center bg-white/50 p-2 text-center text-4xl text-black ${className}`}
     >
       {children}
     </div>

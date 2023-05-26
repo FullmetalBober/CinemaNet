@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import ModalSearch from '../UI/Modal/ModalSearch';
-import { IHall } from '../../Interfaces';
+import ModalSearch from '../../UI/Modal/ModalSearch';
+import { IHall } from '../../../Interfaces';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import axios from 'axios';
-import Seats from '../UI/Seats/Seats';
-import ScrollbarDiv from '../UI/ScrollbarDiv';
-import { CinemaState } from '../../contexts/CinemaProvider';
+import Seats from '../../UI/Seats/Seats';
+import ScrollbarDiv from '../../UI/ScrollbarDiv';
+import { CinemaState } from '../../../contexts/CinemaProvider';
 
 interface IProps {
   children: React.ReactNode;
