@@ -33,6 +33,15 @@ const CabinetShowtime = () => {
     })();
   }, [cinema.name, cinema.halls]);
 
+  useEffect(() => {
+    setShowtimes(prevState => [
+      ...prevState.sort(
+        (a, b) =>
+          new Date(a.time.start).getTime() - new Date(b.time.start).getTime()
+      ),
+    ]);
+  }, [showtimes]);
+
   return (
     <div className='w-full'>
       <h1 className='mb-2 text-3xl font-medium'>SHOWTIMES</h1>
@@ -40,7 +49,12 @@ const CabinetShowtime = () => {
       {mode === buttons[0] ? (
         <ShowtimeTable showtimes={showtimes} />
       ) : (
-        <ShowtimeAdd showtimes={showtimes} setShowtimes={setShowtimes} />
+        <ShowtimeAdd
+          showtimes={showtimes}
+          setShowtimes={setShowtimes}
+          setMode={setMode}
+          buttons={buttons}
+        />
       )}
     </div>
   );

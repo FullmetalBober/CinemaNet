@@ -48,13 +48,17 @@ exports.checkShowtime = catchAsync(async (req, res, next) => {
       },
       {
         // [ | ] |
-        'time.start': { $gte: req.body.time.start },
-        'time.start': { $lte: req.body.time.end },
+        $and: [
+          { 'time.start': { $gte: req.body.time.start } },
+          { 'time.start': { $lte: req.body.time.end } },
+        ],
       },
       {
         // | [ | ]
-        'time.end': { $gte: req.body.time.start },
-        'time.end': { $lte: req.body.time.end },
+        $and: [
+          { 'time.end': { $gte: req.body.time.start } },
+          { 'time.end': { $lte: req.body.time.end } },
+        ],
       },
     ],
   });

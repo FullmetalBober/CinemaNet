@@ -1,5 +1,5 @@
-import Currency from '../UI/Currency';
-import ShowtimeSeatCard from '../UI/Seats/ShowtimeSeatCard';
+import Currency from '../Currency';
+import ShowtimeSeatCard from './ShowtimeSeatCard';
 
 interface IProps {
   title: string;
@@ -7,7 +7,7 @@ interface IProps {
   color: string;
 }
 
-const ShowtimeMainPriceCard = (props: IProps) => {
+const PriceCard = (props: IProps) => {
   return (
     <div className='flex items-center'>
       <ShowtimeSeatCard className={`mr-2 ${props.color}`} />
@@ -21,4 +21,4 @@ const ShowtimeMainPriceCard = (props: IProps) => {
   );
 };
 
-export default ShowtimeMainPriceCard;
+export default PriceCard;

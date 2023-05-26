@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { ISeat, IShowtime } from '../../Interfaces';
-import ShowtimeMainPriceCard from './ShowtimeMainPriceCard';
+import PriceCard from '../UI/Seats/PriceCard';
 import Seats from '../UI/Seats/Seats';
+import GroupPriceCard from '../UI/Seats/GroupPrice';
 
 interface IProps {
   showtime: IShowtime;
@@ -28,18 +29,10 @@ const SeatsPage = (props: IProps) => {
 
   return (
     <div className='my-3 flex flex-col items-center'>
-      <div className='flex gap-14'>
-        <ShowtimeMainPriceCard
-          title='GOOD'
-          price={showtime.price.standard}
-          color='bg-[#95c7f4]'
-        />
-        <ShowtimeMainPriceCard
-          title='SUPER LUX'
-          price={showtime.price.lux}
-          color='bg-red-500'
-        />
-      </div>
+      <GroupPriceCard
+        standardPrice={showtime.price.standard}
+        luxPrice={showtime.price.lux}
+      />
       <svg
         xmlns='http://www.w3.org/2000/svg'
         viewBox='0 0 806 21'

@@ -42,6 +42,9 @@ const ShowtimeDatePicker = (props: IProps) => {
   }, [currentMovie, value]);
 
   const onOk = () => {
+    if (disabledHours().length === 24) props.inputHandler('date', '', false);
+    if (disabledMinutes().length === 60) props.inputHandler('date', '', false);
+    console.log(disabledHours().length);
     props.inputHandler('date', dayjs(value).toISOString(), true);
   };
 
@@ -57,7 +60,11 @@ const ShowtimeDatePicker = (props: IProps) => {
     for (let i = 0; i <= 8; i++) {
       hours.push(i);
     }
-    for (let i = 23; i >= 18; i--) {
+
+    if (dayjs().isSame(dayjs(value), 'day'))
+      for (let i = 0; i < dayjs().hour(); i++) hours.push(i);
+
+    for (let i = 23; i >= 22 - props.movie.duration / 60; i--) {
       hours.push(i);
     }
 
@@ -73,7 +80,7 @@ const ShowtimeDatePicker = (props: IProps) => {
       return acc;
     }, [] as number[]);
 
-    return [...hours, ...currentDayHours];
+    return [...new Set([...hours, ...currentDayHours])];
   };
 
   const disabledMinutes = () => {
@@ -88,7 +95,7 @@ const ShowtimeDatePicker = (props: IProps) => {
 
       return acc;
     }, [] as number[]);
-    return currentHourMinutes;
+    return [...new Set(currentHourMinutes)];
   };
 
   const disabledTime = () => {
