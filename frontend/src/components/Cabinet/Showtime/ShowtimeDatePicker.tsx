@@ -42,9 +42,11 @@ const ShowtimeDatePicker = (props: IProps) => {
   }, [currentMovie, value]);
 
   const onOk = () => {
-    if (disabledHours().length === 24) props.inputHandler('date', '', false);
-    if (disabledMinutes().length === 60) props.inputHandler('date', '', false);
-    console.log(disabledHours().length);
+    if (disabledHours().length === 24)
+      return props.inputHandler('date', '', false);
+    if (disabledMinutes().length === 60)
+      return props.inputHandler('date', '', false);
+
     props.inputHandler('date', dayjs(value).toISOString(), true);
   };
 

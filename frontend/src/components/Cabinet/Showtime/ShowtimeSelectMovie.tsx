@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { IMovie } from '../../../Interfaces';
 import MovieSearch from '../Search/MovieSearch';
 import MovieCard from '../../UI/Cards/MovieCard';

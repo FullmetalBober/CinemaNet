@@ -40,7 +40,7 @@ const CabinetShowtime = () => {
           new Date(a.time.start).getTime() - new Date(b.time.start).getTime()
       ),
     ]);
-  }, [showtimes]);
+  }, [showtimes.length]);
 
   return (
     <div className='w-full'>
