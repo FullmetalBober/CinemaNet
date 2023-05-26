@@ -41,10 +41,11 @@ const HallSearch = (props: IProps) => {
 
   const calculationSizeSeat = (hall: IHall) => {
     const maxCol = Math.max(...hall.seats.standard.map(seat => seat.seats));
-    const width = maxCol * 1.1;
+    console.log(maxCol);
+    const width = 159 / maxCol;
     return {
       width: `${width}px`,
-      height: `${width + 8}px`,
+      height: `${width + width * 0.6}px`,
     };
   };
 
