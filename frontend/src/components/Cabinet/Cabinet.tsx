@@ -4,6 +4,7 @@ import { useState } from 'react';
 import NavLogout from './NavLogout';
 import CabinetTickets from './Tickets/CabinetTickets';
 import CabinetShowtime from './Showtime/CabinetShowtime';
+import CabinetMovie from './Movie/CabinetMovie';
 
 const Cabinet = () => {
   const [active, setActive] = useState('Tickets');
@@ -16,6 +17,8 @@ const Cabinet = () => {
         return <Profile />;
       case 'Showtime':
         return <CabinetShowtime />;
+      case 'Movie':
+        return <CabinetMovie />;
     }
   };
 

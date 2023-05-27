@@ -17,9 +17,11 @@ const Table = (props: IProps) => {
       return childrenArray.sort((a: any, b: any) => {
         let aField =
           a.props.children[sortedField.key].props['data-order'] ||
+          a.props.children[sortedField.key].props['dataOrder'] ||
           a.props.children[sortedField.key].props.children;
         let bField =
           b.props.children[sortedField.key].props['data-order'] ||
+          b.props.children[sortedField.key].props['dataOrder'] ||
           b.props.children[sortedField.key].props.children;
 
         if (sortedField.type === 'date') {

@@ -1,3 +1,8 @@
+interface ITimestamps {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface ICinema {
   _id: string;
   name: string;
@@ -26,7 +31,7 @@ export interface IShowtime {
   tickets: ITicket[];
 }
 
-export interface IMovie {
+export interface IMovie extends ITimestamps {
   _id: string;
   name: string;
   duration: number;
@@ -77,15 +82,13 @@ export interface IGenre {
   slug: string;
 }
 
-export interface ITicket {
+export interface ITicket extends ITimestamps {
   _id: string;
   showtime: IShowtime;
   seats: ISeat[];
   user: IUser;
   cost: number;
   barOrders: IGoods[];
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface ISeat {
