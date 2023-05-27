@@ -15,6 +15,6 @@ router.route('/').post(hallController.createHall);
 router
   .route('/:id')
   .patch(hallController.updateHall)
-  .delete(hallController.deleteHall);
+  .delete(hallController.checkToDeleteHall, hallController.deleteHall);
 
 module.exports = router;

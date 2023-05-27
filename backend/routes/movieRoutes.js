@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.use('/:movieId/reviews', reviewRouter);
 
-router.route('/').get(movieController.regexSearch, movieController.getAllMovies);
+router
+  .route('/')
+  .get(movieController.regexSearch, movieController.getAllMovies);
 router.route('/slug/:slug').get(movieController.getMovieBySlug);
 router.route('/:id').get(movieController.getMovie);
 
@@ -19,6 +21,10 @@ router.route('/').post(movieController.createMovie);
 router
   .route('/:id')
   .patch(movieController.uploadMoviePhoto, movieController.updateMovie)
-  .delete(movieController.deleteMoviePhoto, movieController.deleteMovie);
+  .delete(
+    movieController.checkToDeleteMovie,
+    movieController.deleteMoviePhoto,
+    movieController.deleteMovie
+  );
 
 module.exports = router;

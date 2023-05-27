@@ -1,5 +1,7 @@
 const CloudinaryStorage = require('../utils/cloudinary');
 const Cinema = require('../models/cinemaModel');
+const Hall = require('../models/hallModel');
+const Bar = require('../models/barModel');
 const factory = require('./handlerFactory');
 
 exports.getAllCinemas = factory.getAll(Cinema);
@@ -7,6 +9,7 @@ exports.getCinema = factory.getOne(Cinema);
 exports.createCinema = factory.createOne(Cinema);
 exports.updateCinema = factory.updateOne(Cinema);
 exports.deleteCinema = factory.deleteOne(Cinema);
+exports.checkToDeleteCinema = factory.checkToDelete([Hall, Bar], 'cinema');
 
 exports.uploadCinemaPhoto = (req, res, next) => {
   const upload = CloudinaryStorage.createSingle(

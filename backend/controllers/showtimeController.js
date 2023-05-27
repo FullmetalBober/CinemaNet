@@ -23,8 +23,9 @@ exports.getShowtime = factory.getOne(Showtime, [
   },
 ]);
 exports.createShowtime = factory.createOne(Showtime);
-exports.updateShowtime = factory.updateOne(Showtime);
-exports.deleteShowtime = factory.deleteOne(Showtime);
+//? I don't think that me need to update or delete showtime
+// exports.updateShowtime = factory.updateOne(Showtime);
+// exports.deleteShowtime = factory.deleteOne(Showtime);
 
 exports.checkShowtime = catchAsync(async (req, res, next) => {
   const movie = await Movie.findById(req.body.movie);

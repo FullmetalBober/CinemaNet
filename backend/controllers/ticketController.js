@@ -24,8 +24,9 @@ exports.getAllTickets = factory.getAll(Ticket, [
 ]);
 exports.getTicket = factory.getOne(Ticket);
 exports.createTicket = factory.createOne(Ticket);
-exports.updateTicket = factory.updateOne(Ticket);
-exports.deleteTicket = factory.deleteOne(Ticket);
+//? I don't think that me need to update or delete ticket
+// exports.updateTicket = factory.updateOne(Ticket);
+// exports.deleteTicket = factory.deleteOne(Ticket);
 
 exports.setUserId = (req, res, next) => {
   req.body.user = req.user.id;

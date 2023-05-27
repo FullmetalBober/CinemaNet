@@ -14,7 +14,11 @@ router.route('/').post(barController.createBar);
 
 router
   .route('/:id')
-  .patch(barController.updateBar)
-  .delete(barController.deleteBar);
+  .patch(barController.uploadBarPhoto, barController.updateBar)
+  .delete(
+    barController.checkToDeleteBar,
+    barController.deleteBarPhoto,
+    barController.deleteBar
+  );
 
 module.exports = router;

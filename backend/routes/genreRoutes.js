@@ -15,6 +15,10 @@ router.route('/').post(genreController.createGenre);
 router
   .route('/:id')
   .patch(genreController.uploadGenrePhoto, genreController.updateGenre)
-  .delete(genreController.deleteGenrePhoto, genreController.deleteGenre);
+  .delete(
+    genreController.checkToDeleteGenre,
+    genreController.deleteGenrePhoto,
+    genreController.deleteGenre
+  );
 
 module.exports = router;

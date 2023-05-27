@@ -1,4 +1,5 @@
 const Movie = require('../models/movieModel');
+const Showtime = require('../models/showtimeModel');
 const factory = require('./handlerFactory');
 const CloudinaryStorage = require('../utils/cloudinary');
 
@@ -13,6 +14,7 @@ exports.getMovieBySlug = factory.getOneBySlug(Movie, popOptions);
 exports.createMovie = factory.createOne(Movie);
 exports.updateMovie = factory.updateOne(Movie);
 exports.deleteMovie = factory.deleteOne(Movie);
+exports.checkToDeleteMovie = factory.checkToDelete(Showtime, 'movie');
 
 exports.uploadMoviePhoto = (req, res, next) => {
   const upload = CloudinaryStorage.createSingle(
