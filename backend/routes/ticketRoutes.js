@@ -19,12 +19,4 @@ router
   .route('/')
   .post(ticketController.setUserId, ticketController.createTicket);
 
-//? I don't think that me need to update or delete ticket
-// router.use(authController.restrictTo('admin'));
-//
-// router
-//   .route('/:id')
-//   .patch(ticketController.updateTicket)
-//   .delete(ticketController.deleteTicket);
-
 module.exports = router;

@@ -14,9 +14,4 @@ router
   .route('/')
   .post(showtimeController.checkShowtime, showtimeController.createShowtime);
 
-// router
-//   .route('/:id')
-// .patch(showtimeController.updateShowtime)
-// .delete(showtimeController.deleteShowtime);
-
 module.exports = router;
