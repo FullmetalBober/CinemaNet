@@ -12,6 +12,10 @@ const movieSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'Movie must have a duration'],
     },
+    price: {
+      type: Number,
+      required: [true, 'Movie must have a price'],
+    },
     imageCover: {
       type: String,
       default: '/images/movie/default.jpg',
@@ -60,10 +64,6 @@ const movieSchema = new mongoose.Schema(
     scenario: [String],
     starring: [String],
     description: String,
-    price: {
-      type: Number,
-      required: [true, 'Movie must have a price'],
-    },
     slug: String,
   },
   {

@@ -53,7 +53,8 @@ const ProfileChangeInfo = () => {
       <ImageUpload
         id='photo'
         preview={user.photo}
-        size={190}
+        width={190}
+        height={190}
         rounded='rounded-full'
         onInput={inputHandler}
         initialValid={true}

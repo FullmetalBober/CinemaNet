@@ -3,7 +3,8 @@ import { useCallback, useRef, useState } from 'react';
 interface Props {
   id: string;
   preview: string;
-  size?: number;
+  width?: number;
+  height?: number;
   rounded?: 'rounded' | 'rounded-full';
   onInput: (id: string, value: File | null, isValid: boolean) => void;
   initialValid?: boolean;
@@ -42,8 +43,8 @@ const ImageUpload = (props: Props) => {
       <img
         src={previewUrl}
         alt='Upload image'
-        width={props.size}
-        style={{ height: props.size }}
+        width={props.width}
+        style={{ height: props.height || props.width }}
         onClick={() => filePickerRef.current!.click()}
         className={`cursor-pointer object-cover object-center ${props.rounded}`}
       />

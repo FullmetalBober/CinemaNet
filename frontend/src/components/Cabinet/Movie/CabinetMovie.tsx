@@ -3,6 +3,7 @@ import ControlMenu from '../../UI/Control/ControlMenu';
 import { IMovie } from '../../../Interfaces';
 import MovieTable from './MovieTable';
 import axios from 'axios';
+import MovieAdd from './MovieAdd';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
@@ -30,14 +31,7 @@ const CabinetMovie = () => {
       {mode === buttons[0] ? (
         <MovieTable movies={movies} />
       ) : (
-        //TODO: implement MovieAdd
-        // <MovieAdd
-        //   movies={movies}
-        //   setMovies={setMovies}
-        //   setMode={setMode}
-        //   buttons={buttons}
-        // />
-        ''
+        <MovieAdd setMovies={setMovies} setMode={setMode} buttons={buttons} />
       )}
     </div>
   );
