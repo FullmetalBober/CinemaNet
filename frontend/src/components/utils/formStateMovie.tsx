@@ -51,19 +51,19 @@ export default {
     value: null,
     isValid: true,
   },
-  production: {
+  productions: {
     value: null,
     isValid: true,
   },
-  studio: {
+  studios: {
     value: null,
     isValid: true,
   },
-  scenario: {
+  scenarios: {
     value: null,
     isValid: true,
   },
-  starring: {
+  starrings: {
     value: null,
     isValid: true,
   },

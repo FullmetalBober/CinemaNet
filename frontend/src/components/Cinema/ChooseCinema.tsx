@@ -6,7 +6,6 @@ import { CinemaState } from '../../contexts/CinemaProvider';
 import Cookies from 'universal-cookie';
 import CitiesModal from './CitiesModal';
 import CinemasModal from './CinemasModal';
-import { RiCloseFill } from 'react-icons/ri';
 
 interface IProps {
   children: React.ReactNode;

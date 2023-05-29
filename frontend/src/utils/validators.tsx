@@ -40,30 +40,29 @@ export const validate = (
 ) => {
   let isValid = true;
   for (const validator of validators) {
-    if (validator.type === VALIDATOR_TYPE_REQUIRE) {
+    if (validator.type === VALIDATOR_TYPE_REQUIRE)
       isValid = isValid && value.toString().trim().length > 0;
-    }
-    if (validator.type === VALIDATOR_TYPE_MINLENGTH) {
+
+    if (validator.type === VALIDATOR_TYPE_MINLENGTH)
       isValid = isValid && value.toString().trim().length >= +validator.val!;
-    }
-    if (validator.type === VALIDATOR_TYPE_MAXLENGTH) {
+
+    if (validator.type === VALIDATOR_TYPE_MAXLENGTH)
       isValid = isValid && value.toString().trim().length <= +validator.val!;
-    }
-    if (validator.type === VALIDATOR_TYPE_MIN) {
+
+    if (validator.type === VALIDATOR_TYPE_MIN)
       isValid = isValid && +value >= +validator.val!;
-    }
-    if (validator.type === VALIDATOR_TYPE_MAX) {
+
+    if (validator.type === VALIDATOR_TYPE_MAX)
       isValid = isValid && +value <= +validator.val!;
-    }
-    if (validator.type === VALIDATOR_TYPE_EMAIL) {
+
+    if (validator.type === VALIDATOR_TYPE_EMAIL)
       isValid = isValid && /^\S+@\S+\.\S+$/.test(value.toString());
-    }
-    if (validator.type === VALIDATOR_TYPE_IMAGE) {
+
+    if (validator.type === VALIDATOR_TYPE_IMAGE)
       isValid = isValid && (value as File).type.includes('image');
-    }
-    if (validator.type === VALIDATOR_TYPE_EQUAL) {
+
+    if (validator.type === VALIDATOR_TYPE_EQUAL)
       isValid = isValid && value.toString().trim() === validator.val;
-    }
   }
   return isValid;
 };

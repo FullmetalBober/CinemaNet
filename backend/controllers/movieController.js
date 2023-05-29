@@ -3,6 +3,12 @@ const Showtime = require('../models/showtimeModel');
 const factory = require('./handlerFactory');
 const CloudinaryStorage = require('../utils/cloudinary');
 
+const uploadOptions = {
+  key: 'imageCover',
+  width: 250,
+  height: 369,
+};
+
 const popOptions = {
   path: 'genres',
   select: 'name _id slug',
@@ -11,18 +17,18 @@ const popOptions = {
 exports.getAllMovies = factory.getAll(Movie);
 exports.getMovie = factory.getOne(Movie, popOptions);
 exports.getMovieBySlug = factory.getOneBySlug(Movie, popOptions);
-exports.createMovie = factory.createOne(Movie);
+exports.createMovie = factory.createOneWithUpload(Movie, uploadOptions);
 exports.updateMovie = factory.updateOne(Movie);
 exports.deleteMovie = factory.deleteOne(Movie);
 exports.checkToDeleteMovie = factory.checkToDelete(Showtime, 'movie');
 
 exports.uploadMoviePhoto = (req, res, next) => {
   const upload = CloudinaryStorage.createSingle(
-    'imageCover',
+    uploadOptions.key,
     'Movie',
     req.params.id,
-    250,
-    369
+    uploadOptions.width,
+    uploadOptions.height
   );
 
   upload(req, res, err => {

@@ -1,5 +1,6 @@
 import { validate } from '../../../utils/validators';
 import { useReducer, Reducer, useEffect } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 
 interface IProps {
   type: string;
@@ -14,6 +15,8 @@ interface IProps {
   rows?: number;
   errorText?: string;
   autoComplete?: string;
+  ref?: any;
+  disabled?: boolean;
 }
 
 interface State {
@@ -66,7 +69,15 @@ const Input = (props: IProps) => {
 
   useEffect(() => {
     props.onInput?.(props.id!, inputState.value, inputState.isValid);
-  }, [props.onInput, props.id, inputState.value, inputState.isValid]);
+  }, [inputState.value]);
+
+  useEffect(() => {
+    dispatch({
+      type: 'CHANGE',
+      value: props.value || '',
+      validators: props.validators || [],
+    });
+  }, [props.value]);
 
   const changeHandler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -84,6 +95,8 @@ const Input = (props: IProps) => {
     });
   };
 
+  const elementClass =
+    'peer border-b-2 border-white/50 bg-transparent px-2.5 pb-2.5 pt-4 text-xl text-slate-100 transition-colors focus:border-red-500 focus:outline-none';
   const element =
     props.element === 'input' ? (
       <input
@@ -94,28 +107,36 @@ const Input = (props: IProps) => {
         onChange={changeHandler}
         onBlur={touchHandler}
         value={inputState.value}
-        className={`peer w-[345px] border-b-2 border-white/50 bg-transparent px-2.5 pb-2.5 pt-4 text-xl text-slate-100 transition-colors focus:border-red-500 focus:outline-none ${props.className}`}
+        ref={props.ref}
+        disabled={props.disabled}
+        className={`w-[345px] ${elementClass} ${props.className}`}
       />
     ) : (
-      <textarea
+      <TextareaAutosize
         id={props.id}
         rows={props.rows || 3}
         placeholder=' '
         onChange={changeHandler}
         onBlur={touchHandler}
         value={inputState.value}
-        className={`w-full rounded-md border-2 border-gray-300 px-2 py-1 focus:border-red-500 focus:outline-none ${props.className}`}
+        ref={props.ref}
+        disabled={props.disabled}
+        className={`w-full resize-none ${elementClass} ${props.className}`}
       />
     );
 
   return (
-    <div className='group relative mb-1.5 mt-1.5'>
+    <div
+      className={`group relative mb-1.5 mt-1.5 ${
+        props.element === 'input' ? 'w-[345px]' : 'w-full'
+      }`}
+    >
       {element}
       <label
         htmlFor={props.id}
-        className={`absolute -top-2 left-0 cursor-text px-2 text-xl text-gray-500 duration-300 peer-placeholder-shown:translate-y-6 peer-focus:translate-y-0 ${
-          inputState.isTouched && !inputState.isValid && 'text-red-500'
-        }`}
+        className={`absolute -top-2 left-0 -z-10 px-2 text-xl text-gray-500 duration-300 peer-placeholder-shown:translate-y-6 peer-focus:translate-y-0 ${
+          props.disabled ?? 'cursor-text'
+        } ${inputState.isTouched && !inputState.isValid && 'text-red-500'}`}
       >
         {props.label}
       </label>

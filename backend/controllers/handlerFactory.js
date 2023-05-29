@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
+const CloudinaryStorage = require('../utils/cloudinary');
 
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
@@ -44,6 +45,39 @@ exports.createOne = Model =>
       data: {
         data: doc,
       },
+    });
+  });
+
+exports.createOneWithUpload = (Model, options) =>
+  catchAsync(async (req, res, next) => {
+    const session = await Model.startSession();
+    session.startTransaction();
+    const doc = await Model.create([req.body], { session });
+    const upload = CloudinaryStorage.createSingle(
+      options.key,
+      Model.modelName.charAt(0).toUpperCase() + Model.modelName.slice(1),
+      doc[0]._id,
+      options.width,
+      options.height
+    );
+
+    upload(req, res, async err => {
+      if (err) return next(err);
+
+      if (req.file) {
+        doc[0][key] = req.file.path;
+        await doc[0].save({ session });
+      }
+
+      await session.commitTransaction();
+      session.endSession();
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          data: doc[0],
+        },
+      });
     });
   });
 

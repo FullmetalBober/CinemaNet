@@ -1,14 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
-import Schedule from './components/Schedule/Schedule';
-import Movie from './components/Movie/Movie';
+import Navbar from './components/Navbar';
+import Schedule from './components/Schedule';
+import Movie from './components/Movie';
 import { Analytics } from '@vercel/analytics/react';
-import Showtime from './components/Showtime/Showtime';
-import Authorization from './components/Authorization/Authorization';
+import Showtime from './components/Showtime';
+import Authorization from './components/Authorization';
 import Providers from './contexts/Providers';
 import PrivateWrapper from './components/utils/PrivateWrapper';
 import './App.css';
-import Cabinet from './components/Cabinet/Cabinet';
+import Cabinet from './components/Cabinet';
 import { ConfigProvider, theme } from 'antd';
 
 function App() {

@@ -47,10 +47,10 @@ export interface IMovie extends ITimestamps {
   };
   language?: string;
   genres?: (IGenre | string)[];
-  production?: string[];
-  studio?: string[];
-  scenario?: string[];
-  starring?: string[];
+  productions?: string[];
+  studios?: string[];
+  scenarios?: string[];
+  starrings?: string[];
   description?: string;
   price: number;
   slug: string;

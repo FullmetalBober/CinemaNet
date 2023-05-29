@@ -4,7 +4,7 @@ const barController = require('./../controllers/barController');
 
 const router = express.Router();
 
-router.route('/').get(barController.getAllBars);
+router.route('/').get(barController.regexSearch, barController.getAllBars);
 router.route('/:id').get(barController.getBar);
 
 router.use(authController.protect);

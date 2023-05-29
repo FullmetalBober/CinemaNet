@@ -4,7 +4,9 @@ const genreController = require('./../controllers/genreController');
 
 const router = express.Router();
 
-router.route('/').get(genreController.getAllGenres);
+router
+  .route('/')
+  .get(genreController.regexSearch, genreController.getAllGenres);
 router.route('/:id').get(genreController.getGenre);
 
 router.use(authController.protect);
