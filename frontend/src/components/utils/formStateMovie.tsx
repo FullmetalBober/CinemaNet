@@ -35,11 +35,7 @@ export default {
     value: null,
     isValid: true,
   },
-  rentalPeriodStart: {
-    value: null,
-    isValid: true,
-  },
-  rentalPeriodEnd: {
+  rentalPeriod: {
     value: null,
     isValid: true,
   },

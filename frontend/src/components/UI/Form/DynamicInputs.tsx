@@ -13,10 +13,14 @@ const DynamicInputs = (props: IProps) => {
 
   const onInput = (id: string, value: string) => {
     const index = +id;
-    const genresCopy = [...inputs];
-    genresCopy[index] = value;
-    setInputs(genresCopy);
-    props.onInput(id, genresCopy, true);
+    const inputsCopy = [...inputs];
+    inputsCopy[index] = value;
+    setInputs(inputsCopy);
+    props.onInput(
+      props.id,
+      inputsCopy.filter(input => input !== ''),
+      true
+    );
   };
 
   const handleDelete = (index: number) => {

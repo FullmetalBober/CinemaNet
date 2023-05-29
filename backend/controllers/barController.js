@@ -11,7 +11,7 @@ const uploadOptions = {
 
 exports.getAllBars = factory.getAll(Bar);
 exports.getBar = factory.getOne(Bar);
-exports.createBar = factory.createOneWithUpload(Bar, uploadOptions);
+exports.createBar = factory.createOne(Bar);
 exports.updateBar = factory.updateOne(Bar);
 exports.deleteBar = factory.deleteOne(Bar);
 exports.checkToDeleteBar = factory.checkToDelete(Ticket, 'barOrders.bar');

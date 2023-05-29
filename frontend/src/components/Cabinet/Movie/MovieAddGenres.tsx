@@ -16,7 +16,11 @@ const MovieAddGenres = (props: IProps) => {
     const genresCopy = [...genres];
     genresCopy[index] = value;
     setGenres(genresCopy);
-    props.onInput('genres', genresCopy, true);
+    props.onInput(
+      'genres',
+      genresCopy.map(genre => genre._id),
+      true
+    );
   };
 
   const handleDelete = (index: number) => {

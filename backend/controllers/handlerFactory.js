@@ -38,6 +38,7 @@ exports.updateOne = Model =>
 
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
+    console.log(req.body);
     const doc = await Model.create(req.body);
 
     res.status(201).json({
@@ -48,38 +49,39 @@ exports.createOne = Model =>
     });
   });
 
-exports.createOneWithUpload = (Model, options) =>
-  catchAsync(async (req, res, next) => {
-    const session = await Model.startSession();
-    session.startTransaction();
-    const doc = await Model.create([req.body], { session });
-    const upload = CloudinaryStorage.createSingle(
-      options.key,
-      Model.modelName.charAt(0).toUpperCase() + Model.modelName.slice(1),
-      doc[0]._id,
-      options.width,
-      options.height
-    );
+// exports.createOneWithUpload = (Model, options) =>
+//   catchAsync(async (req, res, next) => {
+//     console.log(req.body);
+//     const session = await Model.startSession();
+//     session.startTransaction();
+//     const doc = await Model.create([{ ...req.body }], { session });
+//     const upload = CloudinaryStorage.createSingle(
+//       options.key,
+//       Model.modelName.charAt(0).toUpperCase() + Model.modelName.slice(1),
+//       doc[0]._id,
+//       options.width,
+//       options.height
+//     );
 
-    upload(req, res, async err => {
-      if (err) return next(err);
+  //   upload(req, res, async err => {
+  //     if (err) return next(err);
+  //     console.log(req.file);
+  //     if (req.file) {
+  //       doc[0][key] = req.file.path;
+  //       await doc[0].save({ session });
+  //     }
 
-      if (req.file) {
-        doc[0][key] = req.file.path;
-        await doc[0].save({ session });
-      }
+  //     await session.commitTransaction();
+  //     session.endSession();
 
-      await session.commitTransaction();
-      session.endSession();
-
-      res.status(201).json({
-        status: 'success',
-        data: {
-          data: doc[0],
-        },
-      });
-    });
-  });
+  //     res.status(201).json({
+  //       status: 'success',
+  //       data: {
+  //         data: doc[0],
+  //       },
+  //     });
+  //   });
+  // });
 
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {

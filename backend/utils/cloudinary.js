@@ -10,11 +10,8 @@ cloudinary.config({
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
-    cb(null, true);
-  } else {
-    cb(new AppError('Not an image! Please upload only images.', 400), false);
-  }
+  if (file.mimetype.startsWith('image')) cb(null, true);
+  else cb(new AppError('Not an image! Please upload only images.', 400), false);
 };
 
 exports.createSingle = (key, folder, public_id, width, height) => {
@@ -25,14 +22,12 @@ exports.createSingle = (key, folder, public_id, width, height) => {
       public_id: () => public_id,
       overwrite: true,
       resource_type: 'image',
-      crop: "scale",
+      crop: 'scale',
       width: width,
       height: height,
     },
   });
-  return multer({ storage: storage, fileFilter: fileFilter }).single(
-    key
-  );
+  return multer({ storage: storage, fileFilter: fileFilter }).single(key);
 };
 
 exports.deleteSingle = (folder, public_id) => {
