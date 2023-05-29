@@ -54,20 +54,20 @@ const InfoMovie = (props: IProps) => {
         {Math.floor(movie.duration / 60)}:{movie.duration % 60}
       </InfoMovieCard>
 
-      {movie.production && (
-        <InfoMovieCard title='Production'>{movie.production}</InfoMovieCard>
+      {movie.productions && (
+        <InfoMovieCard title='Production'>{movie.productions}</InfoMovieCard>
       )}
-      {movie.studio && (
-        <InfoMovieCard title='Studio'>{movie.studio.join(', ')}</InfoMovieCard>
+      {movie.studios && (
+        <InfoMovieCard title='Studio'>{movie.studios.join(', ')}</InfoMovieCard>
       )}
-      {movie.scenario && (
+      {movie.scenarios && (
         <InfoMovieCard title='Scenario'>
-          {movie.scenario.join(', ')}
+          {movie.scenarios.join(', ')}
         </InfoMovieCard>
       )}
-      {movie.starring && (
+      {movie.starrings && (
         <InfoMovieCard title='Starring'>
-          {movie.starring.join(', ')}
+          {movie.starrings.join(', ')}
         </InfoMovieCard>
       )}
     </ul>
