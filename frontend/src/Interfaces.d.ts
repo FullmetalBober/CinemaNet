@@ -3,7 +3,7 @@ interface ITimestamps {
   updatedAt: Date;
 }
 
-export interface ICinema {
+export interface ICinema extends ITimestamps {
   _id: string;
   name: string;
   imageCover: string;

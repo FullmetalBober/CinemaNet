@@ -8,6 +8,7 @@ import CabinetMovie from './Movie/CabinetMovie';
 import CabinetBar from './Bar/CabinetBar';
 import CabinetGenre from './Genre/CabinetGenre';
 import CabinetHall from './Hall/CabinetHall';
+import CabinetCinema from './Cinema/CabinetCinema';
 
 const Cabinet = () => {
   const [active, setActive] = useState('Tickets');
@@ -28,6 +29,8 @@ const Cabinet = () => {
         return <CabinetGenre />;
       case 'Hall':
         return <CabinetHall />;
+      case 'Cinema':
+        return <CabinetCinema />;
     }
   };
 

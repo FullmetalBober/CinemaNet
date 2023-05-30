@@ -1,17 +1,20 @@
 import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
-import { CinemaState } from '../../contexts/CinemaProvider';
-import Loading from '../UI/Loading';
+import Loading from './Loading';
 import { useMemo } from 'react';
 
-const Map = () => {
-  const { cinema } = CinemaState();
+interface IProps {
+  center?: google.maps.LatLngLiteral;
+  marker?: boolean;
+  markerPosition?: google.maps.LatLngLiteral;
+  zoom?: number;
+  handleMapClick?: (e: google.maps.MapMouseEvent) => void;
+}
+
+const Map = (props: IProps) => {
   const center = useMemo<google.maps.LatLngLiteral>(() => {
-    if (!cinema.location.coordinates) return { lat: 0, lng: 0 };
-    return {
-      lat: cinema.location.coordinates[1],
-      lng: cinema.location.coordinates[0],
-    };
-  }, [cinema]);
+    if (!props.center) return { lat: 0, lng: 0 };
+    return props.center;
+  }, [props.center]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -20,8 +23,9 @@ const Map = () => {
   if (!isLoaded) return <Loading />;
   return (
     <GoogleMap
-      zoom={15}
+      zoom={props.zoom}
       center={center}
+      onClick={props.handleMapClick}
       options={{
         streetViewControl: false,
         fullscreenControl: false,
@@ -33,7 +37,7 @@ const Map = () => {
       }}
       mapContainerClassName='h-96 w-full'
     >
-      <MarkerF position={center} title={cinema.name} />
+      {props.marker && <MarkerF position={props.markerPosition || center} />}
     </GoogleMap>
   );
 };

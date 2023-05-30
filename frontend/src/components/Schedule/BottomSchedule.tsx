@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { CinemaState } from '../../contexts/CinemaProvider';
 import Loading from '../UI/Loading';
-const Map = lazy(() => import('./Map'));
+const Map = lazy(() => import('../UI/Map'));
 
 const BottomSchedule = () => {
   const { cinema } = CinemaState();
@@ -12,7 +12,14 @@ const BottomSchedule = () => {
       {cinema.location.coordinates && (
         <Suspense fallback={<Loading />}>
           {' '}
-          <Map />{' '}
+          <Map
+            center={{
+              lat: cinema.location.coordinates[1],
+              lng: cinema.location.coordinates[0],
+            }}
+            zoom={15}
+            marker
+          />{' '}
         </Suspense>
       )}
       <div className='p-4 text-center text-xl font-semibold'>
