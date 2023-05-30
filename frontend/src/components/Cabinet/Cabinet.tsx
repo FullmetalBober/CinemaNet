@@ -5,6 +5,9 @@ import NavLogout from './NavLogout';
 import CabinetTickets from './Tickets/CabinetTickets';
 import CabinetShowtime from './Showtime/CabinetShowtime';
 import CabinetMovie from './Movie/CabinetMovie';
+import CabinetBar from './Bar/CabinetBar';
+import CabinetGenre from './Genre/CabinetGenre';
+import CabinetHall from './Hall/CabinetHall';
 
 const Cabinet = () => {
   const [active, setActive] = useState('Tickets');
@@ -19,6 +22,12 @@ const Cabinet = () => {
         return <CabinetShowtime />;
       case 'Movie':
         return <CabinetMovie />;
+      case 'Bar':
+        return <CabinetBar />;
+      case 'Genre':
+        return <CabinetGenre />;
+      case 'Hall':
+        return <CabinetHall />;
     }
   };
 

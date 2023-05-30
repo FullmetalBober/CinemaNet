@@ -44,13 +44,17 @@ const MovieAdd = (props: IProps) => {
             return;
           body[key] = el.value;
         });
+
         if (body.rentalPeriod)
           body.rentalPeriod = {
             start: formState.inputs.rentalPeriod.value[0].toISOString(),
             end: formState.inputs.rentalPeriod.value[1].toISOString(),
           };
 
-        //TODO: Youtube url
+        if (body.trailer) {
+          const trailer = body.trailer.split('watch?v=');
+          body.trailer = trailer[0] + 'embed/' + trailer[1];
+        }
 
         let response = await axios.post('/api/v1/movies', body);
 
@@ -63,6 +67,7 @@ const MovieAdd = (props: IProps) => {
           );
         }
         props.setMovies(prevState => [...prevState, response.data.data.data]);
+        props.setMode(props.buttons[0]);
       } catch (err) {
         console.log(err);
       }
@@ -197,7 +202,7 @@ const MovieAdd = (props: IProps) => {
           type='text'
           label='Description'
           id='description'
-          errorText='Please enter a valid language'
+          errorText='Please enter a valid description'
           autoComplete='off'
           onInput={inputHandler}
           initialValid={true}

@@ -1,6 +1,6 @@
 interface IProps {
   children: React.ReactNode;
-  className: string;
+  className?: string;
   onClick: () => void;
 }
 

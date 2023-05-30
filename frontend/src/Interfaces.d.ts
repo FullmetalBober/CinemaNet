@@ -56,7 +56,7 @@ export interface IMovie extends ITimestamps {
   slug: string;
 }
 
-export interface IHall {
+export interface IHall extends ITimestamps {
   _id: string;
   name: string;
   cinema: ICinema;
@@ -75,7 +75,7 @@ export interface IHall {
   };
 }
 
-export interface IGenre {
+export interface IGenre extends ITimestamps {
   _id: string;
   name: string;
   description?: string;
@@ -98,7 +98,7 @@ export interface ISeat {
   price: number;
 }
 
-export interface IBar {
+export interface IBar extends ITimestamps {
   _id: string;
   cinema: string;
   name: string;

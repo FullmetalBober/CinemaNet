@@ -71,7 +71,7 @@ const Table = (props: IProps) => {
           ))}
         </tr>
       </thead>
-      <tbody className='bg-stone-900 child:border-b child:border-white/10 child:child:px-3 child:child:py-2'>
+      <tbody className='bg-stone-900 child:border-b child:border-white/10 child:child:px-3 child:child:py-2 hover:child:bg-white/10'>
         {sortedChildren}
       </tbody>
     </table>

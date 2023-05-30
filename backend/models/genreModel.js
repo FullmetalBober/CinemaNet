@@ -10,13 +10,14 @@ const genreSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      default: '/images/genre/default.jpg'
+      default: '/images/genre/default.jpg',
     },
     description: {
       type: String,
-    }
+    },
   },
   {
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
@@ -30,8 +31,15 @@ genreSchema.virtual('movies', {
   localField: '_id',
 });
 
-genreSchema.virtual('slug').get(function () {
-  return slugify(this.name, { lower: true });
+genreSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+genreSchema.pre('findOneAndUpdate', function (next) {
+  if (!this._update || !this._update.name) return next();
+  this._update.slug = slugify(this._update.name, { lower: true });
+  next();
 });
 
 const Genre = mongoose.model('Genre', genreSchema);

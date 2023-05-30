@@ -29,7 +29,7 @@ const TrailerMovie = (props: IProps) => {
       </div>
       <iframe
         className='h-full w-full truncate'
-        src={'https://www.youtube-nocookie.com/embed/DfE-4hij-sU'}
+        src={props.movie.trailer}
         title={props.movie.name}
         allowFullScreen
       />
