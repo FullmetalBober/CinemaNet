@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICinema } from '../../../Interfaces';
 import { useForm } from '../../../hooks/form-hook';
 import ImageUpload from '../../UI/Form/ImageUpload';
@@ -6,17 +6,22 @@ import Input from '../../UI/Form/Input';
 import { VALIDATOR_REQUIRE } from '../../../utils/validators';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Map from '../../UI/Map';
+import DangerContent from '../../UI/Details/DangerContent';
+import DeleteAction from '../DeleteAction';
 
 interface IProps {
   setCinemas: React.Dispatch<React.SetStateAction<ICinema[]>>;
   setMode: React.Dispatch<React.SetStateAction<string>>;
   buttons: string[];
+  searchParam: string;
+  setSearchParam: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CinemaAdd = (props: IProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [cinema, setCinema] = useState<ICinema>({} as ICinema);
   const [formState, inputHandler] = useForm(
     {
       name: {
@@ -47,6 +52,30 @@ const CinemaAdd = (props: IProps) => {
     false
   );
 
+  useEffect(() => {
+    if (!props.searchParam) return;
+    (async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `/api/v1/cinemas/${props.searchParam}`
+        );
+        props.setSearchParam('');
+        setCinema(response.data.data.data);
+
+        formState.inputs.coordinates.value =
+          response.data.data.data.location.coordinates;
+
+        Object.values(formState.inputs).map(el => {
+          el.isValid = true;
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    })();
+  }, [props.searchParam]);
+
   const createMovieSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
@@ -65,9 +94,22 @@ const CinemaAdd = (props: IProps) => {
           description: formState.inputs.description.value,
         };
 
-        let response = await axios.post('/api/v1/cinemas', body);
-
-        if (formState.inputs.imageCover.value !== File) {
+        let response: AxiosResponse<any, any>;
+        if (cinema._id) {
+          response = await axios.patch(`/api/v1/cinemas/${cinema._id}`, body);
+          props.setCinemas(prevState =>
+            prevState.map(el =>
+              el._id === cinema._id ? response.data.data.data : el
+            )
+          );
+        } else {
+          response = await axios.post('/api/v1/cinemas', body);
+          props.setCinemas(prevState => [
+            ...prevState,
+            response.data.data.data,
+          ]);
+        }
+        if (formState.inputs.imageCover.value !== null) {
           const formData = new FormData();
           formData.append('imageCover', formState.inputs.imageCover.value);
           response = await axios.patch(
@@ -75,13 +117,26 @@ const CinemaAdd = (props: IProps) => {
             formData
           );
         }
-        props.setCinemas(prevState => [...prevState, response.data.data.data]);
         props.setMode(props.buttons[0]);
       } catch (err) {
         console.log(err);
       }
       setIsLoading(false);
     })();
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`/api/v1/cinemas/${cinema._id}`);
+      if (response.data === '') {
+        props.setCinemas(prevState =>
+          prevState.filter(el => el._id !== cinema._id)
+        );
+        props.setMode(props.buttons[0]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
@@ -102,62 +157,74 @@ const CinemaAdd = (props: IProps) => {
   };
 
   return (
-    <form onSubmit={createMovieSubmitHandler} className='flex flex-col gap-3'>
-      <ImageUpload
-        id='imageCover'
-        preview='/images/cinema/default.jpg'
-        width={1880}
-        height={780}
-        rounded='rounded'
-        onInput={inputHandler}
-        initialValid={true}
-      />
-      <Map
-        zoom={5}
-        center={{
-          lat: formState.inputs.coordinates.value?.[1] || 49.299063,
-          lng: formState.inputs.coordinates.value?.[0] || 32.022437,
-        }}
-        marker={formState.inputs.coordinates.value}
-        handleMapClick={handleMapClick}
-      />
+    <>
+      <form onSubmit={createMovieSubmitHandler} className='flex flex-col gap-3'>
+        <ImageUpload
+          id='imageCover'
+          preview={cinema.imageCover || '/images/cinema/default.jpg'}
+          width={1880}
+          height={780}
+          rounded='rounded'
+          onInput={inputHandler}
+          initialValid={true}
+        />
+        <Map
+          zoom={5}
+          center={{
+            lat: formState.inputs.coordinates.value?.[1] || 49.299063,
+            lng: formState.inputs.coordinates.value?.[0] || 32.022437,
+          }}
+          marker={formState.inputs.coordinates.value}
+          handleMapClick={handleMapClick}
+        />
 
-      <Input
-        element='input'
-        type='text'
-        label='Name*'
-        id='name'
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText='Please enter a valid name'
-        autoComplete='off'
-        onInput={inputHandler}
-      />
+        <Input
+          element='input'
+          type='text'
+          label='Name*'
+          id='name'
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText='Please enter a valid name'
+          autoComplete='off'
+          onInput={inputHandler}
+          value={cinema.name}
+          initialValid={cinema._id ? true : false}
+        />
 
-      <Input
-        element='input'
-        type='text'
-        label='City*'
-        id='city'
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText='Please enter a valid city'
-        autoComplete='off'
-        onInput={inputHandler}
-      />
+        <Input
+          element='input'
+          type='text'
+          label='City*'
+          id='city'
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText='Please enter a valid city'
+          autoComplete='off'
+          onInput={inputHandler}
+          value={cinema.location?.city}
+          initialValid={cinema._id ? true : false}
+        />
 
-      <Input
-        type='text'
-        label='Description'
-        id='description'
-        errorText='Please enter a valid description'
-        autoComplete='off'
-        onInput={inputHandler}
-        initialValid={true}
-      />
+        <Input
+          type='text'
+          label='Description'
+          id='description'
+          errorText='Please enter a valid description'
+          autoComplete='off'
+          onInput={inputHandler}
+          initialValid={true}
+          value={cinema.location?.description}
+        />
 
-      <Button disabled={!formState.isValid || isLoading}>
-        {isLoading ? <Loading size={28} /> : 'Create'}
-      </Button>
-    </form>
+        <Button disabled={!formState.isValid || isLoading}>
+          {isLoading ? <Loading size={28} /> : 'Create'}
+        </Button>
+      </form>
+      {cinema._id && (
+        <DangerContent className='mt-10 px-5' classNameChild='flex gap-14'>
+          <DeleteAction handleDelete={handleDelete} />
+        </DangerContent>
+      )}
+    </>
   );
 };
 

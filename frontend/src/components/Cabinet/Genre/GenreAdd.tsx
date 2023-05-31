@@ -100,7 +100,7 @@ const GenreAdd = (props: IProps) => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/v1/bars/${genre._id}`);
+      const response = await axios.delete(`/api/v1/genres/${genre._id}`);
       if (response.data === '') {
         props.setGenres(prevState =>
           prevState.filter(el => el._id !== genre._id)

@@ -1,6 +1,6 @@
 import { AiOutlineUser } from 'react-icons/ai';
 import { HiOutlineClock, HiOutlineLocationMarker } from 'react-icons/hi';
-import { RiTicketLine } from 'react-icons/ri';
+import { RiLockPasswordLine, RiTicketLine } from 'react-icons/ri';
 import { MdOutlineMeetingRoom, MdOutlineMovie } from 'react-icons/md';
 import { FaNapster } from 'react-icons/fa';
 import { IoFastFoodOutline } from 'react-icons/io5';
@@ -19,6 +19,10 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
     let menuItems = [
       { value: 'Tickets', icon: <RiTicketLine className={classNameIcon} /> },
       { value: 'Profile', icon: <AiOutlineUser className={classNameIcon} /> },
+      {
+        value: 'Password',
+        icon: <RiLockPasswordLine className={classNameIcon} />,
+      },
     ];
     if (user.role === 'admin')
       menuItems = [
