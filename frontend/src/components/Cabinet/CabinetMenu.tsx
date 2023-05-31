@@ -6,6 +6,7 @@ import { FaNapster } from 'react-icons/fa';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import { useMemo } from 'react';
 import { UserState } from '../../contexts/UserProvider';
+import { FiUsers } from 'react-icons/fi';
 
 interface IProps {
   active: string;
@@ -28,19 +29,26 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
       menuItems = [
         ...menuItems,
         {
-          value: 'Showtime',
+          value: 'Showtimes',
           icon: <HiOutlineClock className={classNameIcon} />,
         },
-        { value: 'Movie', icon: <MdOutlineMovie className={classNameIcon} /> },
-        { value: 'Bar', icon: <IoFastFoodOutline className={classNameIcon} /> },
-        { value: 'Genre', icon: <FaNapster className={classNameIcon} /> },
+        { value: 'Movies', icon: <MdOutlineMovie className={classNameIcon} /> },
         {
-          value: 'Hall',
+          value: 'Bars',
+          icon: <IoFastFoodOutline className={classNameIcon} />,
+        },
+        { value: 'Genres', icon: <FaNapster className={classNameIcon} /> },
+        {
+          value: 'Halls',
           icon: <MdOutlineMeetingRoom className={classNameIcon} />,
         },
         {
-          value: 'Cinema',
+          value: 'Cinemas',
           icon: <HiOutlineLocationMarker className={classNameIcon} />,
+        },
+        {
+          value: 'Users',
+          icon: <FiUsers className={classNameIcon} />,
         },
       ];
     return menuItems;

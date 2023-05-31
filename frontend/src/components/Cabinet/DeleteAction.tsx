@@ -19,6 +19,8 @@ const DeleteAction = (props: IProps) => {
         header='Delete'
         icon={<RiDeleteBinLine />}
         actions={props.handleDelete}
+        actionButtonText='Yeap, delete'
+        cancelButtonText='Ehh, NO'
       />
       <Button outline={true} onClick={() => setShowConfirmation(true)}>
         Delete

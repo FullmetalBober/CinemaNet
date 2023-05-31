@@ -10,6 +10,7 @@ import CabinetGenre from './Genre/CabinetGenre';
 import CabinetHall from './Hall/CabinetHall';
 import CabinetCinema from './Cinema/CabinetCinema';
 import CabinetPassword from './Password/CabinetPassword';
+import CabinetUser from './User/CabinetUser';
 
 const Cabinet = () => {
   const [active, setActive] = useState('Tickets');
@@ -22,18 +23,20 @@ const Cabinet = () => {
         return <Profile />;
       case 'Password':
         return <CabinetPassword />;
-      case 'Showtime':
+      case 'Showtimes':
         return <CabinetShowtime />;
-      case 'Movie':
+      case 'Movies':
         return <CabinetMovie />;
-      case 'Bar':
+      case 'Bars':
         return <CabinetBar />;
-      case 'Genre':
+      case 'Genres':
         return <CabinetGenre />;
-      case 'Hall':
+      case 'Halls':
         return <CabinetHall />;
-      case 'Cinema':
+      case 'Cinemas':
         return <CabinetCinema />;
+      case 'Users':
+        return <CabinetUser />;
     }
   };
 

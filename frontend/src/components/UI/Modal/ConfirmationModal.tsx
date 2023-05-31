@@ -9,6 +9,8 @@ interface IProps {
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   style: 'danger' | 'warning';
   actions: () => void;
+  actionButtonText: string;
+  cancelButtonText: string;
 }
 
 const ConfirmationModal = (props: IProps) => {
@@ -36,10 +38,10 @@ const ConfirmationModal = (props: IProps) => {
               props.actions();
             }}
           >
-            Yes, delete
+            {props.actionButtonText}
           </Button>
           <Button outline={true} onClick={() => props.setShow(false)}>
-            Ehh, NO
+            {props.cancelButtonText}
           </Button>
         </div>
       </div>

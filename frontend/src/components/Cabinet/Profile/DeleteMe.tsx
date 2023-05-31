@@ -33,6 +33,8 @@ const DeleteMe = () => {
         header='Delete your account'
         icon={<RiDeleteBinLine />}
         actions={handleDelete}
+        actionButtonText='Yeap, delete me'
+        cancelButtonText='Ehh, NO'
       >
         <p>
           Ok, we get you clicked to delete you
