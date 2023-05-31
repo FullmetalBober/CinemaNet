@@ -56,28 +56,27 @@ const HallAdd = (props: IProps) => {
   );
 
   useEffect(() => {
-    if (!props.searchParam) return;
-    (async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`/api/v1/halls/${props.searchParam}`);
-        props.setSearchParam('');
-        setHall(response.data.data.data);
-        formState.inputs.seats.value = response.data.data.data.seats;
-        setLastsSeats();
-        Object.values(formState.inputs).map(el => {
-          el.isValid = true;
-        });
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
-    })();
-  }, [props.searchParam]);
-
-  useEffect(() => {
+    if (props.searchParam) {
+      (async () => {
+        setIsLoading(true);
+        try {
+          const response = await axios.get(
+            `/api/v1/halls/${props.searchParam}`
+          );
+          props.setSearchParam('');
+          setHall(response.data.data.data);
+          formState.inputs.seats.value = response.data.data.data.seats;
+          Object.values(formState.inputs).map(el => {
+            el.isValid = true;
+          });
+        } catch (err) {
+          console.log(err);
+        }
+        setIsLoading(false);
+      })();
+    }
     setLastsSeats();
-  }, []);
+  }, [props.searchParam]);
 
   const setLastsSeats = () => {
     const seats = formState.inputs.seats.value;
@@ -248,7 +247,7 @@ const HallAdd = (props: IProps) => {
           errorText='Please enter a valid price'
           autoComplete='off'
           onInput={inputHandler}
-          value={`${hall.price.standard}`}
+          value={hall.price ? `${hall.price.standard}` : undefined}
           initialValid={hall._id ? true : false}
         />
 
@@ -261,7 +260,7 @@ const HallAdd = (props: IProps) => {
           errorText='Please enter a valid price'
           autoComplete='off'
           onInput={inputHandler}
-          value={`${hall.price.lux}`}
+          value={hall.price ? `${hall.price.lux}` : undefined}
           initialValid={hall._id ? true : false}
         />
 
