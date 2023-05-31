@@ -1,7 +1,7 @@
 import { Children, useMemo, useState } from 'react';
 
 interface IProps {
-  headers: { name: string; type?: 'date' | 'number' | 'string' }[];
+  headers: { name: string; type?: 'date' | 'number' | 'string' | 'none' }[];
   children: React.ReactNode;
 }
 
@@ -13,7 +13,7 @@ const Table = (props: IProps) => {
 
   const sortedChildren = useMemo(() => {
     const childrenArray = Children.toArray(props.children);
-    if (sortedField) {
+    if (sortedField && sortedField.type !== 'none') {
       return childrenArray.sort((a: any, b: any) => {
         let aField =
           a.props.children[sortedField.key].props['data-order'] ||

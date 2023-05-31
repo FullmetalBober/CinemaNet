@@ -63,6 +63,7 @@ app.use(
         'frame-src': [
           "'self'",
           'https://www.youtube-nocookie.com',
+          'https://www.youtube.com/',
           'https://js.stripe.com',
         ],
       },

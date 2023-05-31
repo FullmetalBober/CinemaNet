@@ -1,3 +1,4 @@
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { IMovie } from '../../../Interfaces';
 import Currency from '../../UI/Currency';
 import Table from '../../UI/Table/Table';
@@ -5,9 +6,10 @@ import TdLink from '../../UI/Table/TdLink';
 
 interface IProps {
   movies: IMovie[];
+  setSearchParam: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const MovieTable = ({ movies }: IProps) => {
+const MovieTable = ({ movies, setSearchParam }: IProps) => {
   return (
     <Table
       headers={[
@@ -16,6 +18,7 @@ const MovieTable = ({ movies }: IProps) => {
         { name: 'RENTAL START', type: 'date' },
         { name: 'RENTAL END', type: 'date' },
         { name: 'PRICE', type: 'number' },
+        { name: 'UPDATE', type: 'none' },
       ]}
     >
       {movies.map(movie => {
@@ -45,6 +48,13 @@ const MovieTable = ({ movies }: IProps) => {
             <TdLink to={to} dataOrder={movie.price}>
               <Currency>{movie.price}</Currency>
             </TdLink>
+
+            <td
+              onClick={() => setSearchParam(movie._id)}
+              className='cursor-pointer'
+            >
+              <AiOutlineInfoCircle className='ml-5 text-2xl' />
+            </td>
           </tr>
         );
       })}

@@ -6,21 +6,19 @@ import { RiCloseFill } from 'react-icons/ri';
 
 interface IProps {
   onInput: (id: string, value: any, isValid: boolean) => void;
+  value?: IGenre[];
 }
 
 const MovieAddGenres = (props: IProps) => {
-  const [genres, setGenres] = useState<IGenre[]>([{} as IGenre]);
-
+  const [genres, setGenres] = useState<IGenre[]>([
+    ...(props.value ?? []),
+    {} as IGenre,
+  ]);
   const handleSelect = (value: IGenre, index: number) => {
     if (genres.some(genre => genre._id === value._id)) return;
     const genresCopy = [...genres];
     genresCopy[index] = value;
     setGenres(genresCopy);
-    props.onInput(
-      'genres',
-      genresCopy.map(genre => genre._id),
-      true
-    );
   };
 
   const handleDelete = (index: number) => {
@@ -32,6 +30,11 @@ const MovieAddGenres = (props: IProps) => {
   useEffect(() => {
     if (genres[genres.length - 1]._id)
       setGenres(prevState => [...prevState, {} as IGenre]);
+    props.onInput(
+      'genres',
+      genres.map(genre => genre._id),
+      true
+    );
   }, [genres]);
 
   return (

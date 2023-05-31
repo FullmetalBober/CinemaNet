@@ -6,31 +6,32 @@ interface IProps {
   onInput: (id: string, value: any, isValid: boolean) => void;
   id: string;
   label: string;
+  value?: string[];
 }
 
 const DynamicInputs = (props: IProps) => {
-  const [inputs, setInputs] = useState<string[]>(['']);
+  const [inputs, setInputs] = useState<string[]>([...(props.value ?? []), '']);
 
   const onInput = (id: string, value: string) => {
     const index = +id;
     const inputsCopy = [...inputs];
     inputsCopy[index] = value;
     setInputs(inputsCopy);
-    props.onInput(
-      props.id,
-      inputsCopy.filter(input => input !== ''),
-      true
-    );
   };
 
   const handleDelete = (index: number) => {
-    const genresCopy = [...inputs];
-    genresCopy.splice(index, 1);
-    setInputs(genresCopy);
+    const inputsCopy = [...inputs];
+    inputsCopy.splice(index, 1);
+    setInputs(inputsCopy);
   };
 
   useEffect(() => {
     if (inputs[inputs.length - 1] !== '') setInputs([...inputs, '']);
+    props.onInput(
+      props.id,
+      inputs.filter(input => input !== ''),
+      true
+    );
   }, [inputs]);
 
   return (

@@ -9,7 +9,6 @@ interface IProps {
 }
 
 const ShowtimeTable = ({ showtimes }: IProps) => {
-  const navigate = useNavigate();
   return (
     <Table
       headers={[

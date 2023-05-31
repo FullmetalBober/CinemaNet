@@ -12,18 +12,16 @@ const DeleteMe = () => {
   const { setUser } = UserState();
   const navigate = useNavigate();
 
-  const handleDelete = () => {
-    (async () => {
-      try {
-        const response = await axios.delete('/api/v1/users/deleteMe');
-        if (response.data === '') {
-          setUser({} as IUser);
-          navigate('/');
-        }
-      } catch (err) {
-        console.error(err);
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete('/api/v1/users/deleteMe');
+      if (response.data === '') {
+        setUser({} as IUser);
+        navigate('/');
       }
-    })();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

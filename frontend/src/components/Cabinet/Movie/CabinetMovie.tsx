@@ -11,6 +11,17 @@ type Buttons = (typeof buttons)[number];
 const CabinetMovie = () => {
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [movies, setMovies] = useState<IMovie[]>([]);
+  const [searchParam, setSearchParam] = useState<string>('');
+
+  useEffect(() => {
+    if (searchParam !== '') {
+      buttons[1] = 'Update';
+      setMode(buttons[1]);
+    } else {
+      // if (mode === buttons[0])
+      buttons[1] = 'Create';
+    }
+  }, [searchParam]);
 
   useEffect(() => {
     (async () => {
@@ -29,9 +40,15 @@ const CabinetMovie = () => {
       <h1 className='mb-2 text-3xl font-medium'>SHOWTIMES</h1>
       <ControlMenu buttons={buttons} mode={mode} setMode={setMode} />
       {mode === buttons[0] ? (
-        <MovieTable movies={movies} />
+        <MovieTable movies={movies} setSearchParam={setSearchParam} />
       ) : (
-        <MovieAdd setMovies={setMovies} setMode={setMode} buttons={buttons} />
+        <MovieAdd
+          setMovies={setMovies}
+          setMode={setMode}
+          buttons={buttons}
+          searchParam={searchParam}
+          setSearchParam={setSearchParam}
+        />
       )}
     </div>
   );

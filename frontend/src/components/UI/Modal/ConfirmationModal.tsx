@@ -2,7 +2,7 @@ import Button from '../Button';
 import Modal from './Modal';
 
 interface IProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   header: string;
   icon?: React.ReactNode;
   show: boolean;
@@ -36,7 +36,7 @@ const ConfirmationModal = (props: IProps) => {
               props.actions();
             }}
           >
-            Yes, delete me
+            Yes, delete
           </Button>
           <Button outline={true} onClick={() => props.setShow(false)}>
             Ehh, NO

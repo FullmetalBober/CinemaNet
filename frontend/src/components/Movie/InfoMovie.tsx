@@ -8,10 +8,11 @@ interface IProps {
 
 const InfoMovie = (props: IProps) => {
   const { movie } = props;
+  if (!movie.ageRating) movie.ageRating = 0;
 
   return (
     <ul>
-      {movie.ageRating && (
+      {movie.ageRating > 0 && (
         <InfoMovieCard title='Age'>{movie.ageRating}+</InfoMovieCard>
       )}
       {movie.releaseYear && (
@@ -36,7 +37,7 @@ const InfoMovie = (props: IProps) => {
       {movie.language && (
         <InfoMovieCard title='Language'>{movie.language}</InfoMovieCard>
       )}
-      {movie.genres && (
+      {movie.genres?.length ? (
         <InfoMovieCard classNameSecond='!text-white' title='Genres'>
           {' '}
           {movie.genres.map((genre, index) => {
@@ -49,27 +50,27 @@ const InfoMovie = (props: IProps) => {
             );
           })}
         </InfoMovieCard>
-      )}
+      ) : null}
       <InfoMovieCard title='Duration'>
         {Math.floor(movie.duration / 60)}:{movie.duration % 60}
       </InfoMovieCard>
 
-      {movie.productions && (
+      {movie.productions?.length ? (
         <InfoMovieCard title='Production'>{movie.productions}</InfoMovieCard>
-      )}
-      {movie.studios && (
+      ) : null}
+      {movie.studios?.length ? (
         <InfoMovieCard title='Studio'>{movie.studios.join(', ')}</InfoMovieCard>
-      )}
-      {movie.scenarios && (
+      ) : null}
+      {movie.scenarios?.length ? (
         <InfoMovieCard title='Scenario'>
           {movie.scenarios.join(', ')}
         </InfoMovieCard>
-      )}
-      {movie.starrings && (
+      ) : null}
+      {movie.starrings?.length ? (
         <InfoMovieCard title='Starring'>
           {movie.starrings.join(', ')}
         </InfoMovieCard>
-      )}
+      ) : null}
     </ul>
   );
 };
