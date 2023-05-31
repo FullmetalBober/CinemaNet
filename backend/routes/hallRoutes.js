@@ -8,7 +8,7 @@ router.route('/').get(hallController.regexSearch, hallController.getAllHalls);
 router.route('/:id').get(hallController.getHall);
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('moderator', 'admin'));
 
 router.route('/').post(hallController.createHall);
 

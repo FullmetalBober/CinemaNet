@@ -206,58 +206,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
-// exports.verifyEmail = catchAsync(async (req, res, next) => {
-//   const user = await User.findOne({ email: req.body.email });
-
-//   const verifyToken = user.createEmailVerifyToken();
-//   await user.save({ validateBeforeSave: false });
-
-//   const verifyURL = `${req.protocol}://${req.get(
-//     "host"
-//   )}/api/v1/users/verifyEmail/${verifyToken}`;
-
-//   const message = `Please confirm your email. Submit a GET request to: ${verifyURL}\nIf you have not registered, please ignore this email!`;
-
-//   try {
-//     await sendEmail({
-//       email: user.email,
-//       subject: "Your email verify token (valid for 10 min)",
-//       message,
-//     });
-
-//     res.status(200).json({
-//       status: "success",
-//       message: "Token sent to email!",
-//     });
-//   } catch (err) {
-//     user.emailVerifyToken = undefined;
-//     user.emailVerifyExpires = undefined;
-//     await user.save({ validateBeforeSave: false });
-
-//     return next(
-//       new AppError("There was an error sending the email. Try again later!"),
-//       500
-//     );
-//   }
-// });
-
-// exports.verifyEmailToken = catchAsync(async (req, res, next) => {
-//   const hashedToken = crypto
-//     .createHash("sha256")
-//     .update(req.params.token)
-//     .digest("hex");
-
-//   const user = await User.findOne({
-//     emailVerifyToken: hashedToken,
-//     emailVerifyExpires: { $gt: Date.now() },
-//   });
-
-//   user.emailConfirmation = undefined;
-//   user.emailVerifyToken = undefined;
-//   user.emailVerifyExpires = undefined;
-//   await user.save({ validateBeforeSave: false });
-// });
-
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
 

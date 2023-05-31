@@ -10,7 +10,7 @@ router
 router.route('/:id').get(genreController.getGenre);
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('moderator', 'admin'));
 
 router.route('/').post(genreController.createGenre);
 

@@ -8,7 +8,7 @@ router.route('/').get(cinemaController.getAllCinemas);
 router.route('/:id').get(cinemaController.getCinema);
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('moderator', 'admin'));
 
 router.route('/').post(cinemaController.createCinema);
 

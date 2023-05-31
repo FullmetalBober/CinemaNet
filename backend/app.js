@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-// const expressWs = require('express-ws');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -16,7 +15,6 @@ const globalErrorHandler = require('./controllers/errorController.js');
 const userRouter = require('./routes/userRoutes');
 const genreRouter = require('./routes/genreRoutes');
 const movieRouter = require('./routes/movieRoutes');
-const reviewRouter = require('./routes/reviewRoutes');
 const cinemaRouter = require('./routes/cinemaRoutes');
 const hallRouter = require('./routes/hallRoutes');
 const barRouter = require('./routes/barRoutes');
@@ -25,7 +23,6 @@ const ticketRouter = require('./routes/ticketRoutes');
 const ticketController = require('./controllers/ticketController');
 
 const app = express();
-// expressWs(app);
 
 app.enable('trust proxy');
 
@@ -111,7 +108,6 @@ app.use(compression());
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/genres', genreRouter);
 app.use('/api/v1/movies', movieRouter);
-app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/cinemas', cinemaRouter);
 app.use('/api/v1/halls', hallRouter);
 app.use('/api/v1/bars', barRouter);

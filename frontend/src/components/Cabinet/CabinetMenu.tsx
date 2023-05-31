@@ -24,7 +24,7 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
         icon: <RiLockPasswordLine className={classNameIcon} />,
       },
     ];
-    if (user.role === 'admin')
+    if (user.role === 'admin' || user.role === 'moderator')
       menuItems = [
         ...menuItems,
         {

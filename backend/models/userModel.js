@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    // immutable: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
@@ -24,7 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'employee', 'admin'],
+    enum: ['user', 'moderator', 'admin'],
     default: 'user',
   },
   password: {
@@ -43,21 +42,20 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same!',
     },
   },
-  // emailConfirmation: {
-  //   type: Boolean,
-  //   default: true,
-  // },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
-  // emailVerifyToken: String,
-  // emailVerifyExpires: Date,
   active: {
     type: Boolean,
     default: true,
     select: false,
   },
 });
+
+userSchema.index(
+  { role: 1 },
+  { unique: true, partialFilterExpression: { role: 'admin' } }
+);
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
@@ -111,19 +109,6 @@ userSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
-
-// userSchema.methods.createEmailVerifyToken = function () {
-//   const verifyToken = crypto.randomBytes(32).toString('hex');
-
-//   this.emailVerifyToken = crypto
-//     .createHash('sha256')
-//     .update(verifyToken)
-//     .digest('hex');
-
-//   this.emailVerifyExpires = Date.now() + 10 * 60 * 1000;
-
-//   return verifyToken;
-// };
 
 const User = mongoose.model('User', userSchema);
 

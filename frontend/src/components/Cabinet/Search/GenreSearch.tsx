@@ -4,7 +4,6 @@ import axios from 'axios';
 import ModalSearch from '../../UI/Modal/ModalSearch';
 import ScrollbarDiv from '../../UI/ScrollbarDiv';
 import { FaNapster } from 'react-icons/fa';
-// import GenreCard from '../../UI/Cards/GenreCard';
 
 interface IProps {
   children: React.ReactNode;
@@ -55,7 +54,6 @@ const GenreSearch = (props: IProps) => {
               }}
             >
               {genre.name}
-              {/* <GenreCard genre={genre} /> */}
             </div>
           ))}
         </ScrollbarDiv>

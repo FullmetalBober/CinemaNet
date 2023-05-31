@@ -1,11 +1,8 @@
 const express = require('express');
 const authController = require('./../controllers/authController');
 const movieController = require('./../controllers/movieController');
-const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
-
-router.use('/:movieId/reviews', reviewRouter);
 
 router
   .route('/')
@@ -14,7 +11,7 @@ router.route('/slug/:slug').get(movieController.getMovieBySlug);
 router.route('/:id').get(movieController.getMovie);
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('moderator', 'admin'));
 
 router.route('/').post(movieController.createMovie);
 

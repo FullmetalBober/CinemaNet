@@ -29,7 +29,6 @@ const movieSchema = new mongoose.Schema(
     },
     releaseYear: {
       type: Number,
-      // default: Date.now(),
     },
     originalName: {
       type: String,
