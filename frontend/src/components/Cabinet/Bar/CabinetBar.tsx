@@ -13,6 +13,14 @@ const CabinetBar = () => {
   const { cinema } = CinemaState();
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [bars, setBars] = useState<IBar[]>([]);
+  const [searchParam, setSearchParam] = useState<string>('');
+
+  useEffect(() => {
+    if (searchParam !== '') {
+      buttons[1] = 'Update';
+      setMode(buttons[1]);
+    } else buttons[1] = 'Create';
+  }, [searchParam]);
 
   useEffect(() => {
     (async () => {
@@ -33,9 +41,15 @@ const CabinetBar = () => {
       <h1 className='mb-2 text-3xl font-medium'>BARS</h1>
       <ControlMenu buttons={buttons} mode={mode} setMode={setMode} />
       {mode === buttons[0] ? (
-        <BarTable bars={bars} />
+        <BarTable bars={bars} setSearchParam={setSearchParam} />
       ) : (
-        <BarAdd setBars={setBars} setMode={setMode} buttons={buttons} />
+        <BarAdd
+          setBars={setBars}
+          setMode={setMode}
+          buttons={buttons}
+          searchParam={searchParam}
+          setSearchParam={setSearchParam}
+        />
       )}
     </div>
   );

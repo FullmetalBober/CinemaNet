@@ -44,11 +44,9 @@ const MovieTable = ({ movies, setSearchParam }: IProps) => {
               {movie.rentalPeriod?.end &&
                 new Date(movie.rentalPeriod?.end).toLocaleDateString()}
             </TdLink>
-
             <TdLink to={to} dataOrder={movie.price}>
               <Currency>{movie.price}</Currency>
             </TdLink>
-
             <td
               onClick={() => setSearchParam(movie._id)}
               className='cursor-pointer'

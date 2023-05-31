@@ -5,21 +5,26 @@ import Input from '../../UI/Form/Input';
 import { VALIDATOR_MIN, VALIDATOR_REQUIRE } from '../../../utils/validators';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { CinemaState } from '../../../contexts/CinemaProvider';
 import Seats from '../../UI/Seats/Seats';
 import TextClick from '../../UI/TextClick';
+import DangerContent from '../../UI/Details/DangerContent';
+import DeleteAction from '../DeleteAction';
 
 interface IProps {
   setHalls: React.Dispatch<React.SetStateAction<IHall[]>>;
   setMode: React.Dispatch<React.SetStateAction<string>>;
   buttons: string[];
+  searchParam: string;
+  setSearchParam: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const HallAdd = (props: IProps) => {
   const { cinema } = CinemaState();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState<ISeat[]>([]);
+  const [hall, setHall] = useState<IHall>({} as IHall);
   const [formState, inputHandler] = useForm(
     {
       name: {
@@ -51,10 +56,30 @@ const HallAdd = (props: IProps) => {
   );
 
   useEffect(() => {
-    setLastsSeats(formState.inputs.seats.value);
+    if (!props.searchParam) return;
+    (async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`/api/v1/halls/${props.searchParam}`);
+        props.setSearchParam('');
+        setHall(response.data.data.data);
+        formState.inputs.seats.value = response.data.data.data.seats;
+        setLastsSeats();
+        Object.values(formState.inputs).map(el => {
+          el.isValid = true;
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    })();
+  }, [props.searchParam]);
+
+  useEffect(() => {
+    setLastsSeats();
   }, []);
 
-  const setLastsSeats = (hall: IHall[]) => {
+  const setLastsSeats = () => {
     const seats = formState.inputs.seats.value;
     const selectedSeats: ISeat[] = [];
     seats.standard.forEach((el: { row: number; seats: number }) => {
@@ -93,15 +118,39 @@ const HallAdd = (props: IProps) => {
           lux: body.priceLux,
         };
 
-        let response = await axios.post('/api/v1/halls', body);
+        let response: AxiosResponse<any, any>;
+        if (hall._id) {
+          response = await axios.patch(`/api/v1/halls/${hall._id}`, body);
+          props.setHalls(prevState =>
+            prevState.map(el =>
+              el._id === hall._id ? response.data.data.data : el
+            )
+          );
+        } else {
+          response = await axios.post('/api/v1/halls', body);
+          props.setHalls(prevState => [...prevState, response.data.data.data]);
+        }
 
-        props.setHalls(prevState => [...prevState, response.data.data.data]);
         props.setMode(props.buttons[0]);
       } catch (err) {
         console.log(err);
       }
       setIsLoading(false);
     })();
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`/api/v1/halls/${hall._id}`);
+      if (response.data === '') {
+        props.setHalls(prevState =>
+          prevState.filter(el => el._id !== hall._id)
+        );
+        props.setMode(props.buttons[0]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSelectSeat = (
@@ -137,7 +186,7 @@ const HallAdd = (props: IProps) => {
         seats.standard.push({ row: 1, seats: 2 });
     }
     inputHandler('seats', seats, true);
-    setLastsSeats(seats);
+    setLastsSeats();
   };
 
   const rowAddHandler = () => {
@@ -147,71 +196,85 @@ const HallAdd = (props: IProps) => {
       seats: 2,
     });
     inputHandler('seats', seats, true);
-    setLastsSeats(seats);
+    setLastsSeats();
   };
 
+  if (props.searchParam !== '') return <Loading />;
   return (
-    <form onSubmit={createMovieSubmitHandler} className='flex flex-col gap-3'>
-      <div className='flex justify-center'>
-        <TextClick
-          onClick={rowAddHandler}
-          className='text-4xl hover:text-[#ff0a14]'
-        >
-          Add row
-        </TextClick>
-      </div>
+    <>
+      <form onSubmit={createMovieSubmitHandler} className='flex flex-col gap-3'>
+        <div className='flex justify-center'>
+          <TextClick
+            onClick={rowAddHandler}
+            className='text-4xl hover:text-[#ff0a14]'
+          >
+            Add row
+          </TextClick>
+        </div>
 
-      <Seats
-        hall={
-          {
-            seats: formState.inputs.seats.value,
-            price: {
-              standard: formState.inputs.priceStandard.value,
-              lux: formState.inputs.priceLux.value,
-            },
-          } as IHall
-        }
-        handleSelectSeat={handleSelectSeat}
-        selectedSeats={selectedSeats}
-      />
+        <Seats
+          hall={
+            {
+              seats: formState.inputs.seats.value,
+              price: {
+                standard: formState.inputs.priceStandard.value,
+                lux: formState.inputs.priceLux.value,
+              },
+            } as IHall
+          }
+          handleSelectSeat={handleSelectSeat}
+          selectedSeats={selectedSeats}
+        />
 
-      <Input
-        element='input'
-        type='text'
-        label='Name'
-        id='name'
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText='Please enter a valid name'
-        autoComplete='off'
-        onInput={inputHandler}
-      />
+        <Input
+          element='input'
+          type='text'
+          label='Name'
+          id='name'
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText='Please enter a valid name'
+          autoComplete='off'
+          onInput={inputHandler}
+          value={hall.name}
+          initialValid={hall._id ? true : false}
+        />
 
-      <Input
-        element='input'
-        type='number'
-        label='Price (Standard)'
-        id='priceStandard'
-        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MIN(0.01)]}
-        errorText='Please enter a valid price'
-        autoComplete='off'
-        onInput={inputHandler}
-      />
+        <Input
+          element='input'
+          type='number'
+          label='Price (Standard)'
+          id='priceStandard'
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MIN(0.01)]}
+          errorText='Please enter a valid price'
+          autoComplete='off'
+          onInput={inputHandler}
+          value={`${hall.price.standard}`}
+          initialValid={hall._id ? true : false}
+        />
 
-      <Input
-        element='input'
-        type='number'
-        label='Price (Lux)'
-        id='priceLux'
-        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MIN(0.01)]}
-        errorText='Please enter a valid price'
-        autoComplete='off'
-        onInput={inputHandler}
-      />
+        <Input
+          element='input'
+          type='number'
+          label='Price (Lux)'
+          id='priceLux'
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MIN(0.01)]}
+          errorText='Please enter a valid price'
+          autoComplete='off'
+          onInput={inputHandler}
+          value={`${hall.price.lux}`}
+          initialValid={hall._id ? true : false}
+        />
 
-      <Button disabled={!formState.isValid || isLoading}>
-        {isLoading ? <Loading size={28} /> : 'Create'}
-      </Button>
-    </form>
+        <Button disabled={!formState.isValid || isLoading}>
+          {isLoading ? <Loading size={28} /> : 'Create'}
+        </Button>
+      </form>
+      {hall._id && (
+        <DangerContent className='mt-10 px-5' classNameChild='flex gap-14'>
+          <DeleteAction handleDelete={handleDelete} />
+        </DangerContent>
+      )}
+    </>
   );
 };
 

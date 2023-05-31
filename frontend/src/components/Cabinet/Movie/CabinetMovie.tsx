@@ -17,10 +17,7 @@ const CabinetMovie = () => {
     if (searchParam !== '') {
       buttons[1] = 'Update';
       setMode(buttons[1]);
-    } else {
-      // if (mode === buttons[0])
-      buttons[1] = 'Create';
-    }
+    } else buttons[1] = 'Create';
   }, [searchParam]);
 
   useEffect(() => {

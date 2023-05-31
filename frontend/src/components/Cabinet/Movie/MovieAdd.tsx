@@ -23,7 +23,6 @@ const MovieAdd = (props: IProps) => {
 
   useEffect(() => {
     if (!props.searchParam) return;
-
     (async () => {
       setIsLoading(true);
       try {
@@ -111,7 +110,7 @@ const MovieAdd = (props: IProps) => {
 
   if (props.searchParam !== '') return <Loading />;
   return (
-    <div>
+    <>
       <MovieForm
         createMovieSubmitHandler={createMovieSubmitHandler}
         formState={formState}
@@ -125,7 +124,7 @@ const MovieAdd = (props: IProps) => {
           <DeleteAction handleDelete={handleDelete} />
         </DangerContent>
       )}
-    </div>
+    </>
   );
 };
 

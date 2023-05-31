@@ -1,3 +1,4 @@
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { IHall } from '../../../Interfaces';
 import Currency from '../../UI/Currency';
 import Seats from '../../UI/Seats/Seats';
@@ -5,9 +6,10 @@ import Table from '../../UI/Table/Table';
 
 interface IProps {
   halls: IHall[];
+  setSearchParam: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const HallTable = ({ halls }: IProps) => {
+const HallTable = ({ halls, setSearchParam }: IProps) => {
   const calculationSizeSeat = (hall: IHall) => {
     const maxCol = Math.max(...hall.seats.standard.map(seat => seat.seats));
     const width = 159 / maxCol;
@@ -25,6 +27,7 @@ const HallTable = ({ halls }: IProps) => {
         { name: 'PRICE STANDARD', type: 'number' },
         { name: 'PRICE LUX', type: 'number' },
         { name: 'SEATS', type: 'number' },
+        { name: 'UPDATE', type: 'none' },
       ]}
     >
       {halls.map(hall => {
@@ -47,6 +50,12 @@ const HallTable = ({ halls }: IProps) => {
               }
             >
               <Seats hall={hall} cardSize={calculationSizeSeat(hall)} />
+            </td>
+            <td
+              onClick={() => setSearchParam(hall._id)}
+              className='cursor-pointer'
+            >
+              <AiOutlineInfoCircle className='ml-5 text-2xl' />
             </td>
           </tr>
         );

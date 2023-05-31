@@ -79,6 +79,7 @@ export interface IGenre extends ITimestamps {
   _id: string;
   name: string;
   description?: string;
+  imageCover: string;
   slug: string;
 }
 

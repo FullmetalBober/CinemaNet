@@ -1,14 +1,22 @@
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { IGenre } from '../../../Interfaces';
 import Table from '../../UI/Table/Table';
 import TdLink from '../../UI/Table/TdLink';
 
 interface IProps {
   genres: IGenre[];
+  setSearchParam: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const GenreTable = ({ genres }: IProps) => {
+const GenreTable = ({ genres, setSearchParam }: IProps) => {
   return (
-    <Table headers={[{ name: 'UPDATED', type: 'date' }, { name: 'GENRE' }]}>
+    <Table
+      headers={[
+        { name: 'UPDATED', type: 'date' },
+        { name: 'GENRE' },
+        { name: 'UPDATE', type: 'none' },
+      ]}
+    >
       {genres.map(genre => {
         const to = `/genre/${genre.slug}`;
 
@@ -21,6 +29,12 @@ const GenreTable = ({ genres }: IProps) => {
               {new Date(genre.updatedAt).toLocaleDateString()}
             </TdLink>
             <TdLink to={to}>{genre.name}</TdLink>
+            <td
+              onClick={() => setSearchParam(genre._id)}
+              className='cursor-pointer'
+            >
+              <AiOutlineInfoCircle className='ml-5 text-2xl' />
+            </td>
           </tr>
         );
       })}
