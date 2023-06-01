@@ -69,12 +69,3 @@ exports.checkShowtime = catchAsync(async (req, res, next) => {
 
   next();
 });
-
-// exports.getStatsShowtimes = catchAsync(async (req, res, next) => {
-//   res.status(200).json({
-//     status: 'success',
-//     data: {
-//       statistics,
-//     },
-//   });
-// });

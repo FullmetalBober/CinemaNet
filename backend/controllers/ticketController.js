@@ -138,3 +138,132 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ received: true });
 });
+
+const avg = (cond, field) => ({
+  $avg: {
+    $cond: [cond, field, 0],
+  },
+});
+const thisYear = { $eq: [{ $year: '$createdAt' }, { $year: new Date() }] };
+const thisMonth = {
+  $and: [
+    { $eq: [{ $month: '$createdAt' }, { $month: new Date() }] },
+    { $eq: [{ $year: '$createdAt' }, { $year: new Date() }] },
+  ],
+};
+const thisWeek = {
+  $and: [
+    { $eq: [{ $week: '$createdAt' }, { $week: new Date() }] },
+    { $eq: [{ $year: '$createdAt' }, { $year: new Date() }] },
+  ],
+};
+
+const thisDay = {
+  $and: [
+    { $eq: [{ $dayOfYear: '$createdAt' }, { $dayOfYear: new Date() }] },
+    { $eq: [{ $year: '$createdAt' }, { $year: new Date() }] },
+  ],
+};
+const seats = { $size: '$seats' };
+
+exports.getAvgStatsTickets = catchAsync(async (req, res, next) => {
+  const cost = '$cost';
+  const barOrders = { $sum: '$barOrders.count' };
+  const stats = await Ticket.aggregate([
+    {
+      $group: {
+        _id: null,
+        price: { $avg: cost },
+        seats: { $avg: seats },
+        barOrders: { $avg: barOrders },
+        priceThisYear: avg(thisYear, cost),
+        seatsThisYear: avg(thisYear, seats),
+        barOrdersThisYear: avg(thisYear, barOrders),
+        priceThisMonth: avg(thisMonth, cost),
+        seatsThisMonth: avg(thisMonth, seats),
+        barOrdersThisMonth: avg(thisMonth, barOrders),
+        priceThisWeek: avg(thisWeek, cost),
+        seatsThisWeek: avg(thisWeek, seats),
+        barOrdersThisWeek: avg(thisWeek, barOrders),
+        priceThisDay: avg(thisDay, cost),
+        seatsThisDay: avg(thisDay, seats),
+        barOrdersThisDay: avg(thisDay, barOrders),
+      },
+    },
+    {
+      $addFields: {
+        price: { $round: ['$price', 2] },
+        priceThisYear: { $round: ['$priceThisYear', 2] },
+        priceThisMonth: { $round: ['$priceThisMonth', 2] },
+        priceThisWeek: { $round: ['$priceThisWeek', 2] },
+        priceThisDay: { $round: ['$priceThisDay', 2] },
+        seats: { $round: ['$seats', 2] },
+        seatsThisYear: { $round: ['$seatsThisYear', 2] },
+        seatsThisMonth: { $round: ['$seatsThisMonth', 2] },
+        seatsThisWeek: { $round: ['$seatsThisWeek', 2] },
+        seatsThisDay: { $round: ['$seatsThisDay', 2] },
+        barOrders: { $round: ['$barOrders', 2] },
+        barOrdersThisYear: { $round: ['$barOrdersThisYear', 2] },
+        barOrdersThisMonth: { $round: ['$barOrdersThisMonth', 2] },
+        barOrdersThisWeek: { $round: ['$barOrdersThisWeek', 2] },
+        barOrdersThisDay: { $round: ['$barOrdersThisDay', 2] },
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      stats,
+    },
+  });
+});
+
+exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
+  const stats = await Ticket.aggregate([
+    {
+      $lookup: {
+        from: 'showtimes',
+        localField: 'showtime',
+        foreignField: '_id',
+        as: 'showtime',
+      },
+    },
+    {
+      $unwind: '$showtime',
+    },
+    {
+      $lookup: {
+        from: 'movies',
+        localField: 'showtime.movie',
+        foreignField: '_id',
+        as: 'showtime.movie',
+      },
+    },
+    {
+      $unwind: '$showtime.movie',
+    },
+    {
+      $group: {
+        _id: '$showtime.movie',
+        count: { $sum: seats },
+      },
+    },
+    {
+      $sort: { count: -1 },
+    },
+    {
+      $facet: {
+        mostPopular: [{ $limit: 1 }],
+        leastPopular: [{ $sort: { count: 1 } }, { $limit: 1 }],
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      stats,
+    },
+  });
+});

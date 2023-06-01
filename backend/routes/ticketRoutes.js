@@ -9,6 +9,20 @@ router.route('/').get(ticketController.getAllTickets);
 router.use(authController.protect);
 
 router
+  .route('/statsAvg')
+  .get(
+    authController.restrictTo('moderator', 'admin'),
+    ticketController.getAvgStatsTickets
+  );
+
+router
+  .route('/statsMovie')
+  .get(
+    authController.restrictTo('moderator', 'admin'),
+    ticketController.getMovieStatsTickets
+  );
+
+router
   .route('/my')
   .get(ticketController.setUserId, ticketController.getAllTickets);
 router.route('/:id').get(ticketController.getTicket);

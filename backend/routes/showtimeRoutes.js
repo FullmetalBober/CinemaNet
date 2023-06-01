@@ -4,14 +4,6 @@ const showtimeController = require('./../controllers/showtimeController');
 
 const router = express.Router();
 
-// router
-//   .route('/stats')
-//   .get(
-//     authController.protect,
-//     authController.restrictTo('moderator', 'admin'),
-//     showtimeController.getStatsShowtimes
-//   );
-
 router.route('/').get(showtimeController.getAllShowtimes);
 router.route('/:id').get(showtimeController.getShowtime);
 
