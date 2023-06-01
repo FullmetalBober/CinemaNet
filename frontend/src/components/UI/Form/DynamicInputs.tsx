@@ -50,7 +50,7 @@ const DynamicInputs = (props: IProps) => {
             onInput={onInput}
           />
           {inputs.length > 1 && index !== inputs.length - 1 && (
-            <button onClick={() => handleDelete(index)}>
+            <button type='button' onClick={() => handleDelete(index)}>
               <RiCloseFill className='text-3xl text-red-500' />
             </button>
           )}

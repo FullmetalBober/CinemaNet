@@ -82,13 +82,13 @@ movieSchema.virtual('showtimesCount', {
 });
 
 movieSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  this.slug = slugify(this.name, { lower: true, strict: true });
   next();
 });
 
 movieSchema.pre('findOneAndUpdate', function (next) {
   if (!this._update || !this._update.name) return next();
-  this._update.slug = slugify(this._update.name, { lower: true });
+  this._update.slug = slugify(this._update.name, { lower: true, strict: true });
   next();
 });
 

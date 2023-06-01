@@ -59,7 +59,7 @@ const MovieAddGenres = (props: IProps) => {
             />
           </GenreSearch>
           {genres.length > 1 && data._id && (
-            <button onClick={() => handleDelete(index)}>
+            <button type='button' onClick={() => handleDelete(index)}>
               <RiCloseFill className='text-3xl text-red-500' />
             </button>
           )}
