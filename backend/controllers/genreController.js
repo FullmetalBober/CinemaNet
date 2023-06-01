@@ -3,7 +3,7 @@ const Movie = require('../models/movieModel');
 const factory = require('./handlerFactory');
 const CloudinaryStorage = require('../utils/cloudinary');
 
-exports.getAllGenres = factory.getAll(Genre);
+exports.getAllGenres = factory.getAll(Genre, { path: 'moviesCount' });
 exports.getGenre = factory.getOne(Genre, {
   path: 'movies',
   select: 'name imageCover trailer _id',

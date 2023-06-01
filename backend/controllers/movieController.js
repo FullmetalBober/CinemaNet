@@ -14,7 +14,7 @@ const popOptions = {
   select: 'name _id slug',
 };
 
-exports.getAllMovies = factory.getAll(Movie);
+exports.getAllMovies = factory.getAll(Movie, { path: 'showtimesCount' });
 exports.getMovie = factory.getOne(Movie, popOptions);
 exports.getMovieBySlug = factory.getOneBySlug(Movie, popOptions);
 exports.createMovie = factory.createOne(Movie);

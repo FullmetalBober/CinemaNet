@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { IShowtime } from '../../../Interfaces';
 import Currency from '../../UI/Currency';
 import Table from '../../UI/Table/Table';
@@ -18,6 +17,7 @@ const ShowtimeTable = ({ showtimes }: IProps) => {
         { name: 'MOVIE' },
         { name: 'PRICE STANDARD', type: 'number' },
         { name: 'PRICE LUX', type: 'number' },
+        { name: 'TICKETS', type: 'number' },
       ]}
     >
       {showtimes.map(showtime => {
@@ -51,6 +51,7 @@ const ShowtimeTable = ({ showtimes }: IProps) => {
             <TdLink to={to} dataOrder={showtime.price.lux}>
               <Currency>{showtime.price.lux}</Currency>
             </TdLink>
+            <TdLink to={to}>{showtime.ticketsCount}</TdLink>
           </tr>
         );
       })}

@@ -29,6 +29,7 @@ export interface IShowtime {
     lux: number;
   };
   tickets: ITicket[];
+  ticketsCount: number;
 }
 
 export interface IMovie extends ITimestamps {
@@ -54,6 +55,7 @@ export interface IMovie extends ITimestamps {
   description?: string;
   price: number;
   slug: string;
+  showtimesCount: number;
 }
 
 export interface IHall extends ITimestamps {
@@ -73,6 +75,7 @@ export interface IHall extends ITimestamps {
     standard: number;
     lux: number;
   };
+  showtimesCount: number;
 }
 
 export interface IGenre extends ITimestamps {
@@ -81,6 +84,7 @@ export interface IGenre extends ITimestamps {
   description?: string;
   imageCover: string;
   slug: string;
+  moviesCount: number;
 }
 
 export interface ITicket extends ITimestamps {

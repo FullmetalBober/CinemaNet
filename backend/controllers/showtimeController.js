@@ -5,7 +5,7 @@ const AppError = require('../utils/appError');
 const Movie = require('../models/movieModel');
 
 exports.getAllShowtimes = factory.getAll(Showtime, {
-  path: 'hall',
+  path: 'hall ticketsCount',
   select: 'name price',
 });
 exports.getShowtime = factory.getOne(Showtime, [
@@ -69,3 +69,12 @@ exports.checkShowtime = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+// exports.getStatsShowtimes = catchAsync(async (req, res, next) => {
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       statistics,
+//     },
+//   });
+// });

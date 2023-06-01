@@ -31,7 +31,7 @@ const CabinetShowtime = () => {
         console.error(error);
       }
     })();
-  }, [cinema.name, cinema.halls]);
+  }, [cinema.halls]);
 
   useEffect(() => {
     setShowtimes(prevState => [

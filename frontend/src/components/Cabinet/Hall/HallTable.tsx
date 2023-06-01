@@ -27,6 +27,7 @@ const HallTable = ({ halls, setSearchParam }: IProps) => {
         { name: 'PRICE STANDARD', type: 'number' },
         { name: 'PRICE LUX', type: 'number' },
         { name: 'SEATS', type: 'number' },
+        { name: 'SHOWTIMES', type: 'number' },
         { name: 'UPDATE', type: 'none' },
       ]}
     >
@@ -51,6 +52,7 @@ const HallTable = ({ halls, setSearchParam }: IProps) => {
             >
               <Seats hall={hall} cardSize={calculationSizeSeat(hall)} />
             </td>
+            <td>{hall.showtimesCount}</td>
             <td
               onClick={() => setSearchParam(hall._id)}
               className='cursor-pointer'

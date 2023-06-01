@@ -54,10 +54,19 @@ const hallSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
 hallSchema.index({ name: 1, cinema: 1 }, { unique: true });
+
+hallSchema.virtual('showtimesCount', {
+  ref: 'Showtime',
+  localField: '_id',
+  foreignField: 'hall',
+  count: true,
+});
 
 const Hall = mongoose.model('Hall', hallSchema);
 

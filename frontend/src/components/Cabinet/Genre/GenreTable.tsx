@@ -14,6 +14,7 @@ const GenreTable = ({ genres, setSearchParam }: IProps) => {
       headers={[
         { name: 'UPDATED', type: 'date' },
         { name: 'GENRE' },
+        { name: 'MOVIES', type: 'number' },
         { name: 'UPDATE', type: 'none' },
       ]}
     >
@@ -29,6 +30,7 @@ const GenreTable = ({ genres, setSearchParam }: IProps) => {
               {new Date(genre.updatedAt).toLocaleDateString()}
             </TdLink>
             <TdLink to={to}>{genre.name}</TdLink>
+            <TdLink to={to}>{genre.moviesCount}</TdLink>
             <td
               onClick={() => setSearchParam(genre._id)}
               className='cursor-pointer'

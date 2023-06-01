@@ -58,7 +58,7 @@ const MovieAdd = (props: IProps) => {
             end: formState.inputs.rentalPeriod.value[1].toISOString(),
           };
 
-        if (body.trailer) {
+        if (body.trailer && body.trailer.includes('watch?v=')) {
           const trailer = body.trailer.split('watch?v=');
           body.trailer = trailer[0] + 'embed/' + trailer[1];
         }

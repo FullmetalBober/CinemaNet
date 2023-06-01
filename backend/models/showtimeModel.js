@@ -27,6 +27,13 @@ const showtimeSchema = new mongoose.Schema(
 
 showtimeSchema.index({ hall: 1, 'time.start': 1 }, { unique: true });
 
+showtimeSchema.virtual('ticketsCount', {
+  ref: 'Ticket',
+  foreignField: 'showtime',
+  localField: '_id',
+  count: true,
+});
+
 showtimeSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'movie',

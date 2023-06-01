@@ -67,10 +67,19 @@ const movieSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
 movieSchema.index({ slug: 1 });
+
+movieSchema.virtual('showtimesCount', {
+  ref: 'Showtime',
+  foreignField: 'movie',
+  localField: '_id',
+  count: true,
+});
 
 movieSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });

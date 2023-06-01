@@ -31,6 +31,13 @@ genreSchema.virtual('movies', {
   localField: '_id',
 });
 
+genreSchema.virtual('moviesCount', {
+  ref: 'Movie',
+  foreignField: 'genres',
+  localField: '_id',
+  count: true,
+});
+
 genreSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();

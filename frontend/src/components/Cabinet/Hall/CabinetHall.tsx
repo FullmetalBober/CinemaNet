@@ -34,7 +34,7 @@ const CabinetHall = () => {
         console.error(error);
       }
     })();
-  }, []);
+  }, [cinema._id]);
 
   return (
     <div className='w-full'>

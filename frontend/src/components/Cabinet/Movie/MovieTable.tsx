@@ -18,6 +18,7 @@ const MovieTable = ({ movies, setSearchParam }: IProps) => {
         { name: 'RENTAL START', type: 'date' },
         { name: 'RENTAL END', type: 'date' },
         { name: 'PRICE', type: 'number' },
+        { name: 'SHOWTIMES', type: 'number' },
         { name: 'UPDATE', type: 'none' },
       ]}
     >
@@ -47,6 +48,7 @@ const MovieTable = ({ movies, setSearchParam }: IProps) => {
             <TdLink to={to} dataOrder={movie.price}>
               <Currency>{movie.price}</Currency>
             </TdLink>
+            <TdLink to={to}>{movie.showtimesCount}</TdLink>
             <td
               onClick={() => setSearchParam(movie._id)}
               className='cursor-pointer'

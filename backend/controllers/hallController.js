@@ -2,7 +2,7 @@ const Hall = require('../models/hallModel');
 const Showtime = require('../models/showtimeModel');
 const factory = require('./handlerFactory');
 
-exports.getAllHalls = factory.getAll(Hall);
+exports.getAllHalls = factory.getAll(Hall, { path: 'showtimesCount' });
 exports.getHall = factory.getOne(Hall);
 exports.createHall = factory.createOne(Hall);
 exports.updateHall = factory.updateOne(Hall);
