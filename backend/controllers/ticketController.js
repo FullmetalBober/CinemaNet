@@ -139,6 +139,42 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   res.status(200).json({ received: true });
 });
 
+const unwindToCinema = [
+  {
+    $lookup: {
+      from: 'showtimes',
+      localField: 'showtime',
+      foreignField: '_id',
+      as: 'showtime',
+    },
+  },
+  {
+    $unwind: '$showtime',
+  },
+  {
+    $lookup: {
+      from: 'halls',
+      localField: 'showtime.hall',
+      foreignField: '_id',
+      as: 'showtime.hall',
+    },
+  },
+  {
+    $unwind: '$showtime.hall',
+  },
+  {
+    $lookup: {
+      from: 'cinemas',
+      localField: 'showtime.hall.cinema',
+      foreignField: '_id',
+      as: 'showtime.hall.cinema',
+    },
+  },
+  {
+    $unwind: '$showtime.hall.cinema',
+  },
+];
+
 const avg = (cond, field) => ({
   $avg: {
     $cond: [cond, field, 0],
@@ -170,9 +206,10 @@ exports.getAvgStatsTickets = catchAsync(async (req, res, next) => {
   const cost = '$cost';
   const barOrders = { $sum: '$barOrders.count' };
   const stats = await Ticket.aggregate([
+    ...unwindToCinema,
     {
       $group: {
-        _id: null,
+        _id: '$showtime.hall.cinema.name',
         price: { $avg: cost },
         seats: { $avg: seats },
         barOrders: { $avg: barOrders },
@@ -221,17 +258,7 @@ exports.getAvgStatsTickets = catchAsync(async (req, res, next) => {
 
 exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
   const stats = await Ticket.aggregate([
-    {
-      $lookup: {
-        from: 'showtimes',
-        localField: 'showtime',
-        foreignField: '_id',
-        as: 'showtime',
-      },
-    },
-    {
-      $unwind: '$showtime',
-    },
+    ...unwindToCinema,
     {
       $lookup: {
         from: 'movies',
@@ -245,7 +272,10 @@ exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
     },
     {
       $group: {
-        _id: '$showtime.movie',
+        _id: {
+          movie: '$showtime.movie',
+          cinemaName: '$showtime.hall.cinema.name',
+        },
         count: { $sum: seats },
       },
     },
@@ -253,9 +283,11 @@ exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
       $sort: { count: -1 },
     },
     {
-      $facet: {
-        mostPopular: [{ $limit: 1 }],
-        leastPopular: [{ $sort: { count: 1 } }, { $limit: 1 }],
+      $group: {
+        _id: '$_id.cinemaName',
+        // movies: { $push: { movie: '$_id.movie', count: '$count' } },
+        mostPopular: { $first: { movie: '$_id.movie', count: '$count' } },
+        leastPopular: { $last: { movie: '$_id.movie', count: '$count' } },
       },
     },
   ]);
