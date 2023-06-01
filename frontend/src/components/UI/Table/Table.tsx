@@ -1,7 +1,12 @@
 import { Children, useMemo, useState } from 'react';
 
+export type TableHeader = {
+  name: string;
+  type?: 'date' | 'number' | 'string' | 'none';
+};
+
 interface IProps {
-  headers: { name: string; type?: 'date' | 'number' | 'string' | 'none' }[];
+  headers: TableHeader[];
   children: React.ReactNode;
 }
 

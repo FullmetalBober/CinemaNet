@@ -177,7 +177,7 @@ const unwindToCinema = [
 
 const avg = (cond, field) => ({
   $avg: {
-    $cond: [cond, field, 0],
+    $cond: [cond, field, undefined],
   },
 });
 const thisYear = { $eq: [{ $year: '$createdAt' }, { $year: new Date() }] };
@@ -205,35 +205,35 @@ const seats = { $size: '$seats' };
 exports.getAvgStatsTickets = catchAsync(async (req, res, next) => {
   const cost = '$cost';
   const barOrders = { $sum: '$barOrders.count' };
-  const stats = await Ticket.aggregate([
+  const data = await Ticket.aggregate([
     ...unwindToCinema,
     {
       $group: {
         _id: '$showtime.hall.cinema.name',
-        price: { $avg: cost },
+        cost: { $avg: cost },
         seats: { $avg: seats },
         barOrders: { $avg: barOrders },
-        priceThisYear: avg(thisYear, cost),
+        costThisYear: avg(thisYear, cost),
         seatsThisYear: avg(thisYear, seats),
         barOrdersThisYear: avg(thisYear, barOrders),
-        priceThisMonth: avg(thisMonth, cost),
+        costThisMonth: avg(thisMonth, cost),
         seatsThisMonth: avg(thisMonth, seats),
         barOrdersThisMonth: avg(thisMonth, barOrders),
-        priceThisWeek: avg(thisWeek, cost),
+        costThisWeek: avg(thisWeek, cost),
         seatsThisWeek: avg(thisWeek, seats),
         barOrdersThisWeek: avg(thisWeek, barOrders),
-        priceThisDay: avg(thisDay, cost),
+        costThisDay: avg(thisDay, cost),
         seatsThisDay: avg(thisDay, seats),
         barOrdersThisDay: avg(thisDay, barOrders),
       },
     },
     {
       $addFields: {
-        price: { $round: ['$price', 2] },
-        priceThisYear: { $round: ['$priceThisYear', 2] },
-        priceThisMonth: { $round: ['$priceThisMonth', 2] },
-        priceThisWeek: { $round: ['$priceThisWeek', 2] },
-        priceThisDay: { $round: ['$priceThisDay', 2] },
+        cost: { $round: ['$cost', 2] },
+        costThisYear: { $round: ['$costThisYear', 2] },
+        costThisMonth: { $round: ['$costThisMonth', 2] },
+        costThisWeek: { $round: ['$costThisWeek', 2] },
+        costThisDay: { $round: ['$costThisDay', 2] },
         seats: { $round: ['$seats', 2] },
         seatsThisYear: { $round: ['$seatsThisYear', 2] },
         seatsThisMonth: { $round: ['$seatsThisMonth', 2] },
@@ -251,13 +251,15 @@ exports.getAvgStatsTickets = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      stats,
+      data,
     },
   });
 });
 
 exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
-  const stats = await Ticket.aggregate([
+  const movieCountSeats = { movie: '$_id.movie', count: '$count' };
+
+  const data = await Ticket.aggregate([
     ...unwindToCinema,
     {
       $lookup: {
@@ -285,9 +287,23 @@ exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
     {
       $group: {
         _id: '$_id.cinemaName',
-        // movies: { $push: { movie: '$_id.movie', count: '$count' } },
-        mostPopular: { $first: { movie: '$_id.movie', count: '$count' } },
-        leastPopular: { $last: { movie: '$_id.movie', count: '$count' } },
+        mostPopular: { $first: movieCountSeats },
+        leastPopular: { $last: movieCountSeats },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        mostPopular: {
+          _id: '$mostPopular.movie._id',
+          name: '$mostPopular.movie.name',
+          count: '$mostPopular.count',
+        },
+        leastPopular: {
+          _id: '$leastPopular.movie._id',
+          name: '$leastPopular.movie.name',
+          count: '$leastPopular.count',
+        },
       },
     },
   ]);
@@ -295,7 +311,7 @@ exports.getMovieStatsTickets = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      stats,
+      data,
     },
   });
 });

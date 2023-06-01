@@ -7,6 +7,7 @@ import { IoFastFoodOutline } from 'react-icons/io5';
 import { useMemo } from 'react';
 import { UserState } from '../../contexts/UserProvider';
 import { FiUsers } from 'react-icons/fi';
+import { BiStats } from 'react-icons/bi';
 
 interface IProps {
   active: string;
@@ -37,6 +38,14 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
           value: 'Bars',
           icon: <IoFastFoodOutline className={classNameIcon} />,
         },
+        {
+          value: 'Stats',
+          icon: <BiStats className={classNameIcon} />,
+        },
+        {
+          value: 'Users',
+          icon: <FiUsers className={classNameIcon} />,
+        },
         { value: 'Genres', icon: <FaNapster className={classNameIcon} /> },
         {
           value: 'Halls',
@@ -45,10 +54,6 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
         {
           value: 'Cinemas',
           icon: <HiOutlineLocationMarker className={classNameIcon} />,
-        },
-        {
-          value: 'Users',
-          icon: <FiUsers className={classNameIcon} />,
         },
       ];
     return menuItems;

@@ -11,6 +11,7 @@ import CabinetHall from './Hall/CabinetHall';
 import CabinetCinema from './Cinema/CabinetCinema';
 import CabinetPassword from './Password/CabinetPassword';
 import CabinetUser from './User/CabinetUser';
+import CabinetStats from './Stats/CabinetStats';
 
 const Cabinet = () => {
   const [active, setActive] = useState('Tickets');
@@ -37,6 +38,8 @@ const Cabinet = () => {
         return <CabinetCinema />;
       case 'Users':
         return <CabinetUser />;
+      case 'Stats':
+        return <CabinetStats />;
     }
   };
 
