@@ -1,19 +1,10 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
-const fsPromises = require('fs').promises;
 const { Transform } = require('stream');
-const { promisify } = require('util');
 const catchAsync = require('../utils/catchAsync');
 
-const fileName = 'temp/backup.json';
-
-exports.createTemp = catchAsync(async (req, res, next) => {
-  fsPromises.mkdir('temp');
-  next();
-});
+const fileName = 'backup.json';
 
 exports.getBackup = catchAsync(async (req, res, next) => {
-  const writeStream = fs.createWriteStream(fileName);
   const models = Object.values(mongoose.connection.models);
   let counter = models.length;
   const transformStream = new Transform({
@@ -29,13 +20,14 @@ exports.getBackup = catchAsync(async (req, res, next) => {
     },
   });
 
-  writeStream.write('[');
+  res.attachment(fileName);
+  res.write('[');
 
-  transformStream.pipe(writeStream, { end: false });
+  transformStream.pipe(res, { end: false });
 
   transformStream.on('end', () => {
-    writeStream.write(']');
-    writeStream.end();
+    res.write(']');
+    res.end();
   });
 
   models.forEach(model => {
@@ -43,10 +35,4 @@ exports.getBackup = catchAsync(async (req, res, next) => {
   });
 
   transformStream.end();
-
-  writeStream.on('finish', () => {
-    res.download(fileName, 'backup.json', async () => {
-      await promisify(fs.unlink)(fileName);
-    });
-  });
 });
