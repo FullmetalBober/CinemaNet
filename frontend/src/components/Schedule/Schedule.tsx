@@ -9,8 +9,10 @@ import HorizontalLine from '../UI/HorizontalLine';
 import { BsHandIndex } from 'react-icons/bs';
 import Footer from './Footer';
 import BottomSchedule from './BottomSchedule';
+import Loading from '../UI/Loading';
 
 const Schedule = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [showtimes, setShowtimes] = useState<IShowtime[]>([]);
   const [showtimesSelectedDay, setShowtimesSelectedDay] =
     useState<IShowtime[]>();
@@ -20,6 +22,7 @@ const Schedule = () => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       try {
         if (!cinema.halls) return;
         const dateNow = new Date().getTime();
@@ -34,6 +37,7 @@ const Schedule = () => {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     })();
   }, [cinema]);
 
@@ -78,12 +82,16 @@ const Schedule = () => {
     <>
       <main className='mx-auto mb-7 mt-7 flex flex-col gap-4 lg:max-w-screen-xl lg:px-9'>
         <ImageCover />
-        <DatesSchedule
-          days={days}
-          selectedDay={selectedDay}
-          handleDayClick={handleDayClick}
-          className='mb-5'
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <DatesSchedule
+            days={days}
+            selectedDay={selectedDay}
+            handleDayClick={handleDayClick}
+            className='mb-5'
+          />
+        )}
         <HorizontalLine classNameChild='flex'>
           <BsHandIndex size={23} className='mr-3' />
           Click on a session time to select seats

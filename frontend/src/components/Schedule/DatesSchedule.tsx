@@ -46,7 +46,7 @@ const DatesSchedule = (props: IProps) => {
     }
   };
 
-  if (props.days.length === 0) return <Loading />;
+  if (props.days.length === 0) return <></>;
   return (
     <div className={`flex items-center justify-between ${props.className}`}>
       {week.map((day, index) => (
