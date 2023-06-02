@@ -6,9 +6,10 @@ import Input from '../../UI/Form/Input';
 import { VALIDATOR_REQUIRE } from '../../../utils/validators';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import DangerContent from '../../UI/Details/DangerContent';
 import DeleteAction from '../DeleteAction';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   setGenres: React.Dispatch<React.SetStateAction<IGenre[]>>;
@@ -19,7 +20,7 @@ interface IProps {
 }
 
 const GenreAdd = (props: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const [genre, setGenre] = useState<IGenre>({} as IGenre);
   const [formState, inputHandler] = useForm(
     {
@@ -42,73 +43,82 @@ const GenreAdd = (props: IProps) => {
   useEffect(() => {
     if (!props.searchParam) return;
     (async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`/api/v1/genres/${props.searchParam}`);
-        props.setSearchParam('');
-        setGenre(response.data.data.data);
+      const response = await sendRequest({
+        url: `/api/v1/genres/${props.searchParam}`,
+        showErrMsg: true,
+      });
+      if (!response) return;
 
-        Object.values(formState.inputs).map(el => {
-          el.isValid = true;
-        });
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      props.setSearchParam('');
+      setGenre(response.data.data.data);
+
+      Object.values(formState.inputs).map(el => {
+        el.isValid = true;
+      });
     })();
   }, [props.searchParam]);
 
   const createMovieSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const body: { [key: string]: any } = {};
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          if (key === 'imageCover') return;
-          body[key] = el.value;
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        if (key === 'imageCover') return;
+        body[key] = el.value;
+      });
+
+      let response: AxiosResponse<any, any> | undefined;
+      if (genre._id) {
+        response = await sendRequest({
+          url: `/api/v1/genres/${genre._id}`,
+          method: 'PATCH',
+          data: body,
+          showSuccessMsg: 'Genre updated successfully!',
+          showErrMsg: true,
         });
-
-        let response: AxiosResponse<any, any>;
-        if (genre._id) {
-          response = await axios.patch(`/api/v1/genres/${genre._id}`, body);
-          props.setGenres(prevState =>
-            prevState.map(el =>
-              el._id === genre._id ? response.data.data.data : el
-            )
-          );
-        } else {
-          response = await axios.post('/api/v1/genres', body);
-          props.setGenres(prevState => [...prevState, response.data.data.data]);
-        }
-
-        if (formState.inputs.imageCover.value !== null) {
-          const formData = new FormData();
-          formData.append('imageCover', formState.inputs.imageCover.value);
-          response = await axios.patch(
-            `/api/v1/genres/${response.data.data.data._id}`,
-            formData
-          );
-        }
-        props.setMode(props.buttons[0]);
-      } catch (err) {
-        console.log(err);
+        props.setGenres(prevState =>
+          prevState.map(el =>
+            el._id === genre._id ? response?.data.data.data : el
+          )
+        );
+      } else {
+        response = await sendRequest({
+          url: '/api/v1/genres',
+          method: 'POST',
+          data: body,
+          showSuccessMsg: 'Genre created successfully!',
+          showErrMsg: true,
+        });
+        props.setGenres(prevState => [...prevState, response?.data.data.data]);
       }
-      setIsLoading(false);
+
+      if (formState.inputs.imageCover.value !== null) {
+        const formData = new FormData();
+        formData.append('imageCover', formState.inputs.imageCover.value);
+        await sendRequest({
+          url: `/api/v1/genres/${response?.data.data.data._id}`,
+          method: 'PATCH',
+          data: formData,
+          showErrMsg: true,
+        });
+      }
+      props.setMode(props.buttons[0]);
     })();
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(`/api/v1/genres/${genre._id}`);
-      if (response.data === '') {
-        props.setGenres(prevState =>
-          prevState.filter(el => el._id !== genre._id)
-        );
-        props.setMode(props.buttons[0]);
-      }
-    } catch (err) {
-      console.error(err);
+    const response = await sendRequest({
+      url: `/api/v1/genres/${genre._id}`,
+      method: 'DELETE',
+      showSuccessMsg: 'Genre deleted successfully!',
+      showErrMsg: true,
+    });
+
+    if (response?.data === '') {
+      props.setGenres(prevState =>
+        prevState.filter(el => el._id !== genre._id)
+      );
+      props.setMode(props.buttons[0]);
     }
   };
 

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import GroupPriceCard from '../../UI/Seats/GroupPrice';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios from 'axios';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   showtimes: IShowtime[];
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const ShowtimeAdd = (props: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const [hall, setHall] = useState<IHall>({} as IHall);
   const [movie, setMovie] = useState<IMovie>({} as IMovie);
   const [formState, inputHandler] = useForm(
@@ -41,29 +41,29 @@ const ShowtimeAdd = (props: IProps) => {
   const createShowtimeSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const responds = await axios.post('/api/v1/showtimes', {
-          movie: formState.inputs.movie.value,
-          hall: formState.inputs.hall.value,
-          time: {
-            start: formState.inputs.date.value,
-          },
-        });
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(
+        ([key, el]) => (body[key] = el.value)
+      );
+      body.time = {
+        start: body.date,
+      };
 
-        const newShowtime = await axios.get(
-          `/api/v1/showtimes/${responds.data.data.data._id}`
-        );
+      let responds = await sendRequest({
+        url: '/api/v1/showtimes',
+        method: 'POST',
+        data: body,
+        showSuccessMsg: 'Showtime created successfully!',
+        showErrMsg: true,
+      });
 
-        props.setShowtimes(prevState => [
-          ...prevState,
-          newShowtime.data.data.data,
-        ]);
-        props.setMode(props.buttons[0]);
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      responds = await sendRequest({
+        url: `/api/v1/showtimes/${responds?.data.data.data._id}`,
+        showErrMsg: true,
+      });
+
+      props.setShowtimes(prevState => [...prevState, responds?.data.data.data]);
+      props.setMode(props.buttons[0]);
     })();
   };
 

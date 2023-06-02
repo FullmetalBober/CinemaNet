@@ -6,12 +6,12 @@ import {
 } from '../../../utils/validators';
 import Input from '../../UI/Form/Input';
 import { useForm } from '../../../hooks/form-hook';
-import axios from 'axios';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const CabinetPassword = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       passwordCurrent: {
@@ -33,24 +33,24 @@ const CabinetPassword = () => {
   const changePasswordSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const body: { [key: string]: any } = {};
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          if (key === 'imageCover') return;
-          body[key] = el.value;
-        });
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        if (key === 'imageCover') return;
+        body[key] = el.value;
+      });
 
-        await axios.patch('/api/v1/users/updateMyPassword', body);
+      await sendRequest({
+        url: '/api/v1/users/updateMyPassword',
+        method: 'PATCH',
+        data: body,
+        showSuccessMsg: 'Password changed successfully!',
+        showErrMsg: true,
+      });
 
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          el.value = null;
-          el.isValid = false;
-        });
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        el.value = null;
+        el.isValid = false;
+      });
     })();
   };
 

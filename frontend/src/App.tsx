@@ -6,10 +6,12 @@ import { Analytics } from '@vercel/analytics/react';
 import Showtime from './components/Showtime/Showtime';
 import Authorization from './components/Authorization/Authorization';
 import Providers from './contexts/Providers';
-import PrivateWrapper from './components/utils/PrivateWrapper';
+import PrivateWrapper from './components/UI/PrivateWrapper';
 import './App.css';
 import Cabinet from './components/Cabinet/Cabinet';
 import { ConfigProvider, theme } from 'antd';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -24,6 +26,11 @@ function App() {
           }}
         >
           <Navbar />
+          <ToastContainer
+            style={{
+              top: '3.6rem',
+            }}
+          />
           <Routes>
             <Route path='/' element={<Schedule />} />
             <Route path='movie/:movieSlug' element={<Movie />} />

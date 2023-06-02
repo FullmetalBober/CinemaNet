@@ -1,21 +1,30 @@
-//! Unused
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Toast from '../components/UI/Toast';
+
+interface IProps {
+  url: string;
+  method?: 'GET' | 'POST' | 'DELETE' | 'PATCH';
+  data?: any;
+  params?: any;
+  showSuccessMsg?: string;
+  showErrMsg?: boolean;
+}
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>();
 
   const activeHttpRequests = useRef<AbortController[]>([]);
 
   const sendRequest = useCallback(
-    async (
-      url: string,
-      method = 'GET',
-      data: any = null,
-      params: any = null,
-      headers: any = {}
-    ) => {
+    async ({
+      url,
+      method,
+      data,
+      params,
+      showSuccessMsg,
+      showErrMsg,
+    }: IProps) => {
       setIsLoading(true);
       const httpAbortCtrl = new AbortController();
       activeHttpRequests.current.push(httpAbortCtrl);
@@ -23,40 +32,45 @@ export const useHttpClient = () => {
       try {
         const response = await axios.request({
           url,
-          method,
+          method: method || 'GET',
           data,
           params,
-          headers,
           signal: httpAbortCtrl.signal,
         });
-
-        const responseData = response.data;
 
         activeHttpRequests.current = activeHttpRequests.current.filter(
           reqCtrl => reqCtrl !== httpAbortCtrl
         );
+        if (showSuccessMsg)
+          Toast({
+            type: 'success',
+            message: showSuccessMsg,
+            duration: 3000,
+          });
 
-        if (responseData.status != 'success')
-          throw new Error(responseData.message);
         setIsLoading(false);
-        return responseData;
-      } catch (err: unknown) {
-        setError(
-          err instanceof Error ? err.message : 'An unknown error occurred!'
-        );
+        return response;
+      } catch (error) {
+        if (!showErrMsg) return;
+        let message = 'Something went wrong!';
+        if (error instanceof AxiosError) message = error.response?.data.message;
+        Toast({
+          type: 'error',
+          message,
+          duration: 3000,
+        });
         setIsLoading(false);
-        throw err;
+        if (error instanceof Error && error.name !== 'CanceledError')
+          throw error;
       }
     },
     []
   );
-
-  const clearError = () => setError(undefined);
 
   useEffect(
     () => activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort()),
     []
   );
 
-  return { isLoading, error, sendRequest, clearError };
+  return { isLoading, sendRequest };
 };

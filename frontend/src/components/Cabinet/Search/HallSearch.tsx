@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import ModalSearch from '../../UI/Modal/ModalSearch';
 import { IHall } from '../../../Interfaces';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
-import axios from 'axios';
 import Seats from '../../UI/Seats/Seats';
 import ScrollbarDiv from '../../UI/ScrollbarDiv';
 import { CinemaState } from '../../../contexts/CinemaProvider';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   children: React.ReactNode;
@@ -14,6 +14,7 @@ interface IProps {
 }
 
 const HallSearch = (props: IProps) => {
+  const { sendRequest } = useHttpClient();
   const [showSearch, setShowSearch] = useState(false);
   const [halls, setHalls] = useState<IHall[]>([]);
   const [input, setInput] = useState<string>();
@@ -21,17 +22,16 @@ const HallSearch = (props: IProps) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        let url = `/api/v1/halls?`;
-        if (input) url += `search=${input}`;
+      let url = `/api/v1/halls?`;
+      if (input) url += `search=${input}`;
 
-        const response = await axios.get(
-          url + `&sort=name&cinema=${cinema._id}`
-        );
-        setHalls(response.data.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await sendRequest({
+        url: url + `&sort=name&cinema=${cinema._id}`,
+        showErrMsg: true,
+      });
+      if (!response) return;
+
+      setHalls(response.data.data.data);
     })();
   }, [input, cinema._id]);
 

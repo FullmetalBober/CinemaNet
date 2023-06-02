@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Modal from '../UI/Modal/Modal';
 import { ICinema } from '../../Interfaces';
 import { CinemaState } from '../../contexts/CinemaProvider';
 import Cookies from 'universal-cookie';
 import CitiesModal from './CitiesModal';
 import CinemasModal from './CinemasModal';
+import { useHttpClient } from '../../hooks/http-hook';
 
 interface IProps {
   children: React.ReactNode;
@@ -13,6 +13,7 @@ interface IProps {
 }
 
 const ChooseCinema = ({ children, className }: IProps) => {
+  const { sendRequest } = useHttpClient();
   const [showCinemas, setShowCinemas] = useState<boolean>(false);
   const [cinemas, setCinemas] = useState<ICinema[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -25,17 +26,14 @@ const ChooseCinema = ({ children, className }: IProps) => {
   }, [cinema]);
 
   useEffect(() => {
-    const fetchCinemas = async () => {
-      try {
-        const response = await axios.get(
-          '/api/v1/cinemas?sort=location.city&sort=name'
-        );
-        setCinemas(response.data.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchCinemas();
+    (async () => {
+      const response = await sendRequest({
+        url: '/api/v1/cinemas',
+        params: { sort: ['location.city', 'name'] },
+        showErrMsg: true,
+      });
+      if (response) setCinemas(response.data.data.data);
+    })();
   }, []);
 
   useEffect(() => {

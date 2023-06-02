@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { IMovie } from '../../../Interfaces';
-import axios from 'axios';
 import ModalSearch from '../../UI/Modal/ModalSearch';
 import { MdOutlineMovie } from 'react-icons/md';
 import ScrollbarDiv from '../../UI/ScrollbarDiv';
 import MovieCard from '../../UI/Cards/MovieCard';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   children: React.ReactNode;
@@ -13,20 +13,24 @@ interface IProps {
 }
 
 const MovieSearch = (props: IProps) => {
+  const { sendRequest } = useHttpClient();
   const [showSearch, setShowSearch] = useState(false);
   const [movies, setMovies] = useState<IMovie[]>([]);
   const [input, setInput] = useState<string>();
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/movies?search=${input}&sort=name`
-        );
-        setMovies(response.data.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/movies`,
+        params: {
+          search: input,
+          sort: 'name',
+        },
+        showErrMsg: true,
+      });
+      if (!response) return;
+
+      setMovies(response.data.data.data);
     })();
   }, [input]);
 

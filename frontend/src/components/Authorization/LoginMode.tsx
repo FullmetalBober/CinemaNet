@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { InputData } from '../../hooks/form-hook';
 import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../utils/validators';
 import Button from '../UI/Button';
@@ -6,8 +5,8 @@ import Input from '../UI/Form/Input';
 import TextOpacity from '../UI/TextOpacity';
 import { UserState } from '../../contexts/UserProvider';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import Loading from '../UI/Loading';
+import { useHttpClient } from '../../hooks/http-hook';
 
 interface IProps {
   inputHandler?: (id: string, value: string, isValid: boolean) => void;
@@ -18,26 +17,26 @@ interface IProps {
 }
 
 const LoginPage = ({ inputHandler, formState }: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const { setUser } = UserState();
   const navigate = useNavigate();
 
   const authSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const data = {
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        };
-        const responds = await axios.post('/api/v1/users/login', data);
-        setUser(responds.data.data.user);
-        navigate('/');
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      const data = {
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
+      };
+      const responds = await sendRequest({
+        url: '/api/v1/users/login',
+        method: 'POST',
+        data,
+        showSuccessMsg: 'Login successfully',
+        showErrMsg: true,
+      });
+      setUser(responds?.data.data.user);
+      navigate('/');
     })();
   };
 

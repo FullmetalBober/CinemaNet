@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IUser } from '../Interfaces';
-import axios from 'axios';
+import { useHttpClient } from '../hooks/http-hook';
 
 interface UserContextType {
   user: IUser;
@@ -16,19 +16,19 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 
 const UserProvider = (props: IProps) => {
   const [user, setUser] = useState<IUser>({} as IUser);
+  const { sendRequest } = useHttpClient();
   const [userLoading, setUserLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
       setUserLoading(true);
-      try {
-        const response = await axios.get('/api/v1/users/me');
-        if (response.data.status === 'success')
-          setUser(response.data.data.data);
-      } catch (err) {
-        console.log(err);
-      }
-      setUserLoading(false);
+      const response = await sendRequest({
+        url: '/api/v1/users/me',
+        showErrMsg: true,
+      });
+      if (response?.data.status === 'success') setUser(response.data.data.data);
+
+      if (response) setUserLoading(false);
     })();
   }, []);
 

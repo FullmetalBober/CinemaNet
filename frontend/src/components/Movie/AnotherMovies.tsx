@@ -1,33 +1,34 @@
 import { Link, useParams } from 'react-router-dom';
 import { IMovie } from '../../Interfaces';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useHttpClient } from '../../hooks/http-hook';
 
-interface IProps {}
-
-const AnotherMovies = (props: IProps) => {
+const AnotherMovies = () => {
+  const { sendRequest } = useHttpClient();
   const [anotherMovies, setAnotherMovies] = useState<IMovie[]>([]);
   const { movieSlug } = useParams();
 
   useEffect(() => {
     (async () => {
-      try {
-        const date = new Date();
-        const response = await axios.get(
-          `/api/v1/movies?limit=9&rentalPeriod.end[gte]=${date}`
-        );
+      const date = new Date();
+      const response = await sendRequest({
+        url: `/api/v1/movies`,
+        params: {
+          limit: 9,
+          'rentalPeriod.end[gte]': date,
+        },
+        showErrMsg: true,
+      });
+      if (!response) return;
 
-        let filteredMovies = response.data.data.data.filter(
-          (movie: IMovie) => movie.slug !== movieSlug
-        );
+      let filteredMovies = response.data.data.data.filter(
+        (movie: IMovie) => movie.slug !== movieSlug
+      );
 
-        if (filteredMovies.length > 8) {
-          filteredMovies = filteredMovies.slice(0, 8);
-        }
-        setAnotherMovies(filteredMovies);
-      } catch (error) {
-        console.error(error);
+      if (filteredMovies.length > 8) {
+        filteredMovies = filteredMovies.slice(0, 8);
       }
+      setAnotherMovies(filteredMovies);
     })();
   }, [movieSlug]);
 

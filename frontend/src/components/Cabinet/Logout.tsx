@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { UserState } from '../../contexts/UserProvider';
 import { IUser } from '../../Interfaces';
 import { BsArrowRightShort } from 'react-icons/bs';
+import { useHttpClient } from '../../hooks/http-hook';
 
 interface IProps {
   className?: string;
@@ -11,18 +11,18 @@ interface IProps {
 const Logout = (props: IProps) => {
   const navigate = useNavigate();
   const { setUser } = UserState();
+  const { sendRequest } = useHttpClient();
 
   const logout = () => {
     (async () => {
-      try {
-        const response = await axios.get('/api/v1/users/logout');
-
-        if (response.data.status === 'success') {
-          setUser({} as IUser);
-          navigate('/', { replace: true });
-        }
-      } catch (error) {
-        console.error(error);
+      const response = await sendRequest({
+        url: '/api/v1/users/logout',
+        showErrMsg: true,
+        showSuccessMsg: 'Logout successfully',
+      });
+      if (response?.data.status === 'success') {
+        setUser({} as IUser);
+        navigate('/', { replace: true });
       }
     })();
   };

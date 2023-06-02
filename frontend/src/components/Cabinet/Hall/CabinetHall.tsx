@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import ControlMenu from '../../UI/Control/ControlMenu';
 import { IHall } from '../../../Interfaces';
-import axios from 'axios';
 import HallTable from './HallTable';
 import HallAdd from './HallAdd';
 import { CinemaState } from '../../../contexts/CinemaProvider';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
 
 const CabinetHall = () => {
+  const { sendRequest } = useHttpClient();
   const { cinema } = CinemaState();
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [halls, setHalls] = useState<IHall[]>([]);
@@ -24,15 +25,17 @@ const CabinetHall = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/halls?sort=updatedAt&cinema=${cinema._id}`
-        );
-        const data = response.data.data.data;
-        setHalls(data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: '/api/v1/halls',
+        params: {
+          sort: 'updatedAt',
+          cinema: cinema._id,
+        },
+        showErrMsg: true,
+      });
+
+      if (!response) return;
+      setHalls(response.data.data.data);
     })();
   }, [cinema._id]);
 

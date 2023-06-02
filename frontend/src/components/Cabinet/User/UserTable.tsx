@@ -2,10 +2,10 @@ import classnames from 'classnames';
 import { IUser } from '../../../Interfaces';
 import Table from '../../UI/Table/Table';
 import { UserState } from '../../../contexts/UserProvider';
-import axios from 'axios';
 import { useState } from 'react';
 import ConfirmationModal from '../../UI/Modal/ConfirmationModal';
 import { AiOutlineUser } from 'react-icons/ai';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   users: IUser[];
@@ -13,6 +13,7 @@ interface IProps {
 }
 
 const UserTable = ({ users, setUsers }: IProps) => {
+  const { sendRequest } = useHttpClient();
   const { user } = UserState();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUser>({} as IUser);
@@ -23,19 +24,21 @@ const UserTable = ({ users, setUsers }: IProps) => {
 
   const changeRole = async () => {
     if (user.role !== 'admin' || selectedUser._id === user._id) return;
-    try {
-      await axios.patch(`/api/v1/users/${selectedUser._id}`, {
+    await sendRequest({
+      url: `/api/v1/users/${selectedUser._id}`,
+      method: 'PATCH',
+      data: {
         role: selectedUser.role,
+      },
+      showSuccessMsg: 'Role changed successfully',
+      showErrMsg: true,
+    });
+    setUsers(prevState => {
+      return prevState.map(user => {
+        if (user._id === selectedUser._id) user.role = selectedUser.role;
+        return user;
       });
-      setUsers(prevState => {
-        return prevState.map(user => {
-          if (user._id === selectedUser._id) user.role = selectedUser.role;
-          return user;
-        });
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    });
   };
 
   return (

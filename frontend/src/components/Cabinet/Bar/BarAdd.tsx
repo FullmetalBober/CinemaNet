@@ -6,10 +6,11 @@ import Input from '../../UI/Form/Input';
 import { VALIDATOR_MIN, VALIDATOR_REQUIRE } from '../../../utils/validators';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { CinemaState } from '../../../contexts/CinemaProvider';
 import DangerContent from '../../UI/Details/DangerContent';
 import DeleteAction from '../DeleteAction';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   setBars: React.Dispatch<React.SetStateAction<IBar[]>>;
@@ -20,8 +21,8 @@ interface IProps {
 }
 
 const BarAdd = (props: IProps) => {
+  const { sendRequest, isLoading } = useHttpClient();
   const { cinema } = CinemaState();
-  const [isLoading, setIsLoading] = useState(false);
   const [bar, setBar] = useState<IBar>({} as IBar);
   const [formState, inputHandler] = useForm(
     {
@@ -44,68 +45,79 @@ const BarAdd = (props: IProps) => {
   useEffect(() => {
     if (!props.searchParam) return;
     (async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`/api/v1/bars/${props.searchParam}`);
-        props.setSearchParam('');
-        setBar(response.data.data.data);
+      const response = await sendRequest({
+        url: `/api/v1/bars/${props.searchParam}`,
+        showErrMsg: true,
+      });
 
-        Object.values(formState.inputs).map(el => {
-          el.isValid = true;
-        });
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      props.setSearchParam('');
+      if (response) setBar(response.data.data.data);
+
+      Object.values(formState.inputs).map(el => {
+        el.isValid = true;
+      });
     })();
   }, [props.searchParam]);
 
   const createMovieSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const body: { [key: string]: any } = {};
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          if (key === 'imageCover') return;
-          body[key] = el.value;
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        if (key === 'imageCover') return;
+        body[key] = el.value;
+      });
+
+      body.cinema = cinema._id;
+
+      let response: AxiosResponse<any, any> | undefined;
+      if (bar._id) {
+        response = await sendRequest({
+          url: `/api/v1/bars/${bar._id}`,
+          method: 'PATCH',
+          data: body,
+          showSuccessMsg: 'Bar updated successfully!',
+          showErrMsg: true,
         });
-
-        body.cinema = cinema._id;
-
-        let response: AxiosResponse<any, any>;
-        if (bar._id) {
-          response = await axios.patch(`/api/v1/bars/${bar._id}`, body);
-          props.setBars(prevState =>
-            prevState.map(el =>
-              el._id === bar._id ? response.data.data.data : el
-            )
-          );
-        } else {
-          response = await axios.post('/api/v1/bars', body);
-          props.setBars(prevState => [...prevState, response.data.data.data]);
-        }
-
-        if (formState.inputs.imageCover.value !== null) {
-          const formData = new FormData();
-          formData.append('imageCover', formState.inputs.imageCover.value);
-          response = await axios.patch(
-            `/api/v1/bars/${response.data.data.data._id}`,
-            formData
-          );
-        }
-        props.setMode(props.buttons[0]);
-      } catch (err) {
-        console.log(err);
+        props.setBars(prevState =>
+          prevState.map(el =>
+            el._id === bar._id ? response?.data.data.data : el
+          )
+        );
+      } else {
+        response = await sendRequest({
+          url: '/api/v1/bars',
+          method: 'POST',
+          data: body,
+          showSuccessMsg: 'Bar created successfully!',
+          showErrMsg: true,
+        });
+        props.setBars(prevState => [...prevState, response?.data.data.data]);
       }
-      setIsLoading(false);
+
+      if (formState.inputs.imageCover.value !== null) {
+        const formData = new FormData();
+        formData.append('imageCover', formState.inputs.imageCover.value);
+        response = await sendRequest({
+          url: `/api/v1/bars/${response?.data.data.data._id}`,
+          method: 'PATCH',
+          data: formData,
+          showErrMsg: true,
+        });
+      }
+      props.setMode(props.buttons[0]);
     })();
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/v1/bars/${bar._id}`);
-      if (response.data === '') {
+      const response = await sendRequest({
+        url: `/api/v1/bars/${bar._id}`,
+        method: 'DELETE',
+        showSuccessMsg: 'Bar deleted successfully!',
+        showErrMsg: true,
+      });
+      if (response?.data === '') {
         props.setBars(prevState => prevState.filter(el => el._id !== bar._id));
         props.setMode(props.buttons[0]);
       }

@@ -5,12 +5,13 @@ import Input from '../../UI/Form/Input';
 import { VALIDATOR_MIN, VALIDATOR_REQUIRE } from '../../../utils/validators';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { CinemaState } from '../../../contexts/CinemaProvider';
 import Seats from '../../UI/Seats/Seats';
 import TextClick from '../../UI/TextClick';
 import DangerContent from '../../UI/Details/DangerContent';
 import DeleteAction from '../DeleteAction';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   setHalls: React.Dispatch<React.SetStateAction<IHall[]>>;
@@ -21,8 +22,8 @@ interface IProps {
 }
 
 const HallAdd = (props: IProps) => {
+  const { sendRequest, isLoading } = useHttpClient();
   const { cinema } = CinemaState();
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState<ISeat[]>([]);
   const [hall, setHall] = useState<IHall>({} as IHall);
   const [formState, inputHandler] = useForm(
@@ -39,7 +40,7 @@ const HallAdd = (props: IProps) => {
               seats: 1,
             },
           ],
-          lux: 1,
+          lux: 2,
         },
         isValid: true,
       },
@@ -58,21 +59,18 @@ const HallAdd = (props: IProps) => {
   useEffect(() => {
     if (props.searchParam) {
       (async () => {
-        setIsLoading(true);
-        try {
-          const response = await axios.get(
-            `/api/v1/halls/${props.searchParam}`
-          );
-          props.setSearchParam('');
-          setHall(response.data.data.data);
-          formState.inputs.seats.value = response.data.data.data.seats;
-          Object.values(formState.inputs).map(el => {
-            el.isValid = true;
-          });
-        } catch (err) {
-          console.log(err);
-        }
-        setIsLoading(false);
+        const response = await sendRequest({
+          url: `/api/v1/halls/${props.searchParam}`,
+          showErrMsg: true,
+        });
+        if (!response) return;
+
+        props.setSearchParam('');
+        setHall(response.data.data.data);
+        formState.inputs.seats.value = response.data.data.data.seats;
+        Object.values(formState.inputs).map(el => {
+          el.isValid = true;
+        });
       })();
     }
     setLastsSeats();
@@ -103,52 +101,57 @@ const HallAdd = (props: IProps) => {
   const createMovieSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const body: { [key: string]: any } = {};
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          body[key] = el.value;
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        body[key] = el.value;
+      });
+
+      body.cinema = cinema._id;
+
+      body.price = {
+        standard: body.priceStandard,
+        lux: body.priceLux,
+      };
+
+      let response: AxiosResponse<any, any> | undefined;
+      if (hall._id) {
+        response = await sendRequest({
+          url: `/api/v1/halls/${hall._id}`,
+          method: 'PATCH',
+          data: body,
+          showSuccessMsg: 'Hall updated successfully!',
+          showErrMsg: true,
         });
-
-        body.cinema = cinema._id;
-
-        body.price = {
-          standard: body.priceStandard,
-          lux: body.priceLux,
-        };
-
-        let response: AxiosResponse<any, any>;
-        if (hall._id) {
-          response = await axios.patch(`/api/v1/halls/${hall._id}`, body);
-          props.setHalls(prevState =>
-            prevState.map(el =>
-              el._id === hall._id ? response.data.data.data : el
-            )
-          );
-        } else {
-          response = await axios.post('/api/v1/halls', body);
-          props.setHalls(prevState => [...prevState, response.data.data.data]);
-        }
-
-        props.setMode(props.buttons[0]);
-      } catch (err) {
-        console.log(err);
+        props.setHalls(prevState =>
+          prevState.map(el =>
+            el._id === hall._id ? response?.data.data.data : el
+          )
+        );
+      } else {
+        response = await sendRequest({
+          url: '/api/v1/halls',
+          method: 'POST',
+          data: body,
+          showSuccessMsg: 'Hall created successfully!',
+          showErrMsg: true,
+        });
+        props.setHalls(prevState => [...prevState, response?.data.data.data]);
       }
-      setIsLoading(false);
+
+      props.setMode(props.buttons[0]);
     })();
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(`/api/v1/halls/${hall._id}`);
-      if (response.data === '') {
-        props.setHalls(prevState =>
-          prevState.filter(el => el._id !== hall._id)
-        );
-        props.setMode(props.buttons[0]);
-      }
-    } catch (err) {
-      console.error(err);
+    const response = await sendRequest({
+      url: `/api/v1/halls/${hall._id}`,
+      method: 'DELETE',
+      showSuccessMsg: 'Hall deleted successfully!',
+      showErrMsg: true,
+    });
+    if (response?.data === '') {
+      props.setHalls(prevState => prevState.filter(el => el._id !== hall._id));
+      props.setMode(props.buttons[0]);
     }
   };
 
@@ -265,7 +268,7 @@ const HallAdd = (props: IProps) => {
         />
 
         <Button disabled={!formState.isValid || isLoading}>
-          {isLoading ? <Loading size={28} /> : 'Create'}
+          {isLoading ? <Loading size={28} /> : 'Submit'}
         </Button>
       </form>
       {hall._id && (

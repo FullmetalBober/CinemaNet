@@ -1,25 +1,26 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IMovie } from '../../Interfaces';
-import axios from 'axios';
 import Loading from '../UI/Loading';
 import TrailerMovie from './TrailerMovie';
 import LeftSideMovie from './LeftSideMovie';
 import CenterSideMovie from './CenterSideMovie';
+import { useHttpClient } from '../../hooks/http-hook';
 
 const Movie = () => {
+  const { sendRequest } = useHttpClient();
   const { movieSlug } = useParams();
   const [movie, setMovie] = useState<IMovie>();
   const [showTrailer, setShowTrailer] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get(`/api/v1/movies/slug/${movieSlug}`);
-        setMovie(response.data.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/movies/slug/${movieSlug}`,
+        showErrMsg: true,
+      });
+      if (!response) return;
+      setMovie(response.data.data.data);
     })();
   }, [movieSlug]);
 

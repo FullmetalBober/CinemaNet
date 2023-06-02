@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react';
 import { ITicket } from '../../../Interfaces';
-import axios from 'axios';
 import TableTickets from './TableTickets';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const CabinetTickets = () => {
+  const { sendRequest } = useHttpClient();
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [active, setActive] = useState<ITicket[]>([]);
   const [old, setOld] = useState<ITicket[]>([]);
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get('/api/v1/tickets/my?booking=');
-        setTickets(response.data.data.data);
-        setTickets(prev =>
-          prev.sort(
-            (a, b) =>
-              new Date(a.showtime.time.start).getTime() -
-              new Date(b.showtime.time.start).getTime()
-          )
-        );
-      } catch (err) {
-        console.log(err);
-      }
+      const response = await sendRequest({
+        url: '/api/v1/tickets/my?booking=',
+        showErrMsg: true,
+      });
+      if (!response) return;
+      setTickets(response.data.data.data);
+      setTickets(prev =>
+        prev.sort(
+          (a, b) =>
+            new Date(a.showtime.time.start).getTime() -
+            new Date(b.showtime.time.start).getTime()
+        )
+      );
     })();
   }, []);
 

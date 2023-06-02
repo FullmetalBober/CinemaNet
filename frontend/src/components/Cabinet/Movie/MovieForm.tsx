@@ -104,7 +104,7 @@ const MovieForm = ({
             autoComplete='off'
             onInput={inputHandler}
             initialValid={true}
-            value={`${movie.ageRating}`}
+            value={movie.ageRating ? `${movie.ageRating}` : undefined}
           />
         </div>
       </div>

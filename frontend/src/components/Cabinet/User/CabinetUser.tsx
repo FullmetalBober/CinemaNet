@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react';
 import { IUser } from '../../../Interfaces';
-import axios from 'axios';
 import UserTable from './UserTable';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const CabinetUser = () => {
+  const { sendRequest } = useHttpClient();
   const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get('/api/v1/users?sort=role');
-        const data = response.data.data.data;
-        setUsers(data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: '/api/v1/users',
+        params: {
+          sort: 'role',
+        },
+        showErrMsg: true,
+      });
+      if (!response) return;
+      setUsers(response.data.data.data);
     })();
   }, []);
 

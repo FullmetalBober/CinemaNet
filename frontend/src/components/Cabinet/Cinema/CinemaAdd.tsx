@@ -6,10 +6,11 @@ import Input from '../../UI/Form/Input';
 import { VALIDATOR_REQUIRE } from '../../../utils/validators';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import Map from '../../UI/Map';
 import DangerContent from '../../UI/Details/DangerContent';
 import DeleteAction from '../DeleteAction';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   setCinemas: React.Dispatch<React.SetStateAction<ICinema[]>>;
@@ -20,7 +21,7 @@ interface IProps {
 }
 
 const CinemaAdd = (props: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const [cinema, setCinema] = useState<ICinema>({} as ICinema);
   const [formState, inputHandler] = useForm(
     {
@@ -55,80 +56,88 @@ const CinemaAdd = (props: IProps) => {
   useEffect(() => {
     if (!props.searchParam) return;
     (async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(
-          `/api/v1/cinemas/${props.searchParam}`
-        );
-        props.setSearchParam('');
-        setCinema(response.data.data.data);
+      const response = await sendRequest({
+        url: `/api/v1/cinemas/${props.searchParam}`,
+        showErrMsg: true,
+      });
+      if (!response) return;
 
-        formState.inputs.coordinates.value =
-          response.data.data.data.location.coordinates;
+      props.setSearchParam('');
 
-        Object.values(formState.inputs).map(el => {
-          el.isValid = true;
-        });
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      setCinema(response.data.data.data);
+
+      formState.inputs.coordinates.value =
+        response.data.data.data.location.coordinates;
+
+      Object.values(formState.inputs).map(el => {
+        el.isValid = true;
+      });
     })();
   }, [props.searchParam]);
 
   const createMovieSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const body: { [key: string]: any } = {};
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          if (key === 'imageCover') return;
-          body[key] = el.value;
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        if (key === 'imageCover') return;
+        body[key] = el.value;
+      });
+
+      body.location = {
+        city: formState.inputs.city.value,
+        address: formState.inputs.address.value,
+        coordinates: formState.inputs.coordinates.value,
+        description: formState.inputs.description.value,
+      };
+
+      let response: AxiosResponse<any, any> | undefined;
+      if (cinema._id) {
+        response = await sendRequest({
+          url: `/api/v1/cinemas/${cinema._id}`,
+          method: 'PATCH',
+          data: body,
+          showSuccessMsg: 'Cinema updated successfully!',
+          showErrMsg: true,
         });
-
-        body.location = {
-          city: formState.inputs.city.value,
-          address: formState.inputs.address.value,
-          coordinates: formState.inputs.coordinates.value,
-          description: formState.inputs.description.value,
-        };
-
-        let response: AxiosResponse<any, any>;
-        if (cinema._id) {
-          response = await axios.patch(`/api/v1/cinemas/${cinema._id}`, body);
-          props.setCinemas(prevState =>
-            prevState.map(el =>
-              el._id === cinema._id ? response.data.data.data : el
-            )
-          );
-        } else {
-          response = await axios.post('/api/v1/cinemas', body);
-          props.setCinemas(prevState => [
-            ...prevState,
-            response.data.data.data,
-          ]);
-        }
-        if (formState.inputs.imageCover.value !== null) {
-          const formData = new FormData();
-          formData.append('imageCover', formState.inputs.imageCover.value);
-          response = await axios.patch(
-            `/api/v1/cinemas/${response.data.data.data._id}`,
-            formData
-          );
-        }
-        props.setMode(props.buttons[0]);
-      } catch (err) {
-        console.log(err);
+        props.setCinemas(prevState =>
+          prevState.map(el =>
+            el._id === cinema._id ? response?.data.data.data : el
+          )
+        );
+      } else {
+        response = await sendRequest({
+          url: '/api/v1/cinemas',
+          method: 'POST',
+          data: body,
+          showSuccessMsg: 'Cinema created successfully!',
+          showErrMsg: true,
+        });
+        props.setCinemas(prevState => [...prevState, response?.data.data.data]);
       }
-      setIsLoading(false);
+      if (formState.inputs.imageCover.value !== null) {
+        const formData = new FormData();
+        formData.append('imageCover', formState.inputs.imageCover.value);
+        response = await sendRequest({
+          url: `/api/v1/cinemas/${response?.data.data.data._id}`,
+          method: 'PATCH',
+          data: formData,
+          showErrMsg: true,
+        });
+      }
+      props.setMode(props.buttons[0]);
     })();
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/v1/cinemas/${cinema._id}`);
-      if (response.data === '') {
+      const response = await sendRequest({
+        url: `/api/v1/cinemas/${cinema._id}`,
+        method: 'DELETE',
+        showSuccessMsg: 'Cinema deleted successfully!',
+        showErrMsg: true,
+      });
+      if (response?.data === '') {
         props.setCinemas(prevState =>
           prevState.filter(el => el._id !== cinema._id)
         );

@@ -6,11 +6,11 @@ import Button from '../../UI/Button';
 import ImageUpload from '../../UI/Form/ImageUpload';
 import Input from '../../UI/Form/Input';
 import Loading from '../../UI/Loading';
-import axios from 'axios';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const ProfileChangeInfo = () => {
+  const { sendRequest, isLoading } = useHttpClient();
   const { user, setUser } = UserState();
-  const [isLoading, setIsLoading] = useState(false);
   const [formState, inputHandler] = useForm(
     {
       name: {
@@ -32,19 +32,21 @@ const ProfileChangeInfo = () => {
   const updateInfoSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const formData = new FormData();
-        formData.append('name', formState.inputs.name.value);
-        formData.append('email', formState.inputs.email.value);
-        if (formState.inputs.photo.value !== File)
-          formData.append('photo', formState.inputs.photo.value);
-        const responds = await axios.patch('/api/v1/users/updateMe', formData);
-        setUser(responds.data.data.user);
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      const formData = new FormData();
+      formData.append('name', formState.inputs.name.value);
+      formData.append('email', formState.inputs.email.value);
+      if (formState.inputs.photo.value !== File)
+        formData.append('photo', formState.inputs.photo.value);
+
+      const responds = await sendRequest({
+        url: '/api/v1/users/updateMe',
+        method: 'PATCH',
+        data: formData,
+        showSuccessMsg: 'Your info updated successfully!',
+        showErrMsg: true,
+      });
+
+      if (responds?.data.status === 'success') setUser(responds.data.data.user);
     })();
   };
 

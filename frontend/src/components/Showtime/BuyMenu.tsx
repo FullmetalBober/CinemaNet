@@ -1,4 +1,4 @@
-import { IBar, IGoods, ISeat, ITicket } from '../../Interfaces';
+import { IBar, IGoods, ISeat } from '../../Interfaces';
 import Currency from '../UI/Currency';
 import ScrollbarDiv from '../UI/ScrollbarDiv';
 import BuyMenuHeader from './BuyMenuHeader';
@@ -6,11 +6,11 @@ import ShowtimeBuySeatCard from './ShowtimeBuySeatCard';
 import ShowtimeBuyGoodsCard from './ShowtimeBuyGoodsCard';
 import Button from '../UI/Button';
 import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import Loading from '../UI/Loading';
 import { UserState } from '../../contexts/UserProvider';
+import { useHttpClient } from '../../hooks/http-hook';
 
 interface IProps {
   seats: ISeat[];
@@ -27,9 +27,9 @@ interface IProps {
 }
 
 const BuyMenu = (props: IProps) => {
+  const { sendRequest, isLoading } = useHttpClient();
   const { showtimeId } = useParams();
   const { user } = UserState();
-  const [isLoading, setIsLoading] = useState(false);
 
   const priceSeats =
     Math.round(props.seats.reduce((sum, item) => sum + item.price, 0) * 100) /
@@ -46,29 +46,37 @@ const BuyMenu = (props: IProps) => {
     if (props.seats.length === 0) return;
     if (props.isSeatsPage) props.setIsSeatsPage(false);
     else {
-      setIsLoading(true);
-      const responseTicket = await axios.post(`/api/v1/tickets`, {
+      const body = {
         showtime: showtimeId,
         seats: props.seats,
         barOrders: props.selectedGoods.map(item => ({
           bar: item.bar._id,
           count: item.count,
         })),
+      };
+
+      const responseTicket = await sendRequest({
+        url: `/api/v1/tickets`,
+        method: 'POST',
+        data: body,
+        showErrMsg: true,
       });
-      if (responseTicket.data.status != 'success') return;
+
+      if (responseTicket?.data.status != 'success') return;
 
       const stripe = await loadStripe(
         import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
       );
 
-      const response = await axios.get(
-        `/api/v1/tickets/checkout-session/${responseTicket.data.data.data._id}`
-      );
-      const session = response.data.session;
+      const response = await sendRequest({
+        url: `/api/v1/tickets/checkout-session/${responseTicket.data.data.data._id}`,
+        showErrMsg: true,
+      });
+
+      const session = response?.data.session;
       await stripe?.redirectToCheckout({
         sessionId: session.id,
       });
-      setIsLoading(false);
     }
   };
 

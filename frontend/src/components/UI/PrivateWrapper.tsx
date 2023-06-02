@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { UserState } from '../../contexts/UserProvider';
-import Loading from '../UI/Loading';
+import Loading from './Loading';
 
 const PrivateRoute = () => {
   const { user, userLoading } = UserState();

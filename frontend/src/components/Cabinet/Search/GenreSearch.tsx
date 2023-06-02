@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { IGenre } from '../../../Interfaces';
-import axios from 'axios';
 import ModalSearch from '../../UI/Modal/ModalSearch';
 import ScrollbarDiv from '../../UI/ScrollbarDiv';
 import { FaNapster } from 'react-icons/fa';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   children: React.ReactNode;
@@ -12,21 +12,23 @@ interface IProps {
 }
 
 const GenreSearch = (props: IProps) => {
+  const { sendRequest } = useHttpClient();
   const [showSearch, setShowSearch] = useState(false);
   const [genres, setGenres] = useState<IGenre[]>([]);
   const [input, setInput] = useState<string>();
 
   useEffect(() => {
     (async () => {
-      try {
-        let url = `/api/v1/genres?`;
-        if (input) url += `search=${input}`;
+      let url = `/api/v1/genres?`;
+      if (input) url += `search=${input}`;
 
-        const response = await axios.get(url + `&sort=name`);
-        setGenres(response.data.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await sendRequest({
+        url: url + `&sort=name`,
+        showErrMsg: true,
+      });
+      if (!response) return;
+
+      setGenres(response.data.data.data);
     })();
   }, [input]);
 

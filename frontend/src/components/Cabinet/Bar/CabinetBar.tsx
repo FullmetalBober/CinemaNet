@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import ControlMenu from '../../UI/Control/ControlMenu';
 import { IBar } from '../../../Interfaces';
-import axios from 'axios';
 import BarTable from './BarTable';
 import BarAdd from './BarAdd';
 import { CinemaState } from '../../../contexts/CinemaProvider';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
 
 const CabinetBar = () => {
   const { cinema } = CinemaState();
+  const { sendRequest } = useHttpClient();
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [bars, setBars] = useState<IBar[]>([]);
   const [searchParam, setSearchParam] = useState<string>('');
@@ -24,15 +25,16 @@ const CabinetBar = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/bars?sort=updatedAt&cinema=${cinema._id}`
-        );
-        const data = response.data.data.data;
-        setBars(data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/bars`,
+        params: {
+          cinema: cinema._id,
+          sort: 'updatedAt',
+        },
+        showErrMsg: true,
+      });
+
+      if (response) setBars(response.data.data.data);
     })();
   }, [cinema._id]);
 

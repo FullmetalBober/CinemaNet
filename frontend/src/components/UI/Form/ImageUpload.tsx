@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Props {
   id: string;
@@ -12,6 +12,10 @@ interface Props {
 
 const ImageUpload = (props: Props) => {
   const [previewUrl, setPreviewUrl] = useState<string>(props.preview);
+
+  useEffect(() => {
+    setPreviewUrl(props.preview);
+  }, [props.preview]);
 
   const filePickerRef = useRef<HTMLInputElement>(null);
 

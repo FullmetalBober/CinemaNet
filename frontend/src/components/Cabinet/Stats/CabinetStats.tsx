@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { IMovie } from '../../../Interfaces';
 import AvgStatsCostTable from './AvgStatsCostTable';
 import HorizontalLine from '../../UI/HorizontalLine';
@@ -7,6 +6,7 @@ import AvgStatsSeatsTable from './AvgStatsSeatsTable';
 import AvgStatsBarTable from './AvgStatsBarTable';
 import { TableHeader } from '../../UI/Table/Table';
 import MovieStatsTable from './MovieStatsTable';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 export interface IAvgStats {
   _id: string;
@@ -36,21 +36,20 @@ export interface IMovieStats {
 }
 
 const CabinetStats = () => {
+  const { sendRequest } = useHttpClient();
   const [avgStats, setAvgStats] = useState<IAvgStats[]>([]);
   const [movieStats, setMovieStats] = useState<IMovieStats[]>([]);
 
   useEffect(() => {
     (async () => {
-      try {
-        const [avgStats, movieStats] = await axios.all([
-          axios.get('/api/v1/tickets/statsAvg'),
-          axios.get('/api/v1/tickets/statsMovie'),
-        ]);
-        setAvgStats(avgStats.data.data.data);
-        setMovieStats(movieStats.data.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const [avgStats, movieStats] = await Promise.all([
+        sendRequest({ url: '/api/v1/tickets/statsAvg', showErrMsg: true }),
+        sendRequest({ url: '/api/v1/tickets/statsMovie', showErrMsg: true }),
+      ]);
+      if (!avgStats || !movieStats) return;
+
+      setAvgStats(avgStats.data.data.data);
+      setMovieStats(movieStats.data.data.data);
     })();
   }, []);
 

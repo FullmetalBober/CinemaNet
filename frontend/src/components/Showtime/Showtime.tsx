@@ -1,16 +1,20 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import SeatsPage from './SeatsPage';
 import { IBar, IGoods, ISeat, IShowtime } from '../../Interfaces';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Loading from '../UI/Loading';
 import BuyMenu from './BuyMenu';
 import ShowtimeInfo from './ShowtimeInfo';
 import NavBuyMenu from './NavBuyMenu';
+import Toast from '../UI/Toast';
+import { UserState } from '../../contexts/UserProvider';
+import { useHttpClient } from '../../hooks/http-hook';
 const Bar = lazy(() => import('./Bar'));
 
 const Showtime = () => {
+  const { sendRequest } = useHttpClient();
   const { showtimeId } = useParams();
+  const { user } = UserState();
   const [showtime, setShowtime] = useState<IShowtime>();
   const [isSeatsPage, setIsSeatsPage] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState<ISeat[]>([]);
@@ -19,26 +23,29 @@ const Showtime = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get(`/api/v1/showtimes/${showtimeId}`);
-        setShowtime(response.data.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/showtimes/${showtimeId}`,
+        showErrMsg: true,
+      });
+      if (!response) return;
+      setShowtime(response.data.data.data);
     })();
   }, [showtimeId]);
 
   useEffect(() => {
     if (!showtime) return;
     (async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/bars?cinema=${showtime.hall.cinema._id}&sort=name`
-        );
-        setGoods(response.data.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/bars`,
+        params: {
+          cinema: showtime.hall.cinema._id,
+          sort: 'name',
+        },
+        showErrMsg: true,
+      });
+      if (!response) return;
+
+      setGoods(response.data.data.data);
     })();
   }, [showtime]);
 
@@ -48,6 +55,15 @@ const Showtime = () => {
     isLux: boolean,
     price: number
   ) => {
+    if (!user._id) {
+      Toast({
+        type: 'warn',
+        message: 'You must be authorized before purchasing',
+        duration: 1000,
+      });
+      return;
+    }
+
     setSelectedSeats(prevState => {
       const index = prevState.findIndex(
         seat => seat.row === row && seat.col === col

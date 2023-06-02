@@ -5,13 +5,13 @@ body {
 }
 
 .ant-picker-time-panel-column::-webkit-scrollbar {
-  width: 5px; /* width of the entire scrollbar */
+  width: 5px;
 }
 .ant-picker-time-panel-column::-webkit-scrollbar-track {
-  background: black; /* color of the tracking area */
+  background: black;
 }
 .ant-picker-time-panel-column::-webkit-scrollbar-thumb {
-  background-color: red; /* color of the scroll thumb */
-  border-radius: 50px; /* roundness of the scroll thumb */
-  border: 1px solid black; /* creates padding around scroll thumb */
+  background-color: red;
+  border-radius: 50px;
+  border: 1px solid black;
 }

@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import ControlMenu from '../../UI/Control/ControlMenu';
 import { IMovie } from '../../../Interfaces';
 import MovieTable from './MovieTable';
-import axios from 'axios';
 import MovieAdd from './MovieAdd';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
 
 const CabinetMovie = () => {
+  const { sendRequest } = useHttpClient();
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [movies, setMovies] = useState<IMovie[]>([]);
   const [searchParam, setSearchParam] = useState<string>('');
@@ -22,13 +23,15 @@ const CabinetMovie = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get('/api/v1/movies?sort=updatedAt');
-        const data = response.data.data.data;
-        setMovies(data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: '/api/v1/movies',
+        params: {
+          sort: 'updatedAt',
+        },
+        showErrMsg: true,
+      });
+      if (!response) return;
+      setMovies(response.data.data.data);
     })();
   }, []);
 

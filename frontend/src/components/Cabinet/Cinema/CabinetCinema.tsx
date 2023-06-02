@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import ControlMenu from '../../UI/Control/ControlMenu';
 import { ICinema } from '../../../Interfaces';
-import axios from 'axios';
 import CinemaTable from './CinemaTable';
 import CinemaAdd from './CinemaAdd';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
 
 const CabinetGenre = () => {
+  const { sendRequest } = useHttpClient();
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [cinemas, setCinemas] = useState<ICinema[]>([]);
   const [searchParam, setSearchParam] = useState<string>('');
@@ -22,13 +23,15 @@ const CabinetGenre = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get('/api/v1/cinemas?sort=updatedAt');
-        const data = response.data.data.data;
-        setCinemas(data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/cinemas`,
+        params: {
+          sort: 'updatedAt',
+        },
+        showErrMsg: true,
+      });
+
+      if (response) setCinemas(response.data.data.data);
     })();
   }, []);
 

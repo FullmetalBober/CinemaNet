@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { UserState } from '../../contexts/UserProvider';
 import { InputData } from '../../hooks/form-hook';
 import TextOpacity from '../UI/TextOpacity';
@@ -11,8 +10,8 @@ import {
 } from '../../utils/validators';
 import Button from '../UI/Button';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import Loading from '../UI/Loading';
+import { useHttpClient } from '../../hooks/http-hook';
 
 interface IProps {
   inputHandler?: (id: string, value: string, isValid: boolean) => void;
@@ -23,14 +22,13 @@ interface IProps {
 }
 
 const RegistrationPage = ({ inputHandler, formState }: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const { setUser } = UserState();
   const navigate = useNavigate();
 
   const authSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
       try {
         const data = {
           name: formState.inputs.name.value,
@@ -38,13 +36,18 @@ const RegistrationPage = ({ inputHandler, formState }: IProps) => {
           password: formState.inputs.password.value,
           passwordConfirm: formState.inputs.passwordConfirm.value,
         };
-        const responds = await axios.post('/api/v1/users/signup', data);
-        setUser(responds.data.data.user);
+        const responds = await sendRequest({
+          url: '/api/v1/users/signup',
+          method: 'POST',
+          data,
+          showSuccessMsg: 'Register successfully',
+          showErrMsg: true,
+        });
+        setUser(responds?.data.data.user);
         navigate('/');
       } catch (err) {
         console.log(err);
       }
-      setIsLoading(false);
     })();
   };
 

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { ISeat, IShowtime } from '../../Interfaces';
-import PriceCard from '../UI/Seats/PriceCard';
 import Seats from '../UI/Seats/Seats';
 import GroupPriceCard from '../UI/Seats/GroupPrice';
 

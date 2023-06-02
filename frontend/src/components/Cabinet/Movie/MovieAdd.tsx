@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { IMovie } from '../../../Interfaces';
 import { useForm } from '../../../hooks/form-hook';
-import formStateMovie from '../../utils/formStateMovie';
+import formStateMovie from '../../../utils/formStateMovie';
 import Loading from '../../UI/Loading';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import DangerContent from '../../UI/Details/DangerContent';
 import DeleteAction from '../DeleteAction';
 import MovieForm from './MovieForm';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 interface IProps {
   setMovies: React.Dispatch<React.SetStateAction<IMovie[]>>;
@@ -17,94 +18,102 @@ interface IProps {
 }
 
 const MovieAdd = (props: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { sendRequest, isLoading } = useHttpClient();
   const [formState, inputHandler] = useForm(formStateMovie, false);
   const [movie, setMovie] = useState<IMovie>({} as IMovie);
 
   useEffect(() => {
     if (!props.searchParam) return;
     (async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`/api/v1/movies/${props.searchParam}`);
-        props.setSearchParam('');
-        setMovie(response.data.data.data);
+      const response = await sendRequest({
+        url: `/api/v1/movies/${props.searchParam}`,
+        showErrMsg: true,
+      });
+      if (!response) return;
+      props.setSearchParam('');
+      setMovie(response.data.data.data);
 
-        Object.values(formState.inputs).map(el => {
-          el.isValid = true;
-        });
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
+      Object.values(formState.inputs).map(el => {
+        el.isValid = true;
+      });
     })();
   }, [props.searchParam]);
 
   const createMovieSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
-      try {
-        const body: { [key: string]: any } = {};
-        Object.entries(formState.inputs).forEach(([key, el]) => {
-          if (el.value === '' || el.value === null || key === 'imageCover')
-            return;
-          body[key] = el.value;
+      const body: { [key: string]: any } = {};
+      Object.entries(formState.inputs).forEach(([key, el]) => {
+        if (el.value === null || key === 'imageCover') return;
+        body[key] = el.value;
+      });
+
+      if (body.rentalPeriod)
+        body.rentalPeriod = {
+          start: formState.inputs.rentalPeriod.value[0].toISOString(),
+          end: formState.inputs.rentalPeriod.value[1].toISOString(),
+        };
+
+      if (body.trailer && body.trailer.includes('watch?v=')) {
+        const trailer = body.trailer.split('watch?v=');
+        body.trailer = trailer[0] + 'embed/' + trailer[1];
+      }
+
+      let response: AxiosResponse<any, any> | undefined;
+      if (movie._id) {
+        response = await sendRequest({
+          url: `/api/v1/movies/${movie._id}`,
+          method: 'PATCH',
+          data: body,
+          showSuccessMsg: 'Movie updated successfully!',
+          showErrMsg: true,
         });
 
-        if (body.rentalPeriod)
-          body.rentalPeriod = {
-            start: formState.inputs.rentalPeriod.value[0].toISOString(),
-            end: formState.inputs.rentalPeriod.value[1].toISOString(),
-          };
+        props.setMovies(prevState =>
+          prevState.map(el =>
+            el._id === movie._id ? response?.data.data.data : el
+          )
+        );
+      } else {
+        response = await sendRequest({
+          url: '/api/v1/movies',
+          method: 'POST',
+          data: body,
+          showSuccessMsg: 'Movie created successfully!',
+          showErrMsg: true,
+        });
 
-        if (body.trailer && body.trailer.includes('watch?v=')) {
-          const trailer = body.trailer.split('watch?v=');
-          body.trailer = trailer[0] + 'embed/' + trailer[1];
-        }
-
-        let response: AxiosResponse<any, any>;
-        if (movie._id) {
-          response = await axios.patch(`/api/v1/movies/${movie._id}`, body);
-          props.setMovies(prevState =>
-            prevState.map(el =>
-              el._id === movie._id ? response.data.data.data : el
-            )
-          );
-        } else {
-          response = await axios.post('/api/v1/movies', body);
-          props.setMovies(prevState => [...prevState, response.data.data.data]);
-        }
-
-        if (formState.inputs.imageCover.value !== null) {
-          console.log(formState.inputs.imageCover.value);
-          const formData = new FormData();
-          formData.append('imageCover', formState.inputs.imageCover.value);
-          response = await axios.patch(
-            `/api/v1/movies/${response.data.data.data._id}`,
-            formData
-          );
-        }
-
-        props.setMode(props.buttons[0]);
-      } catch (err) {
-        console.log(err);
+        props.setMovies(prevState => [...prevState, response?.data.data.data]);
       }
-      setIsLoading(false);
+
+      if (formState.inputs.imageCover.value !== null) {
+        const formData = new FormData();
+        formData.append('imageCover', formState.inputs.imageCover.value);
+        response = await sendRequest({
+          url: `/api/v1/movies/${response?.data.data.data._id}`,
+          method: 'PATCH',
+          data: formData,
+          showErrMsg: true,
+        });
+      }
+
+      props.setMode(props.buttons[0]);
     })();
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(`/api/v1/movies/${movie._id}`);
-      if (response.data === '') {
-        props.setMovies(prevState =>
-          prevState.filter(el => el._id !== movie._id)
-        );
-        props.setMode(props.buttons[0]);
-      }
-    } catch (err) {
-      console.error(err);
+    const response = await sendRequest({
+      url: `/api/v1/movies/${movie._id}`,
+      method: 'DELETE',
+      showSuccessMsg: 'Movie deleted successfully!',
+      showErrMsg: true,
+    });
+
+    if (response?.data === '') {
+      props.setMovies(prevState =>
+        prevState.filter(el => el._id !== movie._id)
+      );
+      props.setMode(props.buttons[0]);
     }
   };
 

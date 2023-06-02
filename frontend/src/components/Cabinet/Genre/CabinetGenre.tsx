@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import ControlMenu from '../../UI/Control/ControlMenu';
 import { IGenre } from '../../../Interfaces';
-import axios from 'axios';
 import GenreTable from './GenreTable';
 import GenreAdd from './GenreAdd';
+import { useHttpClient } from '../../../hooks/http-hook';
 
 const buttons = ['View', 'Create'];
 type Buttons = (typeof buttons)[number];
 
 const CabinetGenre = () => {
+  const { sendRequest } = useHttpClient();
   const [mode, setMode] = useState<Buttons>(buttons[0]);
   const [genres, setGenres] = useState<IGenre[]>([]);
   const [searchParam, setSearchParam] = useState<string>('');
@@ -22,13 +23,15 @@ const CabinetGenre = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get('/api/v1/genres?sort=updatedAt');
-        const data = response.data.data.data;
-        setGenres(data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await sendRequest({
+        url: `/api/v1/genres`,
+        params: {
+          sort: 'updatedAt',
+        },
+        showErrMsg: true,
+      });
+
+      if (response) setGenres(response.data.data.data);
     })();
   }, []);
 
