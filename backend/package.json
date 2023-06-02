@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "nodemonConfig": {
+    "ignore": [
+      "temp/*.json"
+    ]
+  },
   "scripts": {
     "start": "node server.js",
     "start:dev": "set NODE_ENV=development& nodemon server.js",

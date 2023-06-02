@@ -7,6 +7,8 @@ const router = express.Router();
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
 
+router.use(backupController.createTemp);
+
 router.route('/').get(backupController.getBackup);
 
 module.exports = router;

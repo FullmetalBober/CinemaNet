@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const { Transform } = require('stream');
 const { promisify } = require('util');
 const catchAsync = require('../utils/catchAsync');
 
 const fileName = 'temp/backup.json';
+
+exports.createTemp = catchAsync(async (req, res, next) => {
+  fsPromises.mkdir('temp');
+  next();
+});
 
 exports.getBackup = catchAsync(async (req, res, next) => {
   const writeStream = fs.createWriteStream(fileName);
