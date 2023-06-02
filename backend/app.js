@@ -20,6 +20,8 @@ const hallRouter = require('./routes/hallRoutes');
 const barRouter = require('./routes/barRoutes');
 const showtimeRouter = require('./routes/showtimeRoutes');
 const ticketRouter = require('./routes/ticketRoutes');
+const backupRouter = require('./routes/backupRoutes');
+
 const ticketController = require('./controllers/ticketController');
 
 const app = express();
@@ -113,6 +115,7 @@ app.use('/api/v1/halls', hallRouter);
 app.use('/api/v1/bars', barRouter);
 app.use('/api/v1/showtimes', showtimeRouter);
 app.use('/api/v1/tickets', ticketRouter);
+app.use('/api/v1/backups', backupRouter);
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 

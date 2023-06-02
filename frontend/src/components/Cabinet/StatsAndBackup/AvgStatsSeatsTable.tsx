@@ -1,5 +1,5 @@
 import Table, { TableHeader } from '../../UI/Table/Table';
-import { IAvgStats } from './CabinetStats';
+import { IAvgStats } from './CabinetStatsAndBackup';
 
 interface IProps {
   avgStats: IAvgStats[];

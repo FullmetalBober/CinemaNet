@@ -1,5 +1,5 @@
 import Table from '../../UI/Table/Table';
-import { IMovieStats } from './CabinetStats';
+import { IMovieStats } from './CabinetStatsAndBackup';
 
 interface IProps {
   movieStats: IMovieStats[];

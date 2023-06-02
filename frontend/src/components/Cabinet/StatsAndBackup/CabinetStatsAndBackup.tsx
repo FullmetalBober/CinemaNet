@@ -7,6 +7,8 @@ import AvgStatsBarTable from './AvgStatsBarTable';
 import { TableHeader } from '../../UI/Table/Table';
 import MovieStatsTable from './MovieStatsTable';
 import { useHttpClient } from '../../../hooks/http-hook';
+import Button from '../../UI/Button';
+import Loading from '../../UI/Loading';
 
 export interface IAvgStats {
   _id: string;
@@ -35,8 +37,8 @@ export interface IMovieStats {
   leastPopular: popularMovie;
 }
 
-const CabinetStats = () => {
-  const { sendRequest } = useHttpClient();
+const CabinetStatsAndBackup = () => {
+  const { sendRequest, isLoading } = useHttpClient();
   const [avgStats, setAvgStats] = useState<IAvgStats[]>([]);
   const [movieStats, setMovieStats] = useState<IMovieStats[]>([]);
 
@@ -53,6 +55,25 @@ const CabinetStats = () => {
     })();
   }, []);
 
+  const createBackup = () => {
+    (async () => {
+      const responds = await sendRequest({
+        url: '/api/v1/backups',
+        showErrMsg: true,
+      });
+      if (!responds) return;
+
+      const data = JSON.stringify(responds.data);
+      const blob = new Blob([data]);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'backup.json';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    })();
+  };
+
   const horizontalLineText = (text: string) => {
     return <h1 className='mb-2 text-3xl font-medium'>{text}</h1>;
   };
@@ -68,7 +89,7 @@ const CabinetStats = () => {
 
   return (
     <div className='w-full'>
-      <h1 className='mb-2 text-3xl font-medium'>STATS ON CINEMAS</h1>
+      <h1 className='mb-2 text-3xl font-medium'>STATS & BACKUP ON CINEMAS</h1>
       <HorizontalLine>{horizontalLineText('AVG STATS COST')}</HorizontalLine>
       <AvgStatsCostTable avgStats={avgStats} headers={headersAvg} />
       <HorizontalLine className='my-4'>
@@ -83,8 +104,14 @@ const CabinetStats = () => {
         {horizontalLineText('MOVIE POPULAR STATS')}
       </HorizontalLine>
       <MovieStatsTable movieStats={movieStats} />
+      <HorizontalLine className='my-4'>
+        {horizontalLineText('CREATE BACKUP')}
+      </HorizontalLine>
+      <Button disabled={isLoading} onClick={createBackup} className='my-6'>
+        {isLoading ? <Loading size={28} /> : 'CREATE BACKUP'}
+      </Button>
     </div>
   );
 };
 
-export default CabinetStats;
+export default CabinetStatsAndBackup;
