@@ -69,6 +69,8 @@ const CinemaAdd = (props: IProps) => {
       formState.inputs.coordinates.value =
         response.data.data.data.location.coordinates;
 
+      inputHandler('address', response.data.data.data.location.address, true);
+
       Object.values(formState.inputs).map(el => {
         el.isValid = true;
       });
@@ -214,6 +216,18 @@ const CinemaAdd = (props: IProps) => {
         />
 
         <Input
+          element='input'
+          type='text'
+          label='Address'
+          id='address'
+          errorText='Please enter a valid city'
+          autoComplete='off'
+          onInput={inputHandler}
+          initialValid={true}
+          value={formState.inputs.address.value}
+        />
+
+        <Input
           type='text'
           label='Description'
           id='description'
@@ -225,7 +239,7 @@ const CinemaAdd = (props: IProps) => {
         />
 
         <Button disabled={!formState.isValid || isLoading}>
-          {isLoading ? <Loading size={28} /> : 'Create'}
+          {isLoading ? <Loading size={28} /> : 'Submit'}
         </Button>
       </form>
       {cinema._id && (
