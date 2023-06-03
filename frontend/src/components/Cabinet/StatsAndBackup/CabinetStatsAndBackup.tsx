@@ -9,6 +9,7 @@ import MovieStatsTable from './MovieStatsTable';
 import { useHttpClient } from '../../../hooks/http-hook';
 import Button from '../../UI/Button';
 import Loading from '../../UI/Loading';
+import { UserState } from '../../../contexts/UserProvider';
 
 export interface IAvgStats {
   _id: string;
@@ -38,6 +39,7 @@ export interface IMovieStats {
 }
 
 const CabinetStatsAndBackup = () => {
+  const { user } = UserState();
   const { sendRequest, isLoading } = useHttpClient();
   const [avgStats, setAvgStats] = useState<IAvgStats[]>([]);
   const [movieStats, setMovieStats] = useState<IMovieStats[]>([]);
@@ -56,6 +58,7 @@ const CabinetStatsAndBackup = () => {
   }, []);
 
   const createBackup = () => {
+    if (user.role !== 'admin') return;
     (async () => {
       const responds = await sendRequest({
         url: '/api/v1/backups',
@@ -107,8 +110,20 @@ const CabinetStatsAndBackup = () => {
       <HorizontalLine className='my-4'>
         {horizontalLineText('CREATE BACKUP')}
       </HorizontalLine>
-      <Button disabled={isLoading} onClick={createBackup} className='my-6'>
-        {isLoading ? <Loading size={28} /> : 'CREATE BACKUP'}
+      <Button
+        disabled={isLoading || user.role !== 'admin'}
+        onClick={createBackup}
+        className='my-6'
+      >
+        {user.role === 'admin' ? (
+          isLoading ? (
+            <Loading size={28} />
+          ) : (
+            'CREATE'
+          )
+        ) : (
+          'ONLY FOR ADMIN'
+        )}
       </Button>
     </div>
   );

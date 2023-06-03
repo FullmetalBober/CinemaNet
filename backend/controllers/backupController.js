@@ -10,7 +10,12 @@ exports.getBackup = catchAsync(async (req, res, next) => {
   const transformStream = new Transform({
     objectMode: true,
     transform: async (model, encoding, callback) => {
-      const data = await model.find({}).lean();
+      const data = await model.aggregate([
+        {
+          $match: {},
+        },
+      ]);
+
       const signature = {
         collection: model.collection.collectionName,
         timestamp: Date.now(),

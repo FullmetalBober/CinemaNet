@@ -1,7 +1,6 @@
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { IGenre } from '../../../Interfaces';
 import Table from '../../UI/Table/Table';
-import TdLink from '../../UI/Table/TdLink';
 
 interface IProps {
   genres: IGenre[];
@@ -19,18 +18,13 @@ const GenreTable = ({ genres, setSearchParam }: IProps) => {
       ]}
     >
       {genres.map(genre => {
-        const to = `/genre/${genre.slug}`;
-
         return (
           <tr key={genre._id}>
-            <TdLink
-              to={to}
-              dataOrder={new Date(genre.updatedAt || 0).getTime()}
-            >
+            <td data-order={new Date(genre.updatedAt || 0).getTime()}>
               {new Date(genre.updatedAt).toLocaleDateString()}
-            </TdLink>
-            <TdLink to={to}>{genre.name}</TdLink>
-            <TdLink to={to}>{genre.moviesCount}</TdLink>
+            </td>
+            <td>{genre.name}</td>
+            <td>{genre.moviesCount}</td>
             <td
               onClick={() => setSearchParam(genre._id)}
               className='cursor-pointer'

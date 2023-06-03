@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { IMovie } from '../../Interfaces';
+import { IGenre, IMovie } from '../../Interfaces';
 import InfoMovieCard from './InfoMovieCard';
 
 interface IProps {
@@ -38,17 +37,8 @@ const InfoMovie = (props: IProps) => {
         <InfoMovieCard title='Language'>{movie.language}</InfoMovieCard>
       )}
       {movie.genres?.length ? (
-        <InfoMovieCard classNameSecond='!text-white' title='Genres'>
-          {' '}
-          {movie.genres.map((genre, index) => {
-            if (typeof genre === 'string') return null;
-            return (
-              <Link key={genre._id} to={`/genre/${genre.slug}`}>
-                <span className='border-b'>{genre.name}</span>
-                {movie.genres && index !== movie.genres.length - 1 && ', '}
-              </Link>
-            );
-          })}
+        <InfoMovieCard title='Genres'>
+          {(movie.genres as IGenre[]).map(genre => genre.name).join(', ')}
         </InfoMovieCard>
       ) : null}
       <InfoMovieCard title='Duration'>
@@ -56,7 +46,9 @@ const InfoMovie = (props: IProps) => {
       </InfoMovieCard>
 
       {movie.productions?.length ? (
-        <InfoMovieCard title='Production'>{movie.productions}</InfoMovieCard>
+        <InfoMovieCard title='Production'>
+          {movie.productions.join(', ')}
+        </InfoMovieCard>
       ) : null}
       {movie.studios?.length ? (
         <InfoMovieCard title='Studio'>{movie.studios.join(', ')}</InfoMovieCard>
