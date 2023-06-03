@@ -7,7 +7,6 @@ import ShowtimeBuyGoodsCard from './ShowtimeBuyGoodsCard';
 import Button from '../UI/Button';
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 import Loading from '../UI/Loading';
 import { UserState } from '../../contexts/UserProvider';
 import { useHttpClient } from '../../hooks/http-hook';

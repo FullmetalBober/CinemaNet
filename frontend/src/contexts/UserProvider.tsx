@@ -19,10 +19,15 @@ const UserProvider = (props: IProps) => {
   const [userLoading, setUserLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    setUserLoading(true);
     (async () => {
-      const response = await axios.get('/api/v1/users/me');
-      if (response.data.status === 'success') setUser(response.data.data.data);
+      setUserLoading(true);
+      try {
+        const response = await axios.get('/api/v1/users/me');
+        if (response.data.status === 'success')
+          setUser(response.data.data.data);
+      } catch (err) {
+        console.log(err);
+      }
       setUserLoading(false);
     })();
   }, []);

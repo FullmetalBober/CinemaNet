@@ -39,7 +39,7 @@ const Showtime = () => {
         url: `/api/v1/bars`,
         params: {
           cinema: showtime.hall.cinema._id,
-          sort: 'name',
+          sort: '-name',
         },
         showErrMsg: true,
       });
