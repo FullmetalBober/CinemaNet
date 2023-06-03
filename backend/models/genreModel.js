@@ -5,16 +5,20 @@ const genreSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Genre must have a name'],
       unique: true,
+      trim: true,
+      required: [true, 'Genre must have a name'],
     },
     imageCover: {
       type: String,
+      trim: true,
       default: '/images/genre/default.jpg',
     },
     description: {
       type: String,
+      trim: true,
     },
+    slug: String,
   },
   {
     timestamps: true,

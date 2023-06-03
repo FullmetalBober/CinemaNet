@@ -9,10 +9,12 @@ const barSchema = new mongoose.Schema(
     },
     name: {
       type: String,
+      trim: true,
       required: [true, 'Bar must have a name'],
     },
     imageCover: {
       type: String,
+      trim: true,
       default: '/images/bar/default.png',
     },
     price: {

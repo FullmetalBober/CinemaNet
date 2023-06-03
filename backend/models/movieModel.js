@@ -5,8 +5,9 @@ const movieSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Movie must have a name'],
       unique: true,
+      trim: true,
+      required: [true, 'Movie must have a name'],
     },
     duration: {
       type: Number,
@@ -18,10 +19,12 @@ const movieSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
+      trim: true,
       default: '/images/movie/default.jpg',
     },
     trailer: {
       type: String,
+      trim: true,
     },
     ageRating: {
       type: Number,
@@ -32,9 +35,11 @@ const movieSchema = new mongoose.Schema(
     },
     originalName: {
       type: String,
+      trim: true,
     },
     director: {
       type: String,
+      trim: true,
     },
     rentalPeriod: {
       start: {
@@ -50,6 +55,7 @@ const movieSchema = new mongoose.Schema(
     },
     language: {
       type: String,
+      trim: true,
       default: 'English',
     },
     genres: [
@@ -58,11 +64,34 @@ const movieSchema = new mongoose.Schema(
         ref: 'Genre',
       },
     ],
-    productions: [String],
-    studios: [String],
-    scenarios: [String],
-    starrings: [String],
-    description: String,
+    productions: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    studios: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    scenarios: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    starrings: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    description: {
+      type: String,
+      trim: true,
+    },
     slug: String,
   },
   {

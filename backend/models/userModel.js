@@ -6,41 +6,43 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'User must have a name'],
     trim: true,
+    required: [true, 'User must have a name'],
   },
   email: {
     type: String,
-    required: [true, 'User must have an email'],
     unique: true,
     lowercase: true,
     trim: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
+    required: [true, 'User must have an email'],
   },
   photo: {
     type: String,
+    trim: true,
     default: '/images/user/default.jpg',
   },
   role: {
     type: String,
+    trim: true,
     enum: ['user', 'moderator', 'admin'],
     default: 'user',
   },
   password: {
     type: String,
-    required: [true, 'User must have a password'],
     minlength: 8,
     select: false,
+    required: [true, 'User must have a password'],
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'User must have a password confirmation'],
     validate: {
       validator: function (el) {
         return el === this.password;
       },
       message: 'Passwords are not the same!',
     },
+    required: [true, 'User must have a password confirmation'],
   },
   passwordChangedAt: Date,
   passwordResetToken: String,

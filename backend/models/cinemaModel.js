@@ -4,21 +4,30 @@ const cinemaSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Cinema must have a name'],
       unique: true,
+      trim: true,
+      required: [true, 'Cinema must have a name'],
     },
     imageCover: {
       type: String,
+      trim: true,
       default: '/images/cinema/default.jpg',
     },
     location: {
       coordinates: [Number],
       city: {
         type: String,
+        trim: true,
         required: [true, 'Cinema must have a city'],
       },
-      address: String,
-      description: String,
+      address: {
+        type: String,
+        trim: true,
+      },
+      description: {
+        type: String,
+        trim: true,
+      },
     },
   },
   {

@@ -4,8 +4,8 @@ const hallSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Hall must have a name'],
       trim: true,
+      required: [true, 'Hall must have a name'],
     },
     cinema: {
       type: mongoose.Schema.ObjectId,
