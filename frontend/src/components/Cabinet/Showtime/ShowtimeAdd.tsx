@@ -87,7 +87,7 @@ const ShowtimeAdd = (props: IProps) => {
           standardPrice={
             Math.round(hall.price.standard + movie.price * 100) / 100
           }
-          luxPrice={hall.price.lux + movie.price}
+          luxPrice={Math.round(hall.price.lux + movie.price * 100) / 100}
         />
       )}
       <ShowtimeDatePicker
