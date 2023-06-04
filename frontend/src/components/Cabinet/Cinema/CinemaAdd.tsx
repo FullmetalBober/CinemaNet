@@ -173,8 +173,8 @@ const CinemaAdd = (props: IProps) => {
         <ImageUpload
           id='imageCover'
           preview={cinema.imageCover || '/images/cinema/default.jpg'}
-          width={1880}
-          height={780}
+          width={1208}
+          height={372}
           rounded='rounded'
           onInput={inputHandler}
           initialValid={true}

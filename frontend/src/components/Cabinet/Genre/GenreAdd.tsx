@@ -128,8 +128,8 @@ const GenreAdd = (props: IProps) => {
         <ImageUpload
           id='imageCover'
           preview={genre.imageCover || '/images/genre/default.jpg'}
-          width={1024}
-          height={704}
+          width={1903}
+          height={384}
           rounded='rounded'
           onInput={inputHandler}
           initialValid={true}
