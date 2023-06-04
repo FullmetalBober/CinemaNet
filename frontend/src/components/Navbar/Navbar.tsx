@@ -11,7 +11,6 @@ const Navbar = () => {
           </NavLink>
           <div id='nav-hook' />
         </div>
-        {/* <NavButton /> */}
         <NavContent />
       </div>
     </nav>

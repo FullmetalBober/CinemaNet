@@ -99,11 +99,7 @@ app.use(
 
 app.use(xss());
 
-app.use(
-  hpp({
-    // whitelist: ['duration'],
-  })
-);
+app.use(hpp());
 
 app.use(compression());
 
