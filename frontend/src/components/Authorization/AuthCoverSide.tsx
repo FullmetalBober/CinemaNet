@@ -11,8 +11,8 @@ const AuthCoverSide = () => {
       />
       <h1 className='text-4xl font-semibold'>No need to download or print!</h1>
       <TextOpacity className='text-lg'>
-        Tickets are already in your account - just log in now and show the QR
-        code when entering the cinema hall.
+        Tickets are already in your account - just log in now and show the
+        ticket from your profile when entering the cinema hall.
       </TextOpacity>
     </>
   );
