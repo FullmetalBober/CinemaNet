@@ -95,13 +95,13 @@ exports.getAll = (Model, popOptions) =>
       .limitFields()
       .paginate();
 
-    const doc = await features.query;
+    const docs = await features.query;
 
     res.status(200).json({
       status: 'success',
-      results: doc.length,
+      results: docs.length,
       data: {
-        data: doc,
+        data: docs,
       },
     });
   });

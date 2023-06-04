@@ -17,6 +17,10 @@ const showtimeSchema = new mongoose.Schema(
         type: Date,
         required: [true, 'Showtime must have a start time'],
       },
+      end: {
+        type: Date,
+        required: [true, 'Showtime must have a end time'],
+      },
     },
   },
   {
@@ -50,11 +54,6 @@ showtimeSchema.virtual('price').get(function () {
       Math.round((this.hall.price.standard + this.movie.price) * 100) / 100,
     lux: Math.round((this.hall.price.lux + this.movie.price) * 100) / 100,
   };
-});
-
-showtimeSchema.virtual('time.end').get(function () {
-  if (!this.time.start || !this.movie.duration) return;
-  return new Date(this.time.start.getTime() + this.movie.duration * 60 * 1000);
 });
 
 showtimeSchema.virtual('tickets', {
