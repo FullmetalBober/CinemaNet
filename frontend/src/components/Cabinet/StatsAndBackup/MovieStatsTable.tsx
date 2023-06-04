@@ -11,7 +11,7 @@ const MovieStatsTable = ({ movieStats }: IProps) => {
       headers={[
         { name: 'CINEMA' },
         { name: 'MOST' },
-        { name: 'MOST - SEATS' },
+        { name: 'MOST - SEATS', type: 'number' },
         { name: 'LEAST' },
         { name: 'LEAST - SEATS', type: 'number' },
       ]}
