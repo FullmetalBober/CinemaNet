@@ -40,6 +40,7 @@ app.use(
       allowOrigins: [
         'https://res.cloudinary.com',
         'https://maps.googleapis.com',
+        'https://www.youtube.com/',
       ],
     },
     contentSecurityPolicy: {
