@@ -42,10 +42,6 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
           value: 'Stats & Backup',
           icon: <BiStats className={classNameIcon} />,
         },
-        {
-          value: 'Users',
-          icon: <FiUsers className={classNameIcon} />,
-        },
         { value: 'Genres', icon: <FaNapster className={classNameIcon} /> },
         {
           value: 'Halls',
@@ -54,6 +50,14 @@ const CabinetMenu = ({ active, setActive }: IProps) => {
         {
           value: 'Cinemas',
           icon: <HiOutlineLocationMarker className={classNameIcon} />,
+        },
+      ];
+    if (user.role === 'admin')
+      menuItems = [
+        ...menuItems,
+        {
+          value: 'Users',
+          icon: <FiUsers className={classNameIcon} />,
         },
       ];
     return menuItems;
