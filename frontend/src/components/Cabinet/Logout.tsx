@@ -17,6 +17,7 @@ const Logout = (props: IProps) => {
     (async () => {
       const response = await sendRequest({
         url: '/api/v1/users/logout',
+        method: 'POST',
         showErrMsg: true,
         showSuccessMsg: 'Logout successfully',
       });
