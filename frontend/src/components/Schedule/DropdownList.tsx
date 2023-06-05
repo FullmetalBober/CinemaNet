@@ -9,7 +9,7 @@ interface IProps {
 
 const DropdownList = (props: IProps) => {
   return (
-    <ScrollbarDiv className='absolute right-0 flex max-h-72 w-64 flex-col divide-y divide-black/10 rounded bg-white scrollbar-thumb-red-500'>
+    <ScrollbarDiv className='absolute right-0 z-10 flex max-h-72 w-64 flex-col divide-y divide-black/10 rounded bg-white scrollbar-thumb-red-500'>
       {props.afterWeek.map((day, index) => (
         <div
           key={index}
